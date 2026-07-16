@@ -40,6 +40,7 @@ export const news = [
 ];
 
 export type GalleryItem = {
+  record: string;
   category: string;
   title: string;
   caption: string;
@@ -58,30 +59,30 @@ export type GalleryGroup = {
 export const galleryGroups: GalleryGroup[] = [
   {
     id: "private",
-    eyebrow: "PRIVATE RECORDS",
-    title: "ひとりでいる時間",
-    copy: "ステージを離れた場所に残る、小さな癖と気分の記録。",
+    eyebrow: "FILE 01 / ALONE",
+    title: "ひとりに戻ったとき。",
+    copy: "人に見せる必要のない時間ほど、その人らしさが残る。",
     items: [
-      { category: "REINA / MORNING", title: "休日の朝", caption: "休みの日ほど、洗濯物をたたむ手はゆっくりだ。", image: "/images/gallery/v2/reina-morning-laundry.webp", alt: "洗濯物を畳みながら穏やかに微笑む雨宮玲奈" },
-      { category: "REINA / NIGHT", title: "帰りのあと", caption: "帰りが遅い日は、ひと口目までヘッドホンを外さない。", image: "/images/gallery/v2/reina-night-dessert.webp", alt: "夜の部屋で音楽を聴きながらデザートを食べる雨宮玲奈" },
-      { category: "MIZUKI / SOUND", title: "予想外の音", caption: "気になる音には、まず笑って触れてみる。", image: "/images/gallery/v2/mizuki-effect-pedal.webp", alt: "中古楽器店でエフェクターを試し笑う神崎瑞希" },
-      { category: "MIZUKI / HOME", title: "古いテープ", caption: "古いテープは、今でも部屋の真ん中にある。", image: "/images/gallery/v2/mizuki-cassette-guitar.webp", alt: "自室でカセットに合わせてギターを弾く神崎瑞希" },
-      { category: "HIYORI / ROOM", title: "好きだったもの", caption: "好きだったものを、部屋の隅まで並べている。", image: "/images/gallery/v2/hiyori-radio-room.webp", alt: "漫画やラジオに囲まれた部屋で過ごす小宮ひより" },
-      { category: "HIYORI / PRACTICE", title: "誰にも見られずに", caption: "人に見られていないときほど、何度も弾き直す。", image: "/images/gallery/v2/hiyori-solo-practice.webp", alt: "個人練習スタジオでベースを弾く小宮ひより" },
-      { category: "RISA / RHYTHM", title: "成功したフィル", caption: "一度笑うと、次の一音が少し軽くなる。", image: "/images/gallery/v2/risa-electronic-drums.webp", alt: "自宅の電子ドラムを叩きながら笑う白石理沙" },
-      { category: "RISA / LAUNDRY", title: "待ち時間の拍子", caption: "洗濯が終わるまで、足だけは止まらない。", image: "/images/gallery/v2/risa-laundromat.webp", alt: "コインランドリーでヘッドホンを着けて過ごす白石理沙" },
+      { record: "LOG 001", category: "REINA / MORNING", title: "休日の朝", caption: "休みの日ほど、彼女の手はゆっくりになる。", image: "/images/gallery/v2/reina-morning-laundry.webp", alt: "洗濯物を畳みながら穏やかに微笑む雨宮玲奈" },
+      { record: "LOG 002", category: "REINA / NIGHT", title: "帰りのあと", caption: "帰りが遅い日は、ひと口目までヘッドホンを外さない。", image: "/images/gallery/v2/reina-night-dessert.webp", alt: "夜の部屋で音楽を聴きながらデザートを食べる雨宮玲奈" },
+      { record: "LOG 003", category: "MIZUKI / SOUND", title: "予想外の音", caption: "気になる音を見つけると、説明より先に笑う。", image: "/images/gallery/v2/mizuki-effect-pedal.webp", alt: "中古楽器店でエフェクターを試し笑う神崎瑞希" },
+      { record: "LOG 004", category: "MIZUKI / HOME", title: "古いテープ", caption: "古いテープの曲順だけは、今も覚えている。", image: "/images/gallery/v2/mizuki-cassette-guitar.webp", alt: "自室でカセットに合わせてギターを弾く神崎瑞希" },
+      { record: "LOG 005", category: "HIYORI / ROOM", title: "好きだったもの", caption: "好きだったものは、部屋の隅まで並べている。", image: "/images/gallery/v2/hiyori-radio-room.webp", alt: "漫画やラジオに囲まれた部屋で過ごす小宮ひより" },
+      { record: "LOG 006", category: "HIYORI / PRACTICE", title: "誰にも見られずに", caption: "誰にも見られていないときほど、最初から弾き直す。", image: "/images/gallery/v2/hiyori-solo-practice.webp", alt: "個人練習スタジオでベースを弾く小宮ひより" },
+      { record: "LOG 007", category: "RISA / RHYTHM", title: "成功したフィル", caption: "一度笑うと、次の一音が少しだけ軽くなる。", image: "/images/gallery/v2/risa-electronic-drums.webp", alt: "自宅の電子ドラムを叩きながら笑う白石理沙" },
+      { record: "LOG 008", category: "RISA / LAUNDRY", title: "待ち時間の拍子", caption: "洗濯が終わる前に、もう一曲だけ。", image: "/images/gallery/v2/risa-laundromat.webp", alt: "コインランドリーでヘッドホンを着けて過ごす白石理沙" },
     ],
   },
   {
     id: "relations",
-    eyebrow: "BETWEEN US",
-    title: "一緒にいる時間",
-    copy: "誰といるかで変わる表情と、言葉にされない距離。",
+    eyebrow: "FILE 02 / WITH SOMEONE",
+    title: "誰かといるとき。",
+    copy: "相手が変われば、沈黙の長さも、笑う理由も変わる。",
     items: [
-      { category: "REINA + MIZUKI", title: "選曲について", caption: "趣味が合うのか、張り合っているのか。", image: "/images/gallery/v2/reina-mizuki-record-store.webp", alt: "レコード店で話す雨宮玲奈と神崎瑞希" },
-      { category: "HIYORI + RISA", title: "練習のあと", caption: "練習の後は、いつも食べる話になる。", image: "/images/gallery/v2/hiyori-risa-family-restaurant.webp", alt: "ファミリーレストランで食事を分け合う小宮ひよりと白石理沙" },
-      { category: "REINA + HIYORI", title: "帰り道の寄り道", caption: "アイスを選ぶ時間だけ、帰り道が伸びる。", image: "/images/gallery/v2/reina-hiyori-ice-cream.webp", alt: "コンビニでアイスを選ぶ雨宮玲奈と小宮ひより" },
-      { category: "MIZUKI + HIYORI + RISA", title: "まだ立ち上がらない", caption: "話が途切れても、誰も先に立ち上がらない。", image: "/images/gallery/v2/mizuki-hiyori-risa-practice-break.webp", alt: "練習休憩中に床でくつろぐ神崎瑞希、小宮ひより、白石理沙" },
+      { record: "LOG 009", category: "REINA + MIZUKI", title: "選曲について", caption: "同じ一枚を手に取った。譲る気は、どちらにもない。", image: "/images/gallery/v2/reina-mizuki-record-store.webp", alt: "レコード店で話す雨宮玲奈と神崎瑞希" },
+      { record: "LOG 010", category: "HIYORI + RISA", title: "練習のあと", caption: "練習の後は、いつも食べる話になる。", image: "/images/gallery/v2/hiyori-risa-family-restaurant.webp", alt: "ファミリーレストランで食事を分け合う小宮ひよりと白石理沙" },
+      { record: "LOG 011", category: "REINA + HIYORI", title: "帰り道の寄り道", caption: "アイスを選ぶ時間だけ、帰り道が長くなる。", image: "/images/gallery/v2/reina-hiyori-ice-cream.webp", alt: "コンビニでアイスを選ぶ雨宮玲奈と小宮ひより" },
+      { record: "LOG 012", category: "MIZUKI + HIYORI + RISA", title: "まだ立ち上がらない", caption: "会話が途切れても、誰も先に立ち上がらない。", image: "/images/gallery/v2/mizuki-hiyori-risa-practice-break.webp", alt: "練習休憩中に床でくつろぐ神崎瑞希、小宮ひより、白石理沙" },
     ],
   },
 ];
