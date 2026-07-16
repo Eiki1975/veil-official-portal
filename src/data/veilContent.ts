@@ -66,7 +66,7 @@ export const galleryGroups: GalleryGroup[] = [
       { record: "LOG 001", category: "REINA / MORNING", title: "休日の朝", caption: "洗濯物を一枚ずつたたむ。休みの朝は、いつもより手がゆっくりだ。", image: "/images/gallery/v2/reina-morning-laundry.webp", alt: "洗濯物を畳みながら穏やかに微笑む雨宮玲奈" },
       { record: "LOG 002", category: "REINA / NIGHT", title: "帰りのあと", caption: "帰りの遅い夜。ヘッドホンをつけたまま、甘いものをひと口食べる。", image: "/images/gallery/v2/reina-night-dessert.webp", alt: "夜の部屋で音楽を聴きながらデザートを食べる雨宮玲奈" },
       { record: "LOG 003", category: "MIZUKI / SOUND", title: "予想外の音", caption: "思いがけない音が出て、先に笑った。どうやら気に入ったらしい。", image: "/images/gallery/v2/mizuki-effect-pedal.webp", alt: "中古楽器店でエフェクターを試し笑う神崎瑞希" },
-      { record: "LOG 004", category: "MIZUKI / HOME", title: "名もない一曲", caption: "中古店で見つけた、誰が録ったかもわからないカセット。その一曲に、何度もギターを重ねている。", image: "/images/gallery/v2/mizuki-cassette-guitar.webp", alt: "自室で中古の録音済みカセットに合わせてギターを弾く神崎瑞希" },
+      { record: "LOG 004", category: "MIZUKI / HOME", title: "父のカセット", caption: "中古で見つけたカセットデッキに、父が残したテープを入れる。知らない時代の一曲に、何度もギターを重ねている。", image: "/images/gallery/v2/mizuki-cassette-guitar.webp", alt: "自室で父が残したカセットテープに合わせてギターを弾く神崎瑞希" },
       { record: "LOG 005", category: "HIYORI / ROOM", title: "手の届く範囲", caption: "漫画もラジオもCDも、手を伸ばせば届くところにある。ここにいると、落ち着くらしい。", image: "/images/gallery/v2/hiyori-radio-room.webp", alt: "漫画やラジオに囲まれた部屋で過ごす小宮ひより" },
       { record: "LOG 006", category: "HIYORI / PRACTICE", title: "反復", caption: "誰もいない練習室で、同じところを何度も弾き直していた。納得するまで、やめない。", image: "/images/gallery/v2/hiyori-solo-practice.webp", alt: "個人練習スタジオでベースを弾く小宮ひより" },
       { record: "LOG 007", category: "RISA / RHYTHM", title: "成功したフィル", caption: "フィルがきれいに決まった。笑ったあとの一音は、少しだけ明るく聞こえた。", image: "/images/gallery/v2/risa-electronic-drums.webp", alt: "自宅の電子ドラムを叩きながら笑う白石理沙" },
