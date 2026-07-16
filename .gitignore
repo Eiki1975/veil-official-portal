@@ -3,4 +3,5 @@ node_modules/
 dist/
 drive_refs/
 *.tgz
+public/images/*-portrait.png
 .DS_Store

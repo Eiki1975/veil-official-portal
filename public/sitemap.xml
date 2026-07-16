@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://veil-fiction.example.com/</loc>
-    <lastmod>2026-07-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>https://eiki1975.github.io/veil-official-portal/</loc></url>
+  <url><loc>https://eiki1975.github.io/veil-official-portal/about</loc></url>
+  <url><loc>https://eiki1975.github.io/veil-official-portal/story/formation</loc></url>
+  <url><loc>https://eiki1975.github.io/veil-official-portal/archive</loc></url>
+  <url><loc>https://eiki1975.github.io/veil-official-portal/members/reina-amamiya</loc></url>
+  <url><loc>https://eiki1975.github.io/veil-official-portal/members/mizuki-kanzaki</loc></url>
+  <url><loc>https://eiki1975.github.io/veil-official-portal/members/hiyori-komiya</loc></url>
+  <url><loc>https://eiki1975.github.io/veil-official-portal/members/risa-shiraishi</loc></url>
 </urlset>

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://veil-fiction.example.com/sitemap.xml
+Sitemap: https://eiki1975.github.io/veil-official-portal/sitemap.xml
