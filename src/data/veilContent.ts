@@ -9,25 +9,25 @@ export type Member = {
 export const members: Member[] = [
   {
     slug: "reina-amamiya", name: "雨宮玲奈", nameEn: "REINA AMAMIYA", role: "Vocal", status: "PUBLIC",
-    image: "/images/reina-amamiya-portrait.jpg", alt: "VEILのボーカル雨宮玲奈のポートレート",
+    image: "/images/members/v2/reina-amamiya-press.jpg", alt: "同じ撮影シリーズでマイクに手を添えるVEILのボーカル雨宮玲奈",
     intro: "柔らかく伸びる声と、感情をそのままこぼすような歌で、VEILの楽曲を聴く者のすぐそばまで届けるボーカリスト。人との距離を縮めることにためらいがなく、その近さが相手に何を期待させ、自分の中の何を目覚めさせているのかには、まだ気づかないふりをしている。",
     profile: { age: "27歳", height: "156cm", catchcopy: "誰にでも無邪気に距離を縮める、VEILの声。", description: "透明感ある歌声で感情を届けるボーカリスト。" },
   },
   {
     slug: "mizuki-kanzaki", name: "神崎瑞希", nameEn: "MIZUKI KANZAKI", role: "Guitar", status: "PUBLIC",
-    image: "/images/mizuki-kanzaki-portrait.jpg", alt: "VEILのギタリスト神崎瑞希のポートレート",
+    image: "/images/members/v2/mizuki-kanzaki-press.jpg", alt: "同じ撮影シリーズでギターを抱えるVEILのギタリスト神崎瑞希",
     intro: "しなやかで鋭いギターと、視線を奪う華やかな演奏で、VEILの楽曲に勢いと輪郭を与え、ステージに華を添えるギタリスト。誰とでも明るく関われる社交性と、自分の意志を貫く強さを持つが、本当に誰かを必要とするときでさえ助けを求められず、その奥にある渇きを隠し続けている。",
     profile: { age: "27歳", height: "160cm", catchcopy: "限界の時ほど笑うギタリスト。", description: "社交性と行動力でバンドを前へ進める。" },
   },
   {
     slug: "hiyori-komiya", name: "小宮ひより", nameEn: "HIYORI KOMIYA", role: "Bass", status: "PUBLIC",
-    image: "/images/hiyori-komiya-portrait.jpg", alt: "VEILのベーシスト小宮ひよりのポートレート",
+    image: "/images/members/v2/hiyori-komiya-press.jpg", alt: "同じ撮影シリーズでベースを抱えるVEILのベーシスト小宮ひより",
     intro: "静かな佇まいとは対照的な、疾走感のあるベースラインで、VEILのグルーヴを支えながら、楽曲を力強く前へ進めるベーシスト。おっとりと穏やかに見えるが、欲しいものへの執着は4人の中でもひときわ強く、その激しさを柔らかな表情の下に隠している。",
     profile: { age: "25歳", height: "148cm", catchcopy: "静かな顔で、一番欲深いベーシスト。", description: "普段は穏やか、演奏では攻撃的な低音を響かせる。" },
   },
   {
     slug: "risa-shiraishi", name: "白石理沙", nameEn: "RISA SHIRAISHI", role: "Drums", status: "PUBLIC",
-    image: "/images/risa-shiraishi-portrait.jpg", alt: "VEILのドラマー白石理沙のポートレート",
+    image: "/images/members/v2/risa-shiraishi-press.jpg", alt: "同じ撮影シリーズでスティックを自然に持つVEILのドラマー白石理沙",
     intro: "無駄のない正確なリズムと、緻密でテクニカルな演奏で、VEILの楽曲に独自の色と緊張感を与えるドラマー。冷静に人との距離を保ち、自分だけは感情に巻き込まれないと思っているが、その均衡が崩れたとき、自分に何が起こるのかをまだ知らない。",
     profile: { age: "29歳", height: "167cm", catchcopy: "静かに全体を支えるドラマー。", description: "冷静な視点でVEILの土台を作る。" },
   },
