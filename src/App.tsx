@@ -15,6 +15,7 @@ const storyZero: Record<string, string> = {
 };
 
 const baseUrl = import.meta.env.BASE_URL;
+const xUrl = import.meta.env.VITE_X_URL?.trim();
 const assetUrl = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
 const routeUrl = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
 
@@ -104,8 +105,8 @@ function Home() {
     <section className="section stories" id="stories"><SectionTitle eyebrow="FICTION" title="STORIES" copy="Story Zeroの先に続く、4人それぞれの物語。" /><div className="story-strip">{members.map(m => <Link key={m.slug} href={`/stories/${m.slug.split("-")[0]}`} event="adult_story_entry"><span>{m.name}</span><small>18+ / COMING SOON</small><ArrowRight /></Link>)}</div></section>
     <section className="feature about-preview" id="about"><div><p className="eyebrow">INDEPENDENT RECORD</p><h2>ABOUT VEIL</h2><p>{aboutParagraphs[0]}</p><p>{aboutParagraphs[1]}</p><Link className="button ghost" href="/about" event="about_full_click">全文を読む</Link></div></section>
     <section className="section two-column" id="music"><div><SectionTitle eyebrow="DISCOGRAPHY" title="MUSIC" /><p className="coming">COMING SOON</p><p>VEILの楽曲と、その背景にある物語をここに記録します。</p></div><div id="support"><SectionTitle eyebrow="KEEP THE RECORD GOING" title="SUPPORT" /><p>VEILの次の音楽、ビジュアル、物語の制作を支えるための導線です。支援サービスは準備中です。</p><button className="button disabled" onClick={() => track("support_click")}>SUPPORT — COMING SOON</button></div></section>
-    <section className="section follow" id="follow"><SectionTitle eyebrow="NEW RELEASE NOTIFICATION" title="続きが気になる方へ" copy="新しい記録が公開されたときにお知らせします。" /><form onSubmit={e => { e.preventDefault(); track("email_signup"); alert("メール配信サービスは現在準備中です。"); }}><label htmlFor="email">メールアドレス</label><div><input id="email" type="email" required autoComplete="email" placeholder="you@example.com" /><button className="button primary">メールで受け取る</button></div><label className="consent"><input type="checkbox" required /> プライバシーポリシーに同意する</label></form><button className="button ghost disabled" onClick={() => track("x_follow_click")}>Xで最新情報を見る — URL未設定</button></section>
-    <section className="adult-external"><div><p className="eyebrow">EXTERNAL 18+ CONTENT</p><h2>より奥の記録へ</h2><p>外部の成人向けサービスへの導線は現在準備中です。18歳未満の方は利用できません。</p></div></section>
+    <section className="section follow" id="follow"><SectionTitle eyebrow="FOLLOW THE RECORD" title="続きが気になる方へ" copy="新しい記録は、Xでお知らせします。" />{xUrl ? <a className="button primary follow-x" href={xUrl} target="_blank" rel="noreferrer" onClick={() => track("x_follow_click")}>Xで最新情報を見る <ExternalLink size={16} /></a> : <button className="button disabled follow-x" type="button">X — COMING SOON</button>}</section>
+    <section className="adult-external"><div><p className="eyebrow">EXTERNAL 18+ CONTENT</p><h2>より奥の記録へ</h2><p className="coming">COMING SOON</p><p>成人向けコンテンツと外部サービスへの導線は現在準備中です。18歳未満の方は利用できません。</p></div></section>
   </Shell>;
 }
 
@@ -144,7 +145,7 @@ function AdultStoryPage({ member }: { member: Member }) {
   return <Shell><PageHero eyebrow="ADULT STORY / COMING SOON" title={member.name} copy="彼女の、さらに奥へ。" image={member.image} /><article className="prose page-section"><div className="coming-block">ADULT STORY<br /><strong>COMING SOON</strong><small>正式原稿および外部販売URLは未設定です</small></div><Link href={`/members/${member.slug}`} className="text-link"><ArrowLeft /> STORY ZEROへ戻る</Link></article></Shell>;
 }
 
-function LegalPage({ type }: { type: string }) { const content: Record<string, [string, string]> = { privacy: ["PRIVACY POLICY", "メール登録やアクセス解析を開始する前に、取得情報、利用目的、保存期間、配信停止方法を明記します。現在は外部へ個人情報を送信していません。"], terms: ["TERMS OF USE", "著作権、禁止事項、免責については公開前に管理者と専門家の確認を経て正式文面を掲載します。"], "adult-policy": ["ADULT CONTENT POLICY / 18+ NOTICE", "VEILの一部の物語には成人向け表現が含まれます。18歳未満の方は閲覧できません。外部サービスではそのサービスの規約と決済条件が適用されます。"], contact: ["CONTACT", "お問い合わせ先は未設定です。架空の事業者情報は掲載せず、正式な運営者情報の確定後に更新します。"] }; const [title, body] = content[type] || ["NOT FOUND", "ページが見つかりません。"]; return <Shell><PageHero eyebrow="VEIL OFFICIAL SITE" title={title} copy={body} /><article className="prose page-section"><p>このページは運用開始前のページ枠です。法的文面は公開前に専門家の確認が必要です。</p></article></Shell>; }
+function LegalPage({ type }: { type: string }) { const content: Record<string, [string, string]> = { privacy: ["PRIVACY POLICY", "アクセス解析や外部サービスとの連携を開始する前に、取得情報、利用目的、保存期間を明記します。現在は外部へ個人情報を送信していません。"], terms: ["TERMS OF USE", "著作権、禁止事項、免責については公開前に管理者と専門家の確認を経て正式文面を掲載します。"], "adult-policy": ["ADULT CONTENT POLICY / 18+ NOTICE", "VEILの一部の物語には成人向け表現が含まれます。18歳未満の方は閲覧できません。外部サービスではそのサービスの規約と決済条件が適用されます。"], contact: ["CONTACT", "お問い合わせ先は未設定です。架空の事業者情報は掲載せず、正式な運営者情報の確定後に更新します。"] }; const [title, body] = content[type] || ["NOT FOUND", "ページが見つかりません。"]; return <Shell><PageHero eyebrow="VEIL OFFICIAL SITE / COMING SOON" title={title} copy={body} /><article className="prose page-section"><p className="status-chip">COMING SOON</p><p>このページは運用開始前のページ枠です。法的文面は公開前に専門家の確認が必要です。</p></article></Shell>; }
 
 function NotFound() { return <Shell><section className="not-found"><p>404</p><h1>RECORD NOT FOUND</h1><Link className="button ghost" href="/">VEILへ戻る</Link></section></Shell>; }
 
