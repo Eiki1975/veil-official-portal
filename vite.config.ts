@@ -74,7 +74,19 @@ function localAdminPlugin() {
   } };
 }
 
+// GitHub Pages does not serve index.html for direct SPA links.  A built copy
+// lets the client router render the same page when a reader opens a story URL
+// from a bookmark or shared link.
+function githubPagesSpaFallbackPlugin() {
+  return {
+    name: "veil-github-pages-spa-fallback",
+    async closeBundle() {
+      await copyFile(join(rootDir, "dist", "index.html"), join(rootDir, "dist", "404.html"));
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), localAdminPlugin()],
+  plugins: [react(), localAdminPlugin(), githubPagesSpaFallbackPlugin()],
   base: process.env.GITHUB_ACTIONS ? "/veil-official-portal/" : "/",
 });
