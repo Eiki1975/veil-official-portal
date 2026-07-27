@@ -2,32 +2,32 @@ export const siteUrl = import.meta.env.VITE_SITE_URL || "https://eiki1975.github
 
 export type Member = {
   slug: string; name: string; nameEn: string; role: string; status: string;
-  image: string; alt: string; intro: string;
+  image: string; portraitImage: string; alt: string; portraitAlt: string; intro: string;
   profile: { age: string; height: string; catchcopy: string; description: string };
 };
 
 export const members: Member[] = [
   {
     slug: "reina-amamiya", name: "雨宮玲奈", nameEn: "REINA AMAMIYA", role: "Vocal", status: "PUBLIC",
-    image: "/images/members/v3/reina-amamiya-press.jpg", alt: "2次元塗りの同じ撮影シリーズでマイクに手を添えるVEILのボーカル雨宮玲奈",
+    image: "/images/members/v5/reina-amamiya-stage-portrait-20260725.png", portraitImage: "/images/members/v5/reina-amamiya-casual-portrait-smile-20260725.png", alt: "ジャケ写風のステージ衣装で写るVEILのボーカル雨宮玲奈", portraitAlt: "朝の窓辺でやわらかく微笑む私服姿の雨宮玲奈",
     intro: "柔らかく伸びる声と、感情をそのままこぼすような歌で、VEILの楽曲を聴く者のすぐそばまで届けるボーカリスト。人との距離を縮めることにためらいがなく、その近さが相手に何を期待させ、自分の中の何を目覚めさせているのかには、まだ気づかないふりをしている。",
     profile: { age: "27歳", height: "156cm", catchcopy: "誰にでも無邪気に距離を縮める、VEILの声。", description: "透明感ある歌声で感情を届けるボーカリスト。" },
   },
   {
     slug: "mizuki-kanzaki", name: "神崎瑞希", nameEn: "MIZUKI KANZAKI", role: "Guitar", status: "PUBLIC",
-    image: "/images/members/v3/mizuki-kanzaki-press.jpg", alt: "2次元塗りの同じ撮影シリーズでギターを抱えるVEILのギタリスト神崎瑞希",
+    image: "/images/members/v5/mizuki-kanzaki-stage-portrait-20260725.png", portraitImage: "/images/members/v5/mizuki-kanzaki-casual-portrait-20260725.png", alt: "ジャケ写風の軽いステージ衣装で写るVEILのギタリスト神崎瑞希", portraitAlt: "車のそばで微笑む私服姿の神崎瑞希",
     intro: "しなやかで鋭いギターと、視線を奪う華やかな演奏で、VEILの楽曲に勢いと輪郭を与え、ステージに華を添えるギタリスト。誰とでも明るく関われる社交性と、自分の意志を貫く強さを持つが、本当に誰かを必要とするときでさえ助けを求められず、その奥にある渇きを隠し続けている。",
     profile: { age: "27歳", height: "160cm", catchcopy: "限界の時ほど笑うギタリスト。", description: "社交性と行動力でバンドを前へ進める。" },
   },
   {
     slug: "hiyori-komiya", name: "小宮ひより", nameEn: "HIYORI KOMIYA", role: "Bass", status: "PUBLIC",
-    image: "/images/members/v3/hiyori-komiya-press.jpg", alt: "2次元塗りの同じ撮影シリーズでベースを抱えるVEILのベーシスト小宮ひより",
+    image: "/images/members/v5/hiyori-komiya-stage-portrait-20260725.png", portraitImage: "/images/members/v5/hiyori-komiya-casual-portrait-20260725.png", alt: "ジャケ写風のステージ衣装で写るVEILのベーシスト小宮ひより", portraitAlt: "書店で本を選ぶ私服姿の小宮ひより",
     intro: "静かな佇まいとは対照的な、疾走感のあるベースラインで、VEILのグルーヴを支えながら、楽曲を力強く前へ進めるベーシスト。おっとりと穏やかに見えるが、欲しいものへの執着は4人の中でもひときわ強く、その激しさを柔らかな表情の下に隠している。",
     profile: { age: "25歳", height: "148cm", catchcopy: "静かな顔で、一番欲深いベーシスト。", description: "普段は穏やか、演奏では攻撃的な低音を響かせる。" },
   },
   {
     slug: "risa-shiraishi", name: "白石理沙", nameEn: "RISA SHIRAISHI", role: "Drums", status: "PUBLIC",
-    image: "/images/members/v3/risa-shiraishi-press.jpg", alt: "2次元塗りの同じ撮影シリーズでスティックを自然に持つVEILのドラマー白石理沙",
+    image: "/images/members/v5/risa-shiraishi-stage-portrait-20260725.png", portraitImage: "/images/members/v5/risa-shiraishi-casual-portrait-20260725.png", alt: "ジャケ写風のノースリーブ衣装で写るVEILのドラマー白石理沙", portraitAlt: "コインランドリーでタオルを持つ私服姿の白石理沙",
     intro: "無駄のない正確なリズムと、緻密でテクニカルな演奏で、VEILの楽曲に独自の色と緊張感を与えるドラマー。冷静に人との距離を保ち、自分だけは感情に巻き込まれないと思っているが、その均衡が崩れたとき、自分に何が起こるのかをまだ知らない。",
     profile: { age: "29歳", height: "167cm", catchcopy: "静かに全体を支えるドラマー。", description: "冷静な視点でVEILの土台を作る。" },
   },
@@ -41,6 +41,7 @@ export const news = [
 
 export type GalleryItem = {
   record: string;
+  subjects: string[];
   category: string;
   title: string;
   caption: string;
@@ -63,14 +64,19 @@ export const galleryGroups: GalleryGroup[] = [
     title: "ひとりでいるとき。",
     copy: "ひとりでいるときにだけ見せる、何気ない仕草を記す。",
     items: [
-      { record: "LOG 001", category: "REINA / MORNING", title: "休日の朝", caption: "洗濯物を一枚ずつたたむ。休みの朝は、いつもより手がゆっくりだ。", image: "/images/gallery/v2/reina-morning-laundry.webp", alt: "洗濯物を畳みながら穏やかに微笑む雨宮玲奈" },
-      { record: "LOG 002", category: "REINA / NIGHT", title: "帰りのあと", caption: "帰りの遅い夜。ヘッドホンをつけたまま、甘いものをひと口食べる。", image: "/images/gallery/v2/reina-night-dessert.webp", alt: "夜の部屋で音楽を聴きながらデザートを食べる雨宮玲奈" },
-      { record: "LOG 003", category: "MIZUKI / SOUND", title: "予想外の音", caption: "思いがけない音が出て、先に笑った。どうやら気に入ったらしい。", image: "/images/gallery/v2/mizuki-effect-pedal.webp", alt: "中古楽器店でエフェクターを試し笑う神崎瑞希" },
-      { record: "LOG 004", category: "MIZUKI / HOME", title: "父のカセット", caption: "中古で見つけたカセットデッキに、父が残したテープを入れる。知らない時代の一曲に、何度もギターを重ねている。", image: "/images/gallery/v2/mizuki-cassette-guitar.webp", alt: "自室で父が残したカセットテープに合わせてギターを弾く神崎瑞希" },
-      { record: "LOG 005", category: "HIYORI / ROOM", title: "手の届く範囲", caption: "漫画もラジオもCDも、手を伸ばせば届くところにある。ここにいると、落ち着くらしい。", image: "/images/gallery/v2/hiyori-radio-room.webp", alt: "漫画やラジオに囲まれた部屋で過ごす小宮ひより" },
-      { record: "LOG 006", category: "HIYORI / PRACTICE", title: "反復", caption: "誰もいない練習室で、同じところを何度も弾き直していた。納得するまで、やめない。", image: "/images/gallery/v2/hiyori-solo-practice.webp", alt: "個人練習スタジオでベースを弾く小宮ひより" },
-      { record: "LOG 007", category: "RISA / RHYTHM", title: "成功したフィル", caption: "フィルがきれいに決まった。笑ったあとの一音は、少しだけ明るく聞こえた。", image: "/images/gallery/v2/risa-electronic-drums.webp", alt: "自宅の電子ドラムを叩きながら笑う白石理沙" },
-      { record: "LOG 008", category: "RISA / LAUNDRY", title: "待ち時間", caption: "洗濯が終わるまで、あと少し。それでも曲の途中では、ヘッドホンを外さない。", image: "/images/gallery/v2/risa-laundromat.webp", alt: "コインランドリーでヘッドホンを着けて過ごす白石理沙" },
+      { record: "LOG 001", subjects: ["reina-amamiya"], category: "REINA / MORNING", title: "休日の朝", caption: "洗濯物を一枚ずつたたむ。休みの朝は、いつもより手がゆっくりだ。", image: "/images/gallery/v2/reina-morning-laundry.webp", alt: "洗濯物を畳みながら穏やかに微笑む雨宮玲奈" },
+      { record: "LOG 002", subjects: ["reina-amamiya"], category: "REINA / NIGHT", title: "帰りのあと", caption: "帰りの遅い夜。ヘッドホンをつけたまま、甘いものをひと口食べる。", image: "/images/gallery/v2/reina-night-dessert.webp", alt: "夜の部屋で音楽を聴きながらデザートを食べる雨宮玲奈" },
+      { record: "LOG 003", subjects: ["mizuki-kanzaki"], category: "MIZUKI / SOUND", title: "予想外の音", caption: "思いがけない音が出て、先に笑った。どうやら気に入ったらしい。", image: "/images/gallery/v2/mizuki-effect-pedal.webp", alt: "中古楽器店でエフェクターを試し笑う神崎瑞希" },
+      { record: "LOG 004", subjects: ["mizuki-kanzaki"], category: "MIZUKI / HOME", title: "父のカセット", caption: "中古で見つけたカセットデッキに、父が残したテープを入れる。知らない時代の一曲に、何度もギターを重ねている。", image: "/images/gallery/v2/mizuki-cassette-guitar.webp", alt: "自室で父が残したカセットテープに合わせてギターを弾く神崎瑞希" },
+      { record: "LOG 005", subjects: ["hiyori-komiya"], category: "HIYORI / ROOM", title: "手の届く範囲", caption: "漫画もラジオもCDも、手を伸ばせば届くところにある。ここにいると、落ち着くらしい。", image: "/images/gallery/v2/hiyori-radio-room.webp", alt: "漫画やラジオに囲まれた部屋で過ごす小宮ひより" },
+      { record: "LOG 006", subjects: ["hiyori-komiya"], category: "HIYORI / PRACTICE", title: "反復", caption: "誰もいない練習室で、同じところを何度も弾き直していた。納得するまで、やめない。", image: "/images/gallery/v2/hiyori-solo-practice.webp", alt: "個人練習スタジオでベースを弾く小宮ひより" },
+      { record: "LOG 007", subjects: ["risa-shiraishi"], category: "RISA / RHYTHM", title: "成功したフィル", caption: "フィルがきれいに決まった。笑ったあとの一音は、少しだけ明るく聞こえた。", image: "/images/gallery/v2/risa-electronic-drums.webp", alt: "自宅の電子ドラムを叩きながら笑う白石理沙" },
+      { record: "LOG 008", subjects: ["risa-shiraishi"], category: "RISA / LAUNDRY", title: "待ち時間", caption: "洗濯が終わるまで、あと少し。それでも曲の途中では、ヘッドホンを外さない。", image: "/images/gallery/v2/risa-laundromat.webp", alt: "コインランドリーでヘッドホンを着けて過ごす白石理沙" },
+      { record: "LOG 013", subjects: ["reina-amamiya"], category: "REINA / NIGHT", title: "眠る前", caption: "眠る前の数分。灯りはまだ消していない。", image: "/images/gallery/v3/reina-night-brushing-20260725.png", alt: "夜の洗面台で歯を磨く雨宮玲奈" },
+      { record: "LOG 014", subjects: ["mizuki-kanzaki"], category: "MIZUKI / DRIVE", title: "停車中", caption: "走り出す前に、窓の外をひとつ見た。", image: "/images/gallery/v3/mizuki-car-interior-20260725.png", alt: "車内で外を見ながら停車している神崎瑞希" },
+      { record: "LOG 015", subjects: ["reina-amamiya"], category: "REINA / NIGHT", title: "帰りの買い物", caption: "必要なものだけ入った袋が、腕の内側で揺れた。", image: "/images/gallery/v3/reina-night-convenience-20260725.png", alt: "夜のコンビニの前で買い物袋を持つ雨宮玲奈" },
+      { record: "LOG 016", subjects: ["reina-amamiya"], category: "REINA / RAIN", title: "雨のあと", caption: "車道の灯りを見てから、こちらへ小さく笑った。", image: "/images/gallery/v3/reina-rain-bus-stop-20260725.png", alt: "雨上がりのバス停で振り返る雨宮玲奈" },
+      { record: "LOG 017", subjects: ["reina-amamiya"], category: "REINA / NIGHT", title: "まだ起きている", caption: "返事を急がず、画面を伏せた。灯りはしばらく、そのままだった。", image: "/images/gallery/v3/reina-night-sofa-20260725.png", alt: "夜のソファでスマートフォンを見つめる雨宮玲奈" },
     ],
   },
   {
@@ -79,10 +85,10 @@ export const galleryGroups: GalleryGroup[] = [
     title: "誰かといるとき。",
     copy: "誰かといるときにだけこぼれる、言葉と沈黙を記す。",
     items: [
-      { record: "LOG 009", category: "REINA + MIZUKI", title: "選曲について", caption: "同じレコードに、二人の手が伸びた。譲らないまま、顔を見合わせて笑っていた。", image: "/images/gallery/v2/reina-mizuki-record-store.webp", alt: "レコード店で話す雨宮玲奈と神崎瑞希" },
-      { record: "LOG 010", category: "HIYORI + RISA", title: "練習のあと", caption: "練習が終わると、決まって食べる話になる。今日も互いの皿をのぞき込んでいる。", image: "/images/gallery/v2/hiyori-risa-family-restaurant.webp", alt: "ファミリーレストランで食事を分け合う小宮ひよりと白石理沙" },
-      { record: "LOG 011", category: "REINA + HIYORI", title: "帰り道の寄り道", caption: "帰り道のコンビニで、アイスを選ぶ。こういう日は、二人とも少しだけ帰るのが遅い。", image: "/images/gallery/v2/reina-hiyori-ice-cream.webp", alt: "コンビニでアイスを選ぶ雨宮玲奈と小宮ひより" },
-      { record: "LOG 012", category: "MIZUKI + HIYORI + RISA", title: "まだ立ち上がらない", caption: "話が途切れても、誰も立ち上がらない。黙っていられるのも、仲のよさなのだと思う。", image: "/images/gallery/v2/mizuki-hiyori-risa-practice-break.webp", alt: "練習休憩中に床でくつろぐ神崎瑞希、小宮ひより、白石理沙" },
+      { record: "LOG 009", subjects: ["reina-amamiya", "mizuki-kanzaki"], category: "REINA + MIZUKI", title: "選曲について", caption: "同じレコードに、二人の手が伸びた。譲らないまま、顔を見合わせて笑っていた。", image: "/images/gallery/v2/reina-mizuki-record-store.webp", alt: "レコード店で話す雨宮玲奈と神崎瑞希" },
+      { record: "LOG 010", subjects: ["hiyori-komiya", "risa-shiraishi"], category: "HIYORI + RISA", title: "練習のあと", caption: "練習が終わると、決まって食べる話になる。今日も互いの皿をのぞき込んでいる。", image: "/images/gallery/v2/hiyori-risa-family-restaurant.webp", alt: "ファミリーレストランで食事を分け合う小宮ひよりと白石理沙" },
+      { record: "LOG 011", subjects: ["reina-amamiya", "hiyori-komiya"], category: "REINA + HIYORI", title: "帰り道の寄り道", caption: "帰り道のコンビニで、アイスを選ぶ。こういう日は、二人とも少しだけ帰るのが遅い。", image: "/images/gallery/v2/reina-hiyori-ice-cream.webp", alt: "コンビニでアイスを選ぶ雨宮玲奈と小宮ひより" },
+      { record: "LOG 012", subjects: ["mizuki-kanzaki", "hiyori-komiya", "risa-shiraishi"], category: "MIZUKI + HIYORI + RISA", title: "まだ立ち上がらない", caption: "話が途切れても、誰も立ち上がらない。黙っていられるのも、仲のよさなのだと思う。", image: "/images/gallery/v2/mizuki-hiyori-risa-practice-break.webp", alt: "練習休憩中に床でくつろぐ神崎瑞希、小宮ひより、白石理沙" },
     ],
   },
 ];

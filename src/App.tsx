@@ -1,6 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, ExternalLink, Menu, X } from "lucide-react";
 import { aboutParagraphs, archiveItems, galleryGroups, members, navItems, news, siteUrl, type GalleryItem, type Member } from "./data/veilContent";
+import serialStoriesData from "./content/serial-stories.json";
+import canonicalEpisode01Source from "./content/season-01-reina-episode-01-canonical-published-20260727.md?raw";
+import { LocalAdmin } from "./LocalAdmin";
 import prologue from "./content/prologue.md?raw";
 import reinaStory from "./content/story-zero/reina.md?raw";
 import mizukiStory from "./content/story-zero/mizuki.md?raw";
@@ -13,6 +16,28 @@ const storyZero: Record<string, string> = {
   "hiyori-komiya": hiyoriStory,
   "risa-shiraishi": risaStory,
 };
+
+type SerialStoryImage = { id: string; alt: string; caption: string; image: string; after: string };
+type SerialStory = { id: string; memberSlug: string; season: number; episode: number; title: string; body: string; images: SerialStoryImage[]; updatedAt: string };
+const canonicalEpisode01Body = canonicalEpisode01Source.split(/^## 本文\s*$/m)[1]?.trim() || "";
+const canonicalEpisode01: SerialStory = {
+  id: "season-01-reina-episode-01-canonical-20260727",
+  memberSlug: "reina-amamiya",
+  season: 1,
+  episode: 1,
+  title: "見られたあと",
+  body: canonicalEpisode01Body,
+  updatedAt: "2026-07-27",
+  images: [
+    { id: "ep01-01-ladder-hem", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/01-ladder-hem-v2-small-livehouse.png", alt: "小さなライブハウスの脚立に立ち、壁のテープへ手を伸ばす雨宮玲奈", caption: "ILLUSTRATION 01 / 見られたあと", after: "見られていると気づいたあとも、玲奈はスカートの裾を直さなかった。" },
+    { id: "ep01-02-unseen-gaze", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/02-unseen-gaze-v2-small-livehouse.png", alt: "小規模ライブハウスの暗がりを背に、壁のテープを剥がす雨宮玲奈", caption: "ILLUSTRATION 02 / 見えない視線", after: "見えないのに、まだ見られていると分かった。" },
+    { id: "ep01-03-first-lie", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/03-first-lie-v2-small-livehouse.png", alt: "小さなライブハウスの機材脇で、スカートの裾を整える雨宮玲奈", caption: "ILLUSTRATION 03 / 最初の嘘", after: "ただ、赤くなった理由の全部ではなかった。" },
+    { id: "ep01-04-closed-door", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/04-closed-door.png", alt: "閉じた楽屋の扉を見つめ、衣装を抱える雨宮玲奈", caption: "ILLUSTRATION 04 / 閉じた扉", after: "そのあとで、ほんの少しだけ失望した。" },
+    { id: "ep01-05-night-turn", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/05-night-turn-v2-sheer-stockings.png", alt: "夜の小さなライブハウスの前で振り返る雨宮玲奈", caption: "ILLUSTRATION 05 / 振り返る", after: "あの男が、もう一度自分を見るかどうかだった。" },
+  ],
+};
+const serialStories = [canonicalEpisode01, ...(serialStoriesData as SerialStory[]).filter((story) => story.id !== canonicalEpisode01.id)];
+const galleryItems = galleryGroups.flatMap((group) => group.items);
 
 const baseUrl = import.meta.env.BASE_URL;
 const xUrl = import.meta.env.VITE_X_URL?.trim();
@@ -84,22 +109,26 @@ function MembersGrid() {
   </section>;
 }
 
-function GallerySection() {
+function GalleryDirectory({ id }: { id?: string }) {
+  const files = members.map((member) => ({ member, count: galleryItems.filter((item) => item.subjects.includes(member.slug)).length }));
+  return <section className="section gallery-directory" id={id}><SectionTitle eyebrow="INDEPENDENT OBSERVER / VISUAL FILE" title="MEMBER FILES" copy="日常の記録は、人物ごとのファイルに分けて残している。" />
+    <div className="gallery-directory-grid">{files.map(({ member, count }, index) => <Link key={member.slug} href={`/gallery/${member.slug.split("-")[0]}`} className="gallery-directory-card" event="gallery_member_file_open"><span className="gallery-directory-index">FILE {String(index + 1).padStart(2, "0")}</span><div className="gallery-directory-portrait"><img src={assetUrl(member.portraitImage)} alt="" loading="lazy" /></div><span className="gallery-directory-name">{member.name}</span><span className="gallery-directory-meta">{member.nameEn} / {count} RECORDS <ArrowRight size={14} /></span></Link>)}</div>
+  </section>;
+}
+
+function MemberGalleryPage({ member }: { member: Member }) {
   const [active, setActive] = useState<GalleryItem | null>(null);
   useEffect(() => { const close = (e: KeyboardEvent) => e.key === "Escape" && setActive(null); addEventListener("keydown", close); return () => removeEventListener("keydown", close); }, []);
-  return <section className="section gallery-section" id="gallery"><SectionTitle eyebrow="INDEPENDENT OBSERVER / VISUAL FILE" title="OBSERVATION LOG" copy="音が止まったあとも、彼女たちの時間は静かに続いている。ここには、その折々に見えた姿を残す。" />
-    <div className="gallery-collection">{galleryGroups.map(group => <section className="gallery-chapter" key={group.id} aria-labelledby={`gallery-${group.id}`}><header className="gallery-chapter-header"><p className="eyebrow">{group.eyebrow}</p><h3 id={`gallery-${group.id}`}>{group.title}</h3><p>{group.copy}</p></header><div className={`gallery-grid gallery-grid-${group.id}`}>{group.items.map(g => <button type="button" className="gallery-item" key={g.image} aria-label={`${g.record} ${g.category} ${g.caption}`} onClick={() => { setActive(g); track("gallery_image_click", g.category); }}><span className="gallery-image-frame"><img src={assetUrl(g.image)} alt={g.alt} width="1536" height="1024" loading="lazy" /><span className="gallery-record-id">{g.record}</span></span><span className="gallery-item-copy"><span className="gallery-meta"><span>{g.record}</span><span>SUBJECT / {g.category}</span></span><span className="gallery-caption">{g.caption}</span></span></button>)}</div></section>)}</div>
-    <div className="room-links">{members.map(m => <Link key={m.slug} href={`/stories/${m.slug.split("-")[0]}`} event="room_click">{m.name}の部屋へ <ArrowRight size={15} /></Link>)}</div>
-    {active && <div className="lightbox gallery-lightbox" role="dialog" aria-modal="true" aria-label={active.alt} onClick={() => setActive(null)}><button aria-label="閉じる"><X /></button><img src={assetUrl(active.image)} alt={active.alt} /><aside><p>{active.record}</p><p>SUBJECT / {active.category}</p><blockquote>{active.caption}</blockquote></aside></div>}
-  </section>;
+  const items = galleryItems.filter((item) => item.subjects.includes(member.slug));
+  return <Shell><section className="member-gallery-page"><header className="member-gallery-header"><p className="eyebrow">INDEPENDENT OBSERVER / MEMBER FILE</p><p className="member-gallery-index">{member.nameEn} / {String(items.length).padStart(2, "0")} RECORDS</p><h1>{member.name}</h1><p>彼女に紐づく日常の記録。複数人の記録は、それぞれのファイルから同じ一枚を参照する。</p></header><div className="member-gallery-grid">{items.map((item) => <button type="button" key={item.record} className="member-gallery-thumb" aria-label={`${item.record} ${item.title}を拡大`} onClick={() => { setActive(item); track("gallery_image_click", item.category); }}><img src={assetUrl(item.image)} alt={item.alt} loading="lazy" /><span><small>{item.record}</small><strong>{item.title}</strong></span></button>)}</div><Link className="member-gallery-back" href="/#gallery"><ArrowLeft size={16} /> MEMBER FILESへ戻る</Link></section>{active && <div className="lightbox gallery-lightbox" role="dialog" aria-modal="true" aria-label={active.alt} onClick={() => setActive(null)}><button aria-label="閉じる"><X /></button><img src={assetUrl(active.image)} alt={active.alt} /><aside><p>{active.record}</p><p>SUBJECT / {active.category}</p><blockquote>{active.caption}</blockquote></aside></div>}</Shell>;
 }
 
 function Home() {
   return <Shell>
-    <section className="hero" id="top"><picture className="hero-media"><source srcSet={assetUrl("/images/veil-hero-reina-main-v2.webp")} type="image/webp" /><img src={assetUrl("/images/veil-hero-reina-main-v2.png")} alt="雨宮玲奈を中心にしたVEILの4人のメンバー" className="hero-image" /></picture><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">音楽、ビジュアル、物語を通して、4人の女性を記録するバンドプロジェクト。</p><div className="hero-actions"><a className="button primary" href="#members">MEMBERS</a><Link className="button ghost" href="/about">ABOUT VEIL</Link></div></div><span className="scroll-mark">SCROLL</span></section>
+    <section className="hero" id="top"><div className="hero-media"><img src={assetUrl("/images/veil-hero-band-v6-20260725.png")} alt="バンド写真として並ぶVEILの4人。中央に雨宮玲奈、神崎瑞希、小宮ひより、白石理沙" className="hero-image" /></div><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">音楽、ビジュアル、物語を通して、4人の女性を記録するバンドプロジェクト。</p><div className="hero-actions"><a className="button primary" href="#members">MEMBERS</a><Link className="button ghost" href="/about">ABOUT VEIL</Link></div></div><span className="scroll-mark">SCROLL</span></section>
     <MembersGrid />
     <section className="section" id="latest"><SectionTitle eyebrow="UPDATES" title="LATEST / NEWS" /><div className="news-list">{news.map(n => <article key={n.title}><time>{n.date}</time><span>{n.type}</span><h3>{n.title}</h3></article>)}</div></section>
-    <GallerySection />
+    <GalleryDirectory id="gallery" />
     <section className="feature feature-formation" id="formation" style={{ backgroundImage: `url(${assetUrl("/images/veil-backstage.jpg")})` }}><div><p className="eyebrow">HOW VEIL BEGAN</p><h2>VEILが<br />始まるまで</h2><p>高瀬真紀が新しい女性バンドの募集を始め、4人を見つけ、集めた。これはVEILが成立するまでの物語。</p><Link className="button primary formation-cta" href="/story/formation" event="formation_click"><span>PROLOGUE</span>『最後の募集』を読む <ArrowRight size={18} /></Link></div></section>
     <section className="section" id="archive"><SectionTitle eyebrow="DOCUMENTS BEFORE THE FIRST NOTE" title="VEIL ARCHIVE" copy="結成前から残る記録。" /><ArchiveCards limit={3} /><Link className="text-link section-link" href="/archive">VIEW ARCHIVE <ArrowRight size={16} /></Link></section>
     <section className="section stories" id="stories"><SectionTitle eyebrow="FICTION" title="STORIES" copy="Story Zeroの先に続く、4人それぞれの物語。" /><div className="story-strip">{members.map(m => <Link key={m.slug} href={`/stories/${m.slug.split("-")[0]}`} event="adult_story_entry"><span>{m.name}</span><small>18+ / COMING SOON</small><ArrowRight /></Link>)}</div></section>
@@ -117,7 +146,7 @@ function ArchiveCards({ limit }: { limit?: number }) {
 
 function PageHero({ eyebrow, title, copy, image }: { eyebrow: string; title: string; copy: string; image?: string }) { return <header className={`page-hero ${image ? "has-image" : ""}`}>{image && <img src={assetUrl(image)} alt="" />}<div><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{copy}</p></div></header>; }
 
-function StoryText({ text }: { text: string }) {
+function StoryText({ text, illustrations = [] }: { text: string; illustrations?: SerialStoryImage[] }) {
   let prologueTitleNext = false;
   return <div className="story-content">{text.replace(/\f/g, "").split("\n").map((line, index) => {
     const value = line.trim();
@@ -127,7 +156,8 @@ function StoryText({ text }: { text: string }) {
     if (value === "VEIL ストーリー0") return <p className="story-kicker" key={`${value}-${index}`}>{value}</p>;
     if (value.endsWith("編")) return <h2 className="story-document-title" key={`${value}-${index}`}>{value}</h2>;
     if (/^第[一二三四五六七八九十]+章/.test(value)) return <h3 key={`${value}-${index}`}>{value}</h3>;
-    return <p className="story-line" key={`${value.slice(0, 16)}-${index}`}>{value}</p>;
+    const inserted = illustrations.filter((image) => image.after === value);
+    return <Fragment key={`${value.slice(0, 16)}-${index}`}><p className="story-line">{value}</p>{inserted.map((image) => <figure className="serial-story-inline-image" key={image.id}><img src={assetUrl(image.image)} alt={image.alt} loading="lazy" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>)}</Fragment>;
   })}</div>;
 }
 
@@ -142,7 +172,16 @@ function ArchivePage() { return <Shell><PageHero eyebrow="OFFICIAL RECORDS" titl
 function AdultStoryPage({ member }: { member: Member }) {
   const key = `veil-age-ok-${member.slug}`; const [ok, setOk] = useState(() => localStorage.getItem(key) === "yes");
   if (!ok) return <Shell><section className="age-gate"><p className="eyebrow">18+ CONTENT NOTICE</p><h1>この先の物語について</h1><p>この先の物語には、成人向けの表現が含まれます。18歳未満の方は閲覧できません。同意状態はこの端末内にのみ保存されます。</p><div><button className="button primary" onClick={() => { localStorage.setItem(key, "yes"); setOk(true); track("age_gate_accept", member.slug); }}>18歳以上です</button><button className="button ghost" onClick={() => { history.back(); track("age_gate_exit", member.slug); }}>戻る</button></div></section></Shell>;
+  const releasedStories = serialStories.filter((story) => story.memberSlug === member.slug);
+  if (releasedStories.length) return <Shell><PageHero eyebrow="ADULT STORY / SEASON 01" title={member.name} copy="彼女の、さらに奥へ。" image={member.image} /><article className="prose page-section"><p className="status-chip">18+ / FICTION / AI-ASSISTED ILLUSTRATIONS</p><p>登場人物は全員成人です。本文には成人向け表現を、挿絵にはAI生成画像を含みます。</p><div className="member-link-list">{releasedStories.map((story) => <Link href={`/stories/${member.slug.split("-")[0]}/season-${story.season}/episode-${story.episode}`} key={story.id}><span>{`SEASON ${String(story.season).padStart(2, "0")} / EPISODE ${String(story.episode).padStart(2, "0")}`}</span>{story.title}<ArrowRight /></Link>)}</div></article></Shell>;
   return <Shell><PageHero eyebrow="ADULT STORY / COMING SOON" title={member.name} copy="彼女の、さらに奥へ。" image={member.image} /><article className="prose page-section"><div className="coming-block">ADULT STORY<br /><strong>COMING SOON</strong><small>正式原稿および外部販売URLは未設定です</small></div><Link href={`/members/${member.slug}`} className="text-link"><ArrowLeft /> STORY ZEROへ戻る</Link></article></Shell>;
+}
+
+function SerialStoryPage({ story, member }: { story: SerialStory; member: Member }) {
+  const key = `veil-age-ok-${member.slug}`;
+  const [ok, setOk] = useState(() => localStorage.getItem(key) === "yes");
+  if (!ok) return <Shell><section className="age-gate"><p className="eyebrow">18+ CONTENT NOTICE</p><h1>この先の物語について</h1><p>この先の物語には、成人向けの表現が含まれます。18歳未満の方は閲覧できません。同意状態はこの端末内にのみ保存されます。</p><div><button className="button primary" onClick={() => { localStorage.setItem(key, "yes"); setOk(true); track("age_gate_accept", member.slug); }}>18歳以上です</button><button className="button ghost" onClick={() => history.back()}>戻る</button></div></section></Shell>;
+  return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(story.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(story.episode).padStart(2, "0")} / 08</small><h1>{story.title}</h1><strong className="serial-story-disclosure">18+ / FICTION / AI-ASSISTED ILLUSTRATIONS</strong><span>登場人物は全員成人です。本文には成人向け表現を、挿絵にはAI生成画像を含みます。</span></header><div className="serial-story-layout"><StoryText text={story.body} illustrations={story.images} /><aside className="serial-story-images">{story.images.map((image, index) => <figure key={image.id}><img src={assetUrl(image.image)} alt={image.alt || `${member.name}の記録画像 ${index + 1}`} loading="lazy" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>)}</aside></div><nav className="serial-story-next"><Link href={`/stories/${member.slug.split("-")[0]}`}><ArrowLeft /> 物語一覧へ</Link><span>NEXT RECORD — COMING SOON</span></nav></article></Shell>;
 }
 
 function LegalPage({ type }: { type: string }) { const content: Record<string, [string, string]> = { privacy: ["PRIVACY POLICY", "アクセス解析や外部サービスとの連携を開始する前に、取得情報、利用目的、保存期間を明記します。現在は外部へ個人情報を送信していません。"], terms: ["TERMS OF USE", "著作権、禁止事項、免責については公開前に管理者と専門家の確認を経て正式文面を掲載します。"], "adult-policy": ["ADULT CONTENT POLICY / 18+ NOTICE", "VEILの一部の物語には成人向け表現が含まれます。18歳未満の方は閲覧できません。外部サービスではそのサービスの規約と決済条件が適用されます。"], contact: ["CONTACT", "お問い合わせ先は未設定です。架空の事業者情報は掲載せず、正式な運営者情報の確定後に更新します。"] }; const [title, body] = content[type] || ["NOT FOUND", "ページが見つかりません。"]; return <Shell><PageHero eyebrow="VEIL OFFICIAL SITE / COMING SOON" title={title} copy={body} /><article className="prose page-section"><p className="status-chip">COMING SOON</p><p>このページは運用開始前のページ枠です。法的文面は公開前に専門家の確認が必要です。</p></article></Shell>; }
@@ -156,11 +195,16 @@ export default function App() {
   useEffect(() => { const fn = () => setPath(routeFromLocation()); addEventListener("popstate", fn); return () => removeEventListener("popstate", fn); }, []);
   useEffect(() => setMeta(path), [path]);
   const page = useMemo(() => {
+    if (path === "/admin") return <LocalAdmin members={members} />;
     if (path === "/") return <Home />;
     if (path === "/about") return <AboutPage />;
+    if (path === "/gallery") return <Shell><GalleryDirectory /></Shell>;
+    const galleryMember = members.find(m => path === `/gallery/${m.slug.split("-")[0]}`); if (galleryMember) return <MemberGalleryPage member={galleryMember} />;
     if (path === "/archive") return <ArchivePage />;
     if (path === "/story/formation") return <FormationPage />;
     const member = members.find(m => path === `/members/${m.slug}`); if (member) return <MemberPage member={member} />;
+    const episodeMatch = path.match(/^\/stories\/(reina|mizuki|hiyori|risa)\/season-(\d+)\/episode-(\d+)$/);
+    if (episodeMatch) { const member = members.find(m => m.slug.split("-")[0] === episodeMatch[1]); const story = serialStories.find(entry => entry.memberSlug === member?.slug && entry.season === Number(episodeMatch[2]) && entry.episode === Number(episodeMatch[3])); if (member && story) return <SerialStoryPage member={member} story={story} />; }
     const story = members.find(m => path === `/stories/${m.slug.split("-")[0]}`); if (story) return <AdultStoryPage member={story} />;
     if (path.startsWith("/legal/")) return <LegalPage type={path.split("/").pop() || ""} />;
     return <NotFound />;
