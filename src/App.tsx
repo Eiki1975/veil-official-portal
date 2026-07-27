@@ -37,6 +37,13 @@ const canonicalEpisode01: SerialStory = {
   ],
 };
 const serialStories = [canonicalEpisode01, ...(serialStoriesData as SerialStory[]).filter((story) => story.id !== canonicalEpisode01.id)];
+const firstPublishedStoryByMember = new Map<string, SerialStory>();
+serialStories
+  .slice()
+  .sort((a, b) => a.season - b.season || a.episode - b.episode)
+  .forEach((story) => {
+    if (!firstPublishedStoryByMember.has(story.memberSlug)) firstPublishedStoryByMember.set(story.memberSlug, story);
+  });
 const galleryItems = galleryGroups.flatMap((group) => group.items);
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -161,9 +168,24 @@ function StoryText({ text, illustrations = [] }: { text: string; illustrations?:
   })}</div>;
 }
 
+function FormationStoryChoices() {
+  return <section className="formation-story-choices" aria-labelledby="formation-story-choices-title">
+    <header><p className="eyebrow">CONTINUE WITH ONE OF THE FOUR</p><h2 id="formation-story-choices-title">4人の物語へ進む</h2><p>プロローグの前に、いま読める彼女たちの最初の記録へ。</p></header>
+    <div className="formation-story-grid">
+      {members.map((member, index) => {
+        const story = firstPublishedStoryByMember.get(member.slug);
+        const card = <><img src={assetUrl(member.image)} alt={member.alt} loading="lazy" /><div className="formation-story-card-copy"><div><p>{`0${index + 1} / ${member.role.toUpperCase()}`}</p><h3>{member.name}</h3><small>{member.nameEn}</small></div>{story ? <div className="formation-story-card-episode"><span>{`SEASON ${String(story.season).padStart(2, "0")} / EPISODE ${String(story.episode).padStart(2, "0")}`}</span><strong>{story.title}</strong><em>第1話を読む <ArrowRight size={15} /></em></div> : <div className="formation-story-card-coming"><span>STORY</span><strong>COMING SOON</strong><em>公開を待っています</em></div>}</div></>;
+        if (!story) return <article className="formation-story-card is-coming" key={member.slug} aria-label={`${member.name}の物語は公開準備中です`}>{card}</article>;
+        const href = `/stories/${member.slug.split("-")[0]}/season-${story.season}/episode-${story.episode}`;
+        return <Link className="formation-story-card is-live" href={href} event="formation_story_continue" key={member.slug}>{card}</Link>;
+      })}
+    </div>
+  </section>;
+}
+
 function MemberPage({ member }: { member: Member }) { return <Shell><PageHero eyebrow={`${member.nameEn} / ${member.role}`} title={member.name} copy="STORY ZERO — 彼女がVEILに来るまで" image={member.image} /><article className="prose page-section reading-page"><p className="status-chip">STORY ZERO / PUBLIC</p><h2>PROFILE</h2><section className="official-profile" aria-label={`${member.name}の公式プロフィール`}><p className="profile-catchcopy">{member.profile.catchcopy}</p><dl><div><dt>担当</dt><dd>{member.role}</dd></div><div><dt>年齢</dt><dd>{member.profile.age}</dd></div><div><dt>身長</dt><dd>{member.profile.height}</dd></div></dl><p>{member.profile.description}</p></section><StoryText text={storyZero[member.slug]} /><h2>RELATED RECORDS</h2><ArchiveCards limit={2} /><div className="next-links"><Link href="/story/formation"><ArrowLeft /> VEIL結成ストーリー</Link><Link href={`/stories/${member.slug.split("-")[0]}`} event="adult_story_entry">彼女の、さらに奥へ <ArrowRight /></Link></div></article></Shell>; }
 
-function FormationPage() { return <Shell><PageHero eyebrow="FORMATION STORY" title="VEILが始まるまで" copy="高瀬真紀が一枚の募集告知を出し、4人の女性と出会うまでの記録。" image="/images/veil-backstage.jpg" /><article className="prose page-section reading-page"><p className="byline">高瀬真紀<br /><small>VEIL結成時の募集担当者</small></p><p>高瀬真紀は、VEIL結成へ向けた募集を始めた人物です。以下は、その募集が出されるまでを描くプロローグです。</p><StoryText text={prologue} /><h2>THE FOUR APPLICATIONS</h2><div className="member-link-list">{members.map(m => <Link href={`/members/${m.slug}`} key={m.slug}>{m.name}<span>{m.role}</span><ArrowRight /></Link>)}</div><h2>RELATED ARCHIVE</h2><ArchiveCards /><div className="next-links"><Link href="/archive">VEIL ARCHIVE <ArrowRight /></Link></div></article></Shell>; }
+function FormationPage() { return <Shell><PageHero eyebrow="FORMATION STORY" title="VEILが始まるまで" copy="高瀬真紀が一枚の募集告知を出し、4人の女性と出会うまでの記録。" image="/images/veil-backstage.jpg" /><article className="prose page-section reading-page"><p className="byline">高瀬真紀<br /><small>VEIL結成時の募集担当者</small></p><p>高瀬真紀は、VEIL結成へ向けた募集を始めた人物です。以下は、その募集が出されるまでを描くプロローグです。</p><FormationStoryChoices /><StoryText text={prologue} /><h2>THE FOUR APPLICATIONS</h2><div className="member-link-list">{members.map(m => <Link href={`/members/${m.slug}`} key={m.slug}>{m.name}<span>{m.role}</span><ArrowRight /></Link>)}</div><h2>RELATED ARCHIVE</h2><ArchiveCards /><div className="next-links"><Link href="/archive">VEIL ARCHIVE <ArrowRight /></Link></div></article></Shell>; }
 
 function AboutPage() { return <Shell><PageHero eyebrow="INDEPENDENT RECORD" title="ABOUT VEIL" copy="音楽だけでは表せなかった彼女たちの姿を記録する場所。" /><article className="prose page-section"><p className="byline">記録者<br /><small>Independent Observer / Recorder</small></p><p>このサイトを記録する者は、レーベルやVEILの所有者ではありません。4人と彼女たちを取り巻く時間を、独立した立場から観察し、記録しています。</p>{aboutParagraphs.map((p, i) => <p key={i}>{p}</p>)}<Link className="button ghost" href="/story/formation">VEILが始まるまで</Link></article></Shell>; }
 
