@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { randomUUID } from "node:crypto";
-import { mkdir, readFile, writeFile, copyFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile, copyFile, rm } from "node:fs/promises";
 import { extname, join } from "node:path";
 
 type DraftImage = { id: string; filename: string; alt: string; caption: string };
@@ -81,7 +81,12 @@ function githubPagesSpaFallbackPlugin() {
   return {
     name: "veil-github-pages-spa-fallback",
     async closeBundle() {
-      await copyFile(join(rootDir, "dist", "index.html"), join(rootDir, "dist", "404.html"));
+      const fallbackPath = join(rootDir, "dist", "404.html");
+      if (!process.env.GITHUB_ACTIONS) {
+        await rm(fallbackPath, { force: true });
+        return;
+      }
+      await copyFile(join(rootDir, "dist", "index.html"), fallbackPath);
     },
   };
 }
