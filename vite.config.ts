@@ -53,6 +53,38 @@ function safeText(value: unknown, max = 30000) {
   return typeof value === "string" ? value.slice(0, max) : "";
 }
 
+const localAdminMethods = new Set(["GET", "POST"]);
+
+function localAdminOrigin(hostHeader: string | undefined) {
+  const host = safeText(hostHeader, 100).toLowerCase();
+  if (!/^(?:localhost|127\.0\.0\.1)(?::\d{1,5})?$/.test(host)) return "";
+  try {
+    return new URL(`http://${host}`).origin;
+  } catch {
+    return "";
+  }
+}
+
+function isLoopbackSocket(address: string | undefined) {
+  return address === "127.0.0.1" || address === "::1" || address === "::ffff:127.0.0.1";
+}
+
+function isAllowedLocalAdminRequest(req: import("node:http").IncomingMessage) {
+  const expectedOrigin = localAdminOrigin(req.headers.host);
+  if (!expectedOrigin || !isLoopbackSocket(req.socket.remoteAddress)) return false;
+  const origin = req.headers.origin;
+  if (!origin) return req.method !== "POST";
+  try {
+    return new URL(origin).origin === expectedOrigin;
+  } catch {
+    return false;
+  }
+}
+
+function isJsonRequest(req: import("node:http").IncomingMessage) {
+  return /^application\/json(?:;|$)/i.test(req.headers["content-type"] || "");
+}
+
 function safeId(value: unknown) {
   const id = safeText(value, 120);
   return /^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$/.test(id) ? id : "";
@@ -111,7 +143,12 @@ function localAdminPlugin() {
       server.middlewares.use(async (req, res, next) => {
         const url = new URL(req.url || "/", "http://localhost");
         if (!url.pathname.startsWith("/__veil-admin/")) return next();
-        if (!["localhost", "127.0.0.1"].includes(req.headers.host?.split(":")[0] || "")) return send(res, 403, { error: "この編集機能はこのMac内でのみ利用できます。" });
+        if (!isAllowedLocalAdminRequest(req)) return send(res, 403, { error: "この編集機能はこのMac内の同一画面からのみ利用できます。" });
+        if (!localAdminMethods.has(req.method || "")) {
+          res.setHeader("Allow", "GET, POST");
+          return send(res, 405, { error: "GETまたはPOSTのみ利用できます。" });
+        }
+        if (req.method === "POST" && !isJsonRequest(req)) return send(res, 415, { error: "JSON形式のリクエストのみ利用できます。" });
         try {
           await ensureAdminFolders();
           if (req.method === "GET" && url.pathname === "/__veil-admin/drafts") return send(res, 200, { stories: await readJson<DraftStory[]>(draftsPath, []) });
@@ -187,24 +224,9 @@ function localAdminPlugin() {
   };
 }
 
-// GitHub Pages does not serve index.html for direct SPA links. A built copy
-// lets the client router render the same page when a reader opens a story URL
-// from a bookmark or shared link.
-function githubPagesSpaFallbackPlugin() {
-  return {
-    name: "veil-github-pages-spa-fallback",
-    async closeBundle() {
-      const fallbackPath = join(rootDir, "dist", "404.html");
-      if (!process.env.GITHUB_ACTIONS) {
-        await rm(fallbackPath, { force: true });
-        return;
-      }
-      await copyFile(join(rootDir, "dist", "index.html"), fallbackPath);
-    },
-  };
-}
-
 export default defineConfig({
-  plugins: [react(), localAdminPlugin(), githubPagesSpaFallbackPlugin()],
-  base: process.env.GITHUB_ACTIONS ? "/veil-official-portal/" : "/",
+  plugins: [react(), localAdminPlugin()],
+  server: { host: "127.0.0.1" },
+  preview: { host: "127.0.0.1" },
+  base: "/",
 });

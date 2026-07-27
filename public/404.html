@@ -2,15 +2,28 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="robots" content="noindex" />
-    <title>VEIL OFFICIAL SITE</title>
-    <script>
-      const base = "/veil-official-portal";
-      const path = location.pathname.startsWith(`${base}/`)
-        ? location.pathname.slice(base.length)
-        : "/";
-      location.replace(`${base}/?path=${encodeURIComponent(path + location.search + location.hash)}`);
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>ページが見つかりません | VEIL</title>
+    <style>
+      :root { color-scheme: dark; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif; background: #09090b; color: #f4f4f5; }
+      * { box-sizing: border-box; }
+      body { min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 2rem; }
+      main { width: min(100%, 38rem); border: 1px solid #3f3f46; border-radius: 1rem; padding: clamp(2rem, 7vw, 4rem); background: #18181b; text-align: center; }
+      .code { margin: 0; color: #a1a1aa; font-size: 0.875rem; font-weight: 700; letter-spacing: 0.2em; }
+      h1 { margin: 0.75rem 0 1rem; font-size: clamp(1.75rem, 6vw, 3rem); line-height: 1.2; }
+      p { margin: 0; color: #d4d4d8; line-height: 1.8; }
+      a { display: inline-block; margin-top: 2rem; border: 1px solid currentColor; border-radius: 999px; padding: 0.8rem 1.25rem; color: #f4f4f5; font-weight: 700; text-decoration: none; }
+      a:hover { background: #f4f4f5; color: #09090b; }
+      a:focus-visible { outline: 3px solid #facc15; outline-offset: 4px; }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <main id="main-content" aria-labelledby="page-title">
+      <p class="code" aria-hidden="true">404</p>
+      <h1 id="page-title">ページが見つかりません</h1>
+      <p>URLをご確認いただくか、VEILのトップページからお探しください。</p>
+      <a href="/">VEILのトップページへ戻る</a>
+    </main>
+  </body>
 </html>

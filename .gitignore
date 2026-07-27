@@ -1,4 +1,11 @@
 node_modules/
+.veil-admin/
+
+# Local runtime settings and secrets. Keep only safe example files in Git.
+.env
+.env.*
+!.env.example
+!.env.*.example
 .pnpm-store/
 dist/
 drive_refs/

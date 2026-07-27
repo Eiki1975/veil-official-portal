@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url><loc>https://veil-archive.com/</loc></url>
   <url>
     <loc>https://veil-archive.com/ja/start/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://veil-archive.com/ja/start/" />
@@ -13,11 +12,4 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/start/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://veil-archive.com/ja/start/" />
   </url>
-  <url><loc>https://veil-archive.com/about</loc></url>
-  <url><loc>https://veil-archive.com/story/formation</loc></url>
-  <url><loc>https://veil-archive.com/archive</loc></url>
-  <url><loc>https://veil-archive.com/members/reina-amamiya</loc></url>
-  <url><loc>https://veil-archive.com/members/mizuki-kanzaki</loc></url>
-  <url><loc>https://veil-archive.com/members/hiyori-komiya</loc></url>
-  <url><loc>https://veil-archive.com/members/risa-shiraishi</loc></url>
 </urlset>

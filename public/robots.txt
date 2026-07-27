@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /stories/
+Disallow: /admin
+Disallow: /__veil-admin/
 
 Sitemap: https://veil-archive.com/sitemap.xml
