@@ -1,4 +1,4 @@
-export const siteUrl = import.meta.env.VITE_SITE_URL || "https://eiki1975.github.io/veil-official-portal";
+export const siteUrl = import.meta.env.VITE_SITE_URL || "https://veil-archive.com";
 
 export type Member = {
   slug: string; name: string; nameEn: string; role: string; status: string;
