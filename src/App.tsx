@@ -30,12 +30,12 @@ const canonicalEpisode01: SerialStory = {
   updatedAt: "2026-07-27",
   images: [
     { id: "ep01-01-ladder-hem", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/01-ladder-hem-v2-small-livehouse.png", alt: "小さなライブハウスの脚立に立ち、壁のテープへ手を伸ばす雨宮玲奈", caption: "ILLUSTRATION 01 / 見られたあと", after: "見られていると気づいたあとも、玲奈はスカートの裾を直さなかった。" },
-    { id: "ep01-06-heels-off", image: "/images/stories/season-01-reina/episode-01-visual-records-20260727/06-heels-off-closeup-20260727.png", alt: "ヒールを手に持ち、肌色のストッキングの足で脚立へ上がる前の雨宮玲奈", caption: "VISUAL RECORD 06 / HEELS OFF", after: "ヒールを脱ぐと、急に背が低くなった気がした。" },
+    { id: "ep01-06-heels-off", image: "/images/stories/season-01-reina/episode-01-visual-records-20260727/06-heels-off-closeup-20260727.png?v=20260727", alt: "ヒールを手に持ち、肌色のストッキングの足で脚立へ上がる前の雨宮玲奈", caption: "VISUAL RECORD 06 / HEELS OFF", after: "ヒールを脱ぐと、急に背が低くなった気がした。" },
     { id: "ep01-02-unseen-gaze", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/02-unseen-gaze-v2-small-livehouse.png", alt: "小規模ライブハウスの暗がりを背に、壁のテープを剥がす雨宮玲奈", caption: "ILLUSTRATION 02 / 見えない視線", after: "見えないのに、まだ見られていると分かった。" },
     { id: "ep01-03-first-lie", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/03-first-lie-v2-small-livehouse.png", alt: "小さなライブハウスの機材脇で、スカートの裾を整える雨宮玲奈", caption: "ILLUSTRATION 03 / 最初の嘘", after: "ただ、赤くなった理由の全部ではなかった。" },
     { id: "ep01-04-closed-door", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/04-closed-door.png", alt: "閉じた楽屋の扉を見つめ、衣装を抱える雨宮玲奈", caption: "ILLUSTRATION 04 / 閉じた扉", after: "そのあとで、ほんの少しだけ失望した。" },
-    { id: "ep01-07-self-confrontation", image: "/images/stories/season-01-reina/episode-01-visual-records-20260727/07-self-confrontation-20260727.png", alt: "楽屋で自分を睨むように正面を見つめる雨宮玲奈", caption: "VISUAL RECORD 07 / SELF CONFRONTATION", after: "その考えが浮かび、玲奈は自分の顔を睨んだ。" },
-    { id: "ep01-08-exit-smile", image: "/images/stories/season-01-reina/episode-01-visual-records-20260727/08-exit-practiced-smile-20260727.png", alt: "小さなライブハウスの出口で、いつもの笑顔を戻す雨宮玲奈", caption: "VISUAL RECORD 08 / EXIT", after: "玲奈はいつもの笑顔で頭を下げた。" },
+    { id: "ep01-07-self-confrontation", image: "/images/stories/season-01-reina/episode-01-visual-records-20260727/07-self-confrontation-20260727.png?v=20260727", alt: "楽屋で自分を睨むように正面を見つめる雨宮玲奈", caption: "VISUAL RECORD 07 / SELF CONFRONTATION", after: "その考えが浮かび、玲奈は自分の顔を睨んだ。" },
+    { id: "ep01-08-exit-smile", image: "/images/stories/season-01-reina/episode-01-visual-records-20260727/08-exit-practiced-smile-20260727.png?v=20260727", alt: "小さなライブハウスの出口で、いつもの笑顔を戻す雨宮玲奈", caption: "VISUAL RECORD 08 / EXIT", after: "玲奈はいつもの笑顔で頭を下げた。" },
     { id: "ep01-05-night-turn", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/05-night-turn-v2-sheer-stockings.png", alt: "夜の小さなライブハウスの前で振り返る雨宮玲奈", caption: "ILLUSTRATION 05 / 振り返る", after: "あの男が、もう一度自分を見るかどうかだった。" },
   ],
 };
