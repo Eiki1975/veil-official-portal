@@ -258,7 +258,18 @@ function SerialStoryPage({ story, member }: { story: SerialStory; member: Member
   return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(story.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(story.episode).padStart(2, "0")} / 08</small><h1>{story.title}</h1><strong className="serial-story-disclosure">18+ / FICTION / AI-ASSISTED ILLUSTRATIONS</strong><span>登場人物は全員成人です。本文には成人向け表現を、挿絵にはAI生成画像を含みます。</span></header><div className="serial-story-layout"><StoryText text={story.body} illustrations={story.images} /><aside className="serial-story-images">{story.images.map((image, index) => <figure key={image.id}><img src={assetUrl(image.image)} alt={image.alt || `${member.name}の記録画像 ${index + 1}`} loading="lazy" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>)}</aside></div><StoryVisualReview story={story} member={member} /><nav className="serial-story-next"><Link href={`/stories/${member.slug.split("-")[0]}`}><ArrowLeft /> 物語一覧へ</Link><span>NEXT RECORD — COMING SOON</span></nav></article></Shell>;
 }
 
-function LegalPage({ type }: { type: string }) { const content: Record<string, [string, string]> = { privacy: ["PRIVACY POLICY", "アクセス解析や外部サービスとの連携を開始する前に、取得情報、利用目的、保存期間を明記します。現在は外部へ個人情報を送信していません。"], terms: ["TERMS OF USE", "著作権、禁止事項、免責については公開前に管理者と専門家の確認を経て正式文面を掲載します。"], "adult-policy": ["ADULT CONTENT POLICY / 18+ NOTICE", "VEILの一部の物語には成人向け表現が含まれます。18歳未満の方は閲覧できません。外部サービスではそのサービスの規約と決済条件が適用されます。"], contact: ["CONTACT", "お問い合わせ先は未設定です。架空の事業者情報は掲載せず、正式な運営者情報の確定後に更新します。"] }; const [title, body] = content[type] || ["NOT FOUND", "ページが見つかりません。"]; return <Shell><PageHero eyebrow="VEIL OFFICIAL SITE / COMING SOON" title={title} copy={body} /><article className="prose page-section"><p className="status-chip">COMING SOON</p><p>このページは運用開始前のページ枠です。法的文面は公開前に専門家の確認が必要です。</p></article></Shell>; }
+function LegalPage({ type }: { type: string }) {
+  const content: Record<string, [string, string]> = {
+    privacy: ["PRIVACY POLICY", "当サイトでは、閲覧傾向の把握とサイト改善のために Cloudflare Web Analytics を利用しています。"],
+    terms: ["TERMS OF USE", "著作権、禁止事項、免責については公開前に管理者と専門家の確認を経て正式文面を掲載します。"],
+    "adult-policy": ["ADULT CONTENT POLICY / 18+ NOTICE", "VEILの一部の物語には成人向け表現が含まれます。18歳未満の方は閲覧できません。外部サービスではそのサービスの規約と決済条件が適用されます。"],
+    contact: ["CONTACT", "お問い合わせ先は未設定です。架空の事業者情報は掲載せず、正式な運営者情報の確定後に更新します。"],
+  };
+  const [title, body] = content[type] || ["NOT FOUND", "ページが見つかりません。"];
+  const isPrivacy = type === "privacy";
+
+  return <Shell><PageHero eyebrow={isPrivacy ? "VEIL OFFICIAL SITE / PRIVACY" : "VEIL OFFICIAL SITE / COMING SOON"} title={title} copy={body} /><article className="prose page-section">{isPrivacy ? <><p>Cloudflare Web Analytics により、訪問数、閲覧ページ、流入元、利用環境などの統計情報を確認します。</p><p>当サイトの運営者が、アクセス解析のために氏名、メールアドレス、本文の入力内容などを取得することはありません。</p><p>収集・処理は Cloudflare のプライバシー方針に基づいて行われます。</p></> : <><p className="status-chip">COMING SOON</p><p>このページは運用開始前のページ枠です。法的文面は公開前に専門家の確認が必要です。</p></>}</article></Shell>;
+}
 
 function NotFound() { return <Shell><section className="not-found"><p>404</p><h1>RECORD NOT FOUND</h1><Link className="button ghost" href="/">VEILへ戻る</Link></section></Shell>; }
 
