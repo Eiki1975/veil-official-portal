@@ -1,0 +1,13 @@
+{
+  "keys": [
+    {
+      "kty": "EC",
+      "x": "fXwZkLS4WkEQLm09X40M7g-4Htx2WMmfDBKCB6kW7xY",
+      "y": "rBWGl-AX05_SK0wkzJNyqcVf1VESV5AFBCSIt4CZOXE",
+      "crv": "P-256",
+      "kid": "veil-bluesky-client-20260729",
+      "alg": "ES256",
+      "use": "sig"
+    }
+  ]
+}

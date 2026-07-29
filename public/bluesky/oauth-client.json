@@ -1,0 +1,13 @@
+{
+  "client_id": "https://veil-archive.com/bluesky/oauth-client.json",
+  "client_name": "VEIL Bluesky Publisher",
+  "application_type": "web",
+  "grant_types": ["authorization_code", "refresh_token"],
+  "response_types": ["code"],
+  "scope": "atproto transition:generic",
+  "redirect_uris": ["https://veil-bluesky-oauth-public-crjr6tcv6a-an.a.run.app/bluesky/oauth/callback"],
+  "token_endpoint_auth_method": "private_key_jwt",
+  "token_endpoint_auth_signing_alg": "ES256",
+  "dpop_bound_access_tokens": true,
+  "jwks_uri": "https://veil-archive.com/bluesky/oauth-jwks.json"
+}
