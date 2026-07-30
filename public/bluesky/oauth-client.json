@@ -4,8 +4,11 @@
   "application_type": "web",
   "grant_types": ["authorization_code", "refresh_token"],
   "response_types": ["code"],
-  "scope": "atproto transition:generic",
-  "redirect_uris": ["https://veil-bluesky-oauth-public-crjr6tcv6a-an.a.run.app/bluesky/oauth/callback"],
+  "scope": "atproto repo:app.bsky.feed.post?action=create blob?accept=image/jpeg&accept=image/png&accept=image/webp",
+  "redirect_uris": [
+    "https://veil-bluesky-oauth-public-crjr6tcv6a-an.a.run.app/bluesky/oauth/callback",
+    "https://veil-bluesky-oauth-public-crjr6tcv6a-an.a.run.app/bluesky/oauth/publish/callback"
+  ],
   "token_endpoint_auth_method": "private_key_jwt",
   "token_endpoint_auth_signing_alg": "ES256",
   "dpop_bound_access_tokens": true,
