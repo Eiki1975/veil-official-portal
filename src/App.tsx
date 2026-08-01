@@ -1,6 +1,9 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, ArrowUp, ExternalLink, Menu, X } from "lucide-react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, ArrowUp, ExternalLink, Menu, Play, X } from "lucide-react";
 import { aboutParagraphs, archiveItems, galleryGroups, members, navItems, news, siteUrl, type GalleryItem, type Member } from "./data/veilContent";
+import { borderlineRelease } from "./data/music";
+import { PersistentAudioPlayer, type AudioPlayerHandle } from "./AudioPlayer";
+import "./styles/music-player.css";
 import serialStoriesData from "./content/serial-stories.json";
 import canonicalEpisode01Source from "./content/season-01-reina-episode-01-canonical-published-20260727.md?raw";
 import { LocalAdmin } from "./LocalAdmin";
@@ -135,7 +138,7 @@ function MemberGalleryPage({ member }: { member: Member }) {
   return <Shell><section className="member-gallery-page"><header className="member-gallery-header"><p className="eyebrow">INDEPENDENT OBSERVER / MEMBER FILE</p><p className="member-gallery-index">{member.nameEn} / {String(items.length).padStart(2, "0")} RECORDS</p><h1>{member.name}</h1><p>彼女に紐づく日常の記録。複数人の記録は、それぞれのファイルから同じ一枚を参照する。</p></header><div className="member-gallery-grid">{items.map((item) => <button type="button" key={item.record} className="member-gallery-thumb" aria-label={`${item.record} ${item.title}を拡大`} onClick={() => { setActive(item); track("gallery_image_click", item.category); }}><img src={assetUrl(item.image)} alt={item.alt} loading="lazy" /><span><small>{item.record}</small><strong>{item.title}</strong></span></button>)}</div><Link className="member-gallery-back" href="/#gallery"><ArrowLeft size={16} /> MEMBER FILESへ戻る</Link></section>{active && <div className="lightbox gallery-lightbox" role="dialog" aria-modal="true" aria-label={active.alt} onClick={() => setActive(null)}><button aria-label="閉じる"><X /></button><img src={assetUrl(active.image)} alt={active.alt} /><aside><p>{active.record}</p><p>SUBJECT / {active.category}</p><blockquote>{active.caption}</blockquote></aside></div>}</Shell>;
 }
 
-function Home() {
+function Home({ onPlayBorderline }: { onPlayBorderline: () => void }) {
   return <Shell>
     <section className="hero" id="top"><div className="hero-media"><img src={assetUrl("/images/veil-hero-band-v6-20260725.png")} alt="バンド写真として並ぶVEILの4人。中央に雨宮玲奈、神崎瑞希、小宮ひより、白石理沙" className="hero-image" /></div><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">音楽、ビジュアル、物語を通して、4人の女性を記録するバンドプロジェクト。</p><div className="hero-actions"><a className="button primary" href="#members">MEMBERS</a><Link className="button ghost" href="/about">ABOUT VEIL</Link></div></div><span className="scroll-mark">SCROLL</span></section>
     <MembersGrid />
@@ -145,7 +148,7 @@ function Home() {
     <section className="section" id="archive"><SectionTitle eyebrow="DOCUMENTS BEFORE THE FIRST NOTE" title="VEIL ARCHIVE" copy="結成前から残る記録。" /><ArchiveCards limit={3} /><Link className="text-link section-link" href="/archive">VIEW ARCHIVE <ArrowRight size={16} /></Link></section>
     <section className="section stories" id="stories"><SectionTitle eyebrow="FICTION" title="STORIES" copy="Story Zeroの先に続く、4人それぞれの物語。" /><div className="story-strip">{members.map(m => <Link key={m.slug} href={`/stories/${m.slug.split("-")[0]}`} event="adult_story_entry"><span>{m.name}</span><small>18+ / COMING SOON</small><ArrowRight /></Link>)}</div></section>
     <section className="feature about-preview" id="about"><div><p className="eyebrow">INDEPENDENT RECORD</p><h2>ABOUT VEIL</h2><p>{aboutParagraphs[0]}</p><p>{aboutParagraphs[1]}</p><Link className="button ghost" href="/about" event="about_full_click">全文を読む</Link></div></section>
-    <section className="section two-column" id="music"><div><SectionTitle eyebrow="DISCOGRAPHY" title="MUSIC" /><p className="coming">COMING SOON</p><p>VEILの楽曲と、その背景にある物語をここに記録します。</p></div><div id="support"><SectionTitle eyebrow="KEEP THE RECORD GOING" title="SUPPORT" /><p>VEILの次の音楽、ビジュアル、物語の制作を支えるための導線です。支援サービスは準備中です。</p><button className="button disabled" onClick={() => track("support_click")}>SUPPORT — COMING SOON</button></div></section>
+    <section className="section two-column" id="music"><div><SectionTitle eyebrow="DISCOGRAPHY" title="MUSIC" /><div className="music-release-card"><div className="music-release-card__cover"><img src={assetUrl(borderlineRelease.cover)} alt="VEILのデビューシングル『Borderline』のジャケット" loading="lazy" /><span>VEIL<strong>BORDERLINE</strong></span></div><div className="music-release-card__body"><p className="music-release-card__type">{borderlineRelease.type}</p><h3>{borderlineRelease.title}</h3><p>VEILのデビューシングル。再生を押すと、画面を移動しても操作できる小さなプレイヤーが開きます。</p><button className="music-play-button" type="button" onClick={onPlayBorderline}><Play size={16} fill="currentColor" /> 再生する</button><Link className="text-link music-release-link" href="/discography" event="music_discography_click">DISCOGRAPHY <ArrowRight size={16} /></Link></div></div></div><div id="support"><SectionTitle eyebrow="KEEP THE RECORD GOING" title="SUPPORT" /><p>VEILの次の音楽、ビジュアル、物語の制作を支えるための導線です。支援サービスは準備中です。</p><button className="button disabled" onClick={() => track("support_click")}>SUPPORT — COMING SOON</button></div></section>
     <section className="section follow" id="follow"><SectionTitle eyebrow="FOLLOW THE RECORD" title="続きが気になる方へ" copy="新しい記録は、Xでお知らせします。" />{xUrl ? <a className="button primary follow-x" href={xUrl} target="_blank" rel="noreferrer" onClick={() => track("x_follow_click")}>Xで最新情報を見る <ExternalLink size={16} /></a> : <button className="button disabled follow-x" type="button">X — COMING SOON</button>}</section>
     <section className="adult-external"><div><p className="eyebrow">EXTERNAL 18+ CONTENT</p><h2>より奥の記録へ</h2><p className="coming">COMING SOON</p><p>成人向けコンテンツと外部サービスへの導線は現在準備中です。18歳未満の方は利用できません。</p></div></section>
   </Shell>;
@@ -154,6 +157,10 @@ function Home() {
 function ArchiveCards({ limit }: { limit?: number }) {
   const [active, setActive] = useState<(typeof archiveItems)[number] | null>(null);
   return <><div className="archive-grid">{archiveItems.slice(0, limit).map(a => <article className="archive-card" key={a.id}>{a.image && <button className="archive-image" type="button" onClick={() => { setActive(a); track("archive_image_open", a.id); }}><img src={assetUrl(a.image)} alt={`${a.title}の資料画像を拡大`} loading="lazy" /><span>CLICK TO ENLARGE</span></button>}<div className="paper"><p className="doc-type">{a.type}</p><h3>{a.title}</h3><p>{a.body}</p><dl><div><dt>DATE</dt><dd>{a.date}</dd></div><div><dt>AUTHOR</dt><dd>{a.author}</dd></div><div><dt>RELATED</dt><dd>{a.related}</dd></div></dl></div></article>)}</div>{active?.image && <div className="lightbox" role="dialog" aria-modal="true" aria-label={active.title} onClick={() => setActive(null)}><button type="button" aria-label="閉じる"><X /></button><img src={assetUrl(active.image)} alt={active.title} /></div>}</>;
+}
+
+function DiscographyPage({ onPlayBorderline }: { onPlayBorderline: () => void }) {
+  return <Shell><PageHero eyebrow="DISCOGRAPHY" title="MUSIC" copy="VEILの音楽と、その制作に関する記録。" /><article className="page-section music-release-page"><section className="music-release-detail" aria-labelledby="borderline-title"><div className="music-release-detail__cover"><img src={assetUrl(borderlineRelease.cover)} alt="VEILのデビューシングル『Borderline』のジャケット" /><span>VEIL<strong>BORDERLINE</strong></span></div><div className="music-release-detail__copy"><p className="music-release-detail__type">{borderlineRelease.type} / {borderlineRelease.duration}</p><h2 id="borderline-title">{borderlineRelease.title}</h2><p>VEILのデビューシングル。再生は自動では始まりません。下のボタンから開く小さなプレイヤーは、サイト内のどのページへ移動しても使えます。</p><button className="music-play-button" type="button" onClick={onPlayBorderline}><Play size={16} fill="currentColor" /> Borderlineを再生する</button></div></section></article></Shell>;
 }
 
 function PageHero({ eyebrow, title, copy, image }: { eyebrow: string; title: string; copy: string; image?: string }) { return <header className={`page-hero ${image ? "has-image" : ""}`}>{image && <img src={assetUrl(image)} alt="" />}<div><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{copy}</p></div></header>; }
@@ -273,16 +280,26 @@ function LegalPage({ type }: { type: string }) {
 
 function NotFound() { return <Shell><section className="not-found"><p>404</p><h1>RECORD NOT FOUND</h1><Link className="button ghost" href="/">VEILへ戻る</Link></section></Shell>; }
 
-function setMeta(path: string) { const name = path === "/" ? "VEIL OFFICIAL SITE" : path === "/admin" ? "VEIL LOCAL EDITOR" : path.includes("formation") ? "VEILが始まるまで" : path.includes("archive") ? "VEIL ARCHIVE" : path.includes("about") ? "ABOUT VEIL" : "VEIL"; document.title = `${name} | VEIL`; const desc = document.querySelector('meta[name="description"]'); desc?.setAttribute("content", "VEILは、架空の成人女性4人によるバンドプロジェクト。音楽、ビジュアル、物語、結成資料を公開します。"); let canonical = document.querySelector('link[rel="canonical"]'); if (!canonical) { canonical = document.createElement("link"); canonical.setAttribute("rel", "canonical"); document.head.appendChild(canonical); } canonical.setAttribute("href", `${siteUrl}${path}`); }
+function setMeta(path: string) { const name = path === "/" ? "VEIL OFFICIAL SITE" : path === "/admin" ? "VEIL LOCAL EDITOR" : path === "/discography" ? "DISCOGRAPHY" : path.includes("formation") ? "VEILが始まるまで" : path.includes("archive") ? "VEIL ARCHIVE" : path.includes("about") ? "ABOUT VEIL" : "VEIL"; document.title = `${name} | VEIL`; const desc = document.querySelector('meta[name="description"]'); desc?.setAttribute("content", "VEILは、架空の成人女性4人によるバンドプロジェクト。音楽、ビジュアル、物語、結成資料を公開します。"); let canonical = document.querySelector('link[rel="canonical"]'); if (!canonical) { canonical = document.createElement("link"); canonical.setAttribute("rel", "canonical"); document.head.appendChild(canonical); } canonical.setAttribute("href", `${siteUrl}${path}`); }
 
 export default function App() {
   const [path, setPath] = useState(routeFromLocation);
+  const [isMusicPlayerOpen, setIsMusicPlayerOpen] = useState(false);
+  const [hasMusicPlayerBeenOpened, setHasMusicPlayerBeenOpened] = useState(false);
+  const audioPlayerRef = useRef<AudioPlayerHandle>(null);
+  const playBorderline = useCallback(() => {
+    setHasMusicPlayerBeenOpened(true);
+    setIsMusicPlayerOpen(true);
+    track("music_release_open", borderlineRelease.id);
+    audioPlayerRef.current?.play();
+  }, []);
   useEffect(() => { const fn = () => setPath(routeFromLocation()); addEventListener("popstate", fn); return () => removeEventListener("popstate", fn); }, []);
   useEffect(() => setMeta(path), [path]);
   const page = useMemo(() => {
     if (path === "/admin") return <LocalAdmin members={members} publishedStories={serialStories} />;
-    if (path === "/") return <Home />;
+    if (path === "/") return <Home onPlayBorderline={playBorderline} />;
     if (path === "/about") return <AboutPage />;
+    if (path === "/discography") return <DiscographyPage onPlayBorderline={playBorderline} />;
     if (path === "/gallery") return <Shell><GalleryDirectory /></Shell>;
     const galleryMember = members.find(m => path === `/gallery/${m.slug.split("-")[0]}`); if (galleryMember) return <MemberGalleryPage member={galleryMember} />;
     if (path === "/archive") return <ArchivePage />;
@@ -293,6 +310,6 @@ export default function App() {
     const story = members.find(m => path === `/stories/${m.slug.split("-")[0]}`); if (story) return <AdultStoryPage member={story} />;
     if (path.startsWith("/legal/")) return <LegalPage type={path.split("/").pop() || ""} />;
     return <NotFound />;
-  }, [path]);
-  return page;
+  }, [path, playBorderline]);
+  return <>{page}<PersistentAudioPlayer ref={audioPlayerRef} release={borderlineRelease} audioSrc={assetUrl(borderlineRelease.audio)} coverSrc={assetUrl(borderlineRelease.cover)} isOpen={isMusicPlayerOpen} hasBeenOpened={hasMusicPlayerBeenOpened} onOpen={() => { setHasMusicPlayerBeenOpened(true); setIsMusicPlayerOpen(true); }} onMinimize={() => setIsMusicPlayerOpen(false)} onTrack={track} /></>;
 }
