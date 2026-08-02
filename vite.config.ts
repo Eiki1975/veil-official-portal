@@ -13,13 +13,16 @@ const privateImagesDir = join(privateDir, "images");
 const revisionsDir = join(privateDir, "revisions");
 const draftsPath = join(privateDir, "story-drafts.json");
 const publishedPath = join(rootDir, "src", "content", "serial-stories.json");
+const publishedIndexPath = join(rootDir, "src", "content", "serial-stories-index.json");
 const publicImagesDir = join(rootDir, "public", "images", "stories");
+const storyDataDir = join(rootDir, "public", "story-data");
 
 async function ensureAdminFolders() {
   await Promise.all([
     mkdir(privateImagesDir, { recursive: true }),
     mkdir(revisionsDir, { recursive: true }),
     mkdir(publicImagesDir, { recursive: true }),
+    mkdir(storyDataDir, { recursive: true }),
   ]);
 }
 
@@ -97,7 +100,7 @@ function safeFilename(value: unknown) {
 
 function safeImageSource(value: unknown) {
   const source = safeText(value, 240);
-  return /^\/images\/[A-Za-z0-9._/-]+$/.test(source) && !source.includes("..") ? source : "";
+  return /^\/images\/[A-Za-z0-9._/-]+(?:\?v=[A-Za-z0-9._-]{1,80})?$/.test(source) && !source.includes("..") ? source : "";
 }
 
 function normalizeStories(value: unknown): DraftStory[] {
@@ -134,6 +137,18 @@ function normalizeStories(value: unknown): DraftStory[] {
 function visualInsertIndexes(body: string, imageCount: number) {
   const candidates = body.replace(/\f/g, "").split("\n").map((line, index) => ({ value: line.trim(), index })).filter(({ value }) => value && value !== "PROLOGUE" && !value.endsWith("編") && !/^第[一二三四五六七八九十]+章/.test(value));
   return Array.from({ length: imageCount }, (_, index) => candidates[Math.min(candidates.length - 1, Math.floor(((index + 1) * candidates.length) / (imageCount + 1)))]?.index).filter((index): index is number => typeof index === "number");
+}
+
+function storyIndex(stories: Array<Record<string, unknown>>) {
+  return stories.map((story) => ({
+    id: safeId(story.id),
+    memberSlug: safeText(story.memberSlug, 80),
+    season: Math.max(1, Math.min(99, Number(story.season) || 1)),
+    episode: Math.max(1, Math.min(99, Number(story.episode) || 1)),
+    title: safeText(story.title, 160),
+    updatedAt: safeText(story.updatedAt, 80),
+    contentUrl: `/story-data/${safeId(story.id)}.json`,
+  })).filter((story) => story.id && story.memberSlug && story.title);
 }
 
 function localAdminPlugin() {
@@ -213,6 +228,8 @@ function localAdminPlugin() {
             await writeFile(join(revisionFolder, revisionName), `${JSON.stringify({ savedAt: new Date().toISOString(), storyId: publishedId, previous, next: publicStory }, null, 2)}\n`, "utf8");
             const next = [...published.filter((entry) => entry.id !== publishedId), publicStory].sort((a, b) => String(a.memberSlug).localeCompare(String(b.memberSlug)) || Number(a.season) - Number(b.season) || Number(a.episode) - Number(b.episode));
             await writeFile(publishedPath, `${JSON.stringify(next, null, 2)}\n`, "utf8");
+            await writeFile(join(storyDataDir, `${publishedId}.json`), `${JSON.stringify(publicStory, null, 2)}\n`, "utf8");
+            await writeFile(publishedIndexPath, `${JSON.stringify(storyIndex(next), null, 2)}\n`, "utf8");
             return send(res, 200, { story: publicStory });
           }
           return send(res, 404, { error: "見つかりません。" });

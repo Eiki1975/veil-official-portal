@@ -11,4 +11,6 @@ dist/
 drive_refs/
 *.tgz
 public/images/*-portrait.png
+public/story-data/
+src/content/serial-stories-index.json
 .DS_Store

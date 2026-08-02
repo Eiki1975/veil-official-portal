@@ -4,6 +4,7 @@ type MemberOption = { slug: string; name: string; nameEn: string };
 type StoryImage = { id: string; filename?: string; source?: string; alt: string; caption: string; preview?: string };
 type StoryDraft = { id: string; sourceStoryId?: string; memberSlug: string; season: number; episode: number; title: string; body: string; images: StoryImage[]; updatedAt: string };
 type PublishedStory = { id: string; memberSlug: string; season: number; episode: number; title: string; body: string; images: Array<{ id: string; image: string; alt: string; caption: string }>; updatedAt: string };
+type PublishedStorySummary = Omit<PublishedStory, "body" | "images"> & { contentUrl: string };
 
 const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
 const draftId = () => `story-${crypto.randomUUID()}`;
@@ -21,6 +22,18 @@ const copyPublishedStory = (story: PublishedStory): StoryDraft => ({
 });
 const previewUrl = (image: StoryImage) => image.preview || image.source || (image.filename ? `/__veil-admin/media/${image.filename}` : "");
 
+const isPublishedStory = (value: unknown, summary: PublishedStorySummary): value is PublishedStory => {
+  if (!value || typeof value !== "object") return false;
+  const story = value as Partial<PublishedStory>;
+  return story.id === summary.id
+    && story.memberSlug === summary.memberSlug
+    && story.season === summary.season
+    && story.episode === summary.episode
+    && story.title === summary.title
+    && typeof story.body === "string"
+    && Array.isArray(story.images);
+};
+
 async function asDataUrl(file: File) {
   return await new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -30,7 +43,7 @@ async function asDataUrl(file: File) {
   });
 }
 
-export function LocalAdmin({ members, publishedStories }: { members: MemberOption[]; publishedStories: PublishedStory[] }) {
+export function LocalAdmin({ members, publishedStories }: { members: MemberOption[]; publishedStories: PublishedStorySummary[] }) {
   const [stories, setStories] = useState<StoryDraft[]>([]);
   const [selectedId, setSelectedId] = useState<string>("");
   const [notice, setNotice] = useState("読み込み中です…");
@@ -79,18 +92,30 @@ export function LocalAdmin({ members, publishedStories }: { members: MemberOptio
     setNotice("新しい下書きを作りました。タイトルと本文を入力してください。");
   };
 
-  const openPublishedForEditing = (published: PublishedStory) => {
+  const openPublishedForEditing = async (published: PublishedStorySummary) => {
     const existing = stories.find((story) => story.sourceStoryId === published.id);
     if (existing) {
       setSelectedId(existing.id);
       setNotice("この記録の編集用コピーを開きました。元の正本ファイルは変更しません。");
       return;
     }
-    const copied = copyPublishedStory(published);
-    const next = [...stories, copied];
-    setStories(next);
-    setSelectedId(copied.id);
-    void persist(next, "公開済みの記録を編集用コピーとして開きました。元の正本ファイルは変更しません。");
+    setBusy(true);
+    setNotice("公開済みの記録を開いています…");
+    try {
+      const response = await fetch(published.contentUrl);
+      if (!response.ok) throw new Error("公開済みの本文を読み込めませんでした。");
+      const content: unknown = await response.json();
+      if (!isPublishedStory(content, published)) throw new Error("公開済みの本文データを確認できませんでした。");
+      const copied = copyPublishedStory(content);
+      const next = [...stories, copied];
+      setStories(next);
+      setSelectedId(copied.id);
+      await persist(next, "公開済みの記録を編集用コピーとして開きました。元の正本ファイルは変更しません。");
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "公開済みの記録を開けませんでした。");
+    } finally {
+      setBusy(false);
+    }
   };
 
   const storeImage = async (file: File) => {
@@ -181,7 +206,7 @@ export function LocalAdmin({ members, publishedStories }: { members: MemberOptio
         {publishedStories.map((story) => {
           const member = members.find((entry) => entry.slug === story.memberSlug);
           const existing = stories.find((draft) => draft.sourceStoryId === story.id);
-          return <article className="admin-published-row" key={story.id}><small>SEASON {String(story.season).padStart(2, "0")} / EPISODE {String(story.episode).padStart(2, "0")}</small><strong>{story.title}</strong><span>{member?.name || "人物未設定"}</span><button onClick={() => openPublishedForEditing(story)} disabled={busy}>{existing ? "編集用コピーを開く" : "編集する"}</button></article>;
+          return <article className="admin-published-row" key={story.id}><small>SEASON {String(story.season).padStart(2, "0")} / EPISODE {String(story.episode).padStart(2, "0")}</small><strong>{story.title}</strong><span>{member?.name || "人物未設定"}</span><button onClick={() => { void openPublishedForEditing(story); }} disabled={busy}>{existing ? "編集用コピーを開く" : "編集する"}</button></article>;
         })}
         <p className="admin-list-label">下書き</p>
         {stories.length === 0 && <p className="admin-empty">まだ下書きはありません。</p>}

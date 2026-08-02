@@ -2,10 +2,9 @@ import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "rea
 import { ArrowLeft, ArrowRight, ArrowUp, ExternalLink, Menu, Play, X } from "lucide-react";
 import { aboutParagraphs, archiveItems, galleryGroups, members, navItems, news, siteUrl, type GalleryItem, type Member } from "./data/veilContent";
 import { borderlineRelease } from "./data/music";
+import { serialStories, type SerialStory, type SerialStoryImage, type SerialStorySummary } from "./data/serialStories";
 import { PersistentAudioPlayer, type AudioPlayerHandle } from "./AudioPlayer";
 import "./styles/music-player.css";
-import serialStoriesData from "./content/serial-stories.json";
-import canonicalEpisode01Source from "./content/season-01-reina-episode-01-canonical-published-20260727.md?raw";
 import { LocalAdmin } from "./LocalAdmin";
 import prologue from "./content/prologue.md?raw";
 import reinaStory from "./content/story-zero/reina.md?raw";
@@ -20,32 +19,13 @@ const storyZero: Record<string, string> = {
   "risa-shiraishi": risaStory,
 };
 
-type SerialStoryImage = { id: string; alt: string; caption: string; image: string; after?: string; afterIndex?: number };
-type SerialStory = { id: string; memberSlug: string; season: number; episode: number; title: string; body: string; images: SerialStoryImage[]; updatedAt: string };
-const canonicalEpisode01Body = canonicalEpisode01Source.split(/^## 本文\s*$/m)[1]?.trim() || "";
-const canonicalEpisode01: SerialStory = {
-  id: "season-01-reina-episode-01-canonical-20260727",
-  memberSlug: "reina-amamiya",
-  season: 1,
-  episode: 1,
-  title: "見られたあと",
-  body: canonicalEpisode01Body,
-  updatedAt: "2026-07-27",
-  images: [
-    { id: "ep01-01-ladder-hem", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/01-ladder-hem-v2-small-livehouse.png", alt: "小さなライブハウスの脚立に立ち、壁のテープへ手を伸ばす雨宮玲奈", caption: "ILLUSTRATION 01 / 見られたあと", after: "見られていると気づいたあとも、玲奈はスカートの裾を直さなかった。" },
-    { id: "ep01-06-heels-off", image: "/images/stories/season-01-reina/episode-01-visual-records-20260727/06-heels-off-closeup-20260727.png?v=20260727", alt: "ヒールを手に持ち、肌色のストッキングの足で脚立へ上がる前の雨宮玲奈", caption: "VISUAL RECORD 06 / HEELS OFF", after: "ヒールを脱ぐと、急に背が低くなった気がした。" },
-    { id: "ep01-02-unseen-gaze", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/02-unseen-gaze-v2-small-livehouse.png", alt: "小規模ライブハウスの暗がりを背に、壁のテープを剥がす雨宮玲奈", caption: "ILLUSTRATION 02 / 見えない視線", after: "見えないのに、まだ見られていると分かった。" },
-    { id: "ep01-03-first-lie", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/03-first-lie-v2-small-livehouse.png", alt: "小さなライブハウスの機材脇で、スカートの裾を整える雨宮玲奈", caption: "ILLUSTRATION 03 / 最初の嘘", after: "ただ、赤くなった理由の全部ではなかった。" },
-    { id: "ep01-04-closed-door", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/04-closed-door.png", alt: "閉じた楽屋の扉を見つめ、衣装を抱える雨宮玲奈", caption: "ILLUSTRATION 04 / 閉じた扉", after: "そのあとで、ほんの少しだけ失望した。" },
-    { id: "ep01-07-self-confrontation", image: "/images/stories/season-01-reina/episode-01-visual-records-20260727/07-self-confrontation-20260727.png?v=20260727", alt: "楽屋で自分を睨むように正面を見つめる雨宮玲奈", caption: "VISUAL RECORD 07 / SELF CONFRONTATION", after: "その考えが浮かび、玲奈は自分の顔を睨んだ。" },
-    { id: "ep01-08-exit-smile", image: "/images/stories/season-01-reina/episode-01-visual-records-20260727/08-exit-practiced-smile-20260727.png?v=20260727", alt: "小さなライブハウスの出口で、いつもの笑顔を戻す雨宮玲奈", caption: "VISUAL RECORD 08 / EXIT", after: "玲奈はいつもの笑顔で頭を下げた。" },
-    { id: "ep01-05-night-turn", image: "/images/stories/season-01-reina/episode-01-illustrations-20260727/05-night-turn-v2-sheer-stockings.png", alt: "夜の小さなライブハウスの前で振り返る雨宮玲奈", caption: "ILLUSTRATION 05 / 振り返る", after: "あの男が、もう一度自分を見るかどうかだった。" },
-  ],
+const englishEpisodeRouteByStoryId: Record<string, string> = {
+  "season-01-reina-episode-01-canonical-20260727": "/en/stories/reina/season-1/episode-1/",
 };
-const storedSerialStories = serialStoriesData as SerialStory[];
-const canonicalEpisode01Revision = storedSerialStories.find((story) => story.id === canonicalEpisode01.id);
-const serialStories = [canonicalEpisode01Revision || canonicalEpisode01, ...storedSerialStories.filter((story) => story.id !== canonicalEpisode01.id)];
-const firstPublishedStoryByMember = new Map<string, SerialStory>();
+const englishEpisodeRouteByJapanesePath: Record<string, string> = {
+  "/stories/reina/season-1/episode-1": "/en/stories/reina/season-1/episode-1/",
+};
+const firstPublishedStoryByMember = new Map<string, SerialStorySummary>();
 serialStories
   .slice()
   .sort((a, b) => a.season - b.season || a.episode - b.episode)
@@ -258,11 +238,63 @@ function StoryVisualReview({ story, member }: { story: SerialStory; member: Memb
   return <section className="serial-story-review" aria-labelledby="story-visual-review-title"><header><p className="eyebrow">VISUAL INDEX / AFTER READING</p><h2 id="story-visual-review-title">この記録を見返す</h2><p>読み終えたあとに残った場面を、好きな順番でもう一度。</p></header><div className="serial-story-review-grid">{story.images.map((image, index) => <button type="button" key={image.id} onClick={() => setActive(image)} aria-label={`${image.caption || `画像 ${index + 1}`}を大きく見る`}><img src={assetUrl(image.image)} alt={image.alt || `${member.name}の記録画像 ${index + 1}`} loading="lazy" /><span><small>{`VISUAL ${String(index + 1).padStart(2, "0")}`}</small><strong>{image.caption || "RECORD"}</strong></span></button>)}</div>{active && <div className="lightbox serial-story-lightbox" role="dialog" aria-modal="true" aria-label={active.alt || "記録画像"} onClick={() => setActive(null)}><article onClick={(event) => event.stopPropagation()}><button type="button" aria-label="閉じる" onClick={() => setActive(null)}><X /></button><img src={assetUrl(active.image)} alt={active.alt || `${member.name}の記録画像`} /><p>{active.caption || "VISUAL RECORD"}</p></article></div>}</section>;
 }
 
-function SerialStoryPage({ story, member }: { story: SerialStory; member: Member }) {
+function isStoryContent(value: unknown, summary: SerialStorySummary): value is SerialStory {
+  if (!value || typeof value !== "object") return false;
+  const story = value as Partial<SerialStory>;
+  return story.id === summary.id
+    && story.memberSlug === summary.memberSlug
+    && story.season === summary.season
+    && story.episode === summary.episode
+    && story.title === summary.title
+    && typeof story.body === "string"
+    && Array.isArray(story.images);
+}
+
+function useSerialStoryContent(summary: SerialStorySummary, enabled: boolean, attempt: number) {
+  const [story, setStory] = useState<SerialStory | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!enabled) {
+      setStory(null);
+      setLoading(false);
+      setError("");
+      return;
+    }
+    const controller = new AbortController();
+    setStory(null);
+    setLoading(true);
+    setError("");
+    fetch(assetUrl(summary.contentUrl), { signal: controller.signal })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("本文を読み込めませんでした。");
+        const content: unknown = await response.json();
+        if (!isStoryContent(content, summary)) throw new Error("本文データを確認できませんでした。");
+        if (!controller.signal.aborted) setStory(content);
+      })
+      .catch((reason: unknown) => {
+        if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : "本文を読み込めませんでした。");
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [attempt, enabled, summary]);
+
+  return { story, loading, error };
+}
+
+function SerialStoryPage({ story: summary, member }: { story: SerialStorySummary; member: Member }) {
   const key = `veil-age-ok-${member.slug}`;
   const [ok, setOk] = useState(() => localStorage.getItem(key) === "yes");
+  const [loadAttempt, setLoadAttempt] = useState(0);
+  const { story, loading, error } = useSerialStoryContent(summary, ok, loadAttempt);
+  const englishRoute = englishEpisodeRouteByStoryId[summary.id];
   if (!ok) return <Shell><section className="age-gate"><p className="eyebrow">18+ CONTENT NOTICE</p><h1>この先の物語について</h1><p>この先の物語には、成人向けの表現が含まれます。18歳未満の方は閲覧できません。同意状態はこの端末内にのみ保存されます。</p><div><button className="button primary" onClick={() => { localStorage.setItem(key, "yes"); setOk(true); track("age_gate_accept", member.slug); }}>18歳以上です</button><button className="button ghost" onClick={() => history.back()}>戻る</button></div></section></Shell>;
-  return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(story.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(story.episode).padStart(2, "0")} / 08</small><h1>{story.title}</h1><strong className="serial-story-disclosure">18+ / FICTION / AI-ASSISTED ILLUSTRATIONS</strong><span>登場人物は全員成人です。本文には成人向け表現を、挿絵にはAI生成画像を含みます。</span></header><div className="serial-story-layout"><StoryText text={story.body} illustrations={story.images} /><aside className="serial-story-images">{story.images.map((image, index) => <figure key={image.id}><img src={assetUrl(image.image)} alt={image.alt || `${member.name}の記録画像 ${index + 1}`} loading="lazy" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>)}</aside></div><StoryVisualReview story={story} member={member} /><nav className="serial-story-next"><Link href={`/stories/${member.slug.split("-")[0]}`}><ArrowLeft /> 物語一覧へ</Link><span>NEXT RECORD — COMING SOON</span></nav></article></Shell>;
+  if (loading || !story && !error) return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(summary.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(summary.episode).padStart(2, "0")} / 08</small><h1>{summary.title}</h1></header><p className="serial-story-load-state">本文を開いています…</p></article></Shell>;
+  if (!story) return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(summary.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(summary.episode).padStart(2, "0")} / 08</small><h1>{summary.title}</h1></header><div className="serial-story-load-state"><p>{error || "本文を読み込めませんでした。"}</p><button className="button ghost" onClick={() => setLoadAttempt((value) => value + 1)}>もう一度読み込む</button></div></article></Shell>;
+  return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(story.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(story.episode).padStart(2, "0")} / 08</small><h1>{story.title}</h1><strong className="serial-story-disclosure">18+ / FICTION / AI-ASSISTED ILLUSTRATIONS</strong><span>登場人物は全員成人です。本文には成人向け表現を、挿絵にはAI生成画像を含みます。</span>{englishRoute && <nav className="serial-story-language-switch" aria-label="この話の言語を選択"><span aria-current="page">日本語</span><a href={routeUrl(englishRoute)}>EN</a></nav>}</header><div className="serial-story-layout"><StoryText text={story.body} illustrations={story.images} /><aside className="serial-story-images">{story.images.map((image, index) => <figure key={image.id}><img src={assetUrl(image.image)} alt={image.alt || `${member.name}の記録画像 ${index + 1}`} loading="lazy" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>)}</aside></div><StoryVisualReview story={story} member={member} /><nav className="serial-story-next"><Link href={`/stories/${member.slug.split("-")[0]}`}><ArrowLeft /> 物語一覧へ</Link><span>NEXT RECORD — COMING SOON</span></nav></article></Shell>;
 }
 
 function LegalPage({ type }: { type: string }) {
@@ -280,7 +312,27 @@ function LegalPage({ type }: { type: string }) {
 
 function NotFound() { return <Shell><section className="not-found"><p>404</p><h1>RECORD NOT FOUND</h1><Link className="button ghost" href="/">VEILへ戻る</Link></section></Shell>; }
 
-function setMeta(path: string) { const name = path === "/" ? "VEIL OFFICIAL SITE" : path === "/admin" ? "VEIL LOCAL EDITOR" : path === "/discography" ? "DISCOGRAPHY" : path.includes("formation") ? "VEILが始まるまで" : path.includes("archive") ? "VEIL ARCHIVE" : path.includes("about") ? "ABOUT VEIL" : "VEIL"; document.title = `${name} | VEIL`; const desc = document.querySelector('meta[name="description"]'); desc?.setAttribute("content", "VEILは、架空の成人女性4人によるバンドプロジェクト。音楽、ビジュアル、物語、結成資料を公開します。"); let canonical = document.querySelector('link[rel="canonical"]'); if (!canonical) { canonical = document.createElement("link"); canonical.setAttribute("rel", "canonical"); document.head.appendChild(canonical); } canonical.setAttribute("href", `${siteUrl}${path}`); }
+function setMeta(path: string) {
+  const englishRoute = englishEpisodeRouteByJapanesePath[path];
+  const name = englishRoute ? "第1話 見られたあと" : path === "/" ? "VEIL OFFICIAL SITE" : path === "/admin" ? "VEIL LOCAL EDITOR" : path === "/discography" ? "DISCOGRAPHY" : path.includes("formation") ? "VEILが始まるまで" : path.includes("archive") ? "VEIL ARCHIVE" : path.includes("about") ? "ABOUT VEIL" : "VEIL";
+  document.title = `${name} | VEIL`;
+  const desc = document.querySelector('meta[name="description"]');
+  desc?.setAttribute("content", englishRoute ? "VEILの雨宮玲奈 Season 01 第1話『見られたあと』。登場人物は全員成人です。" : "VEILは、架空の成人女性4人によるバンドプロジェクト。音楽、ビジュアル、物語、結成資料を公開します。");
+  let canonical = document.querySelector('link[rel="canonical"]');
+  if (!canonical) { canonical = document.createElement("link"); canonical.setAttribute("rel", "canonical"); document.head.appendChild(canonical); }
+  canonical.setAttribute("href", `${siteUrl}${path}`);
+  document.querySelectorAll('link[data-veil-hreflang]').forEach((link) => link.remove());
+  if (englishRoute) {
+    [["ja", path], ["en", englishRoute], ["x-default", "/en/start/"]].forEach(([lang, href]) => {
+      const link = document.createElement("link");
+      link.setAttribute("rel", "alternate");
+      link.setAttribute("hreflang", lang);
+      link.setAttribute("href", `${siteUrl}${href}`);
+      link.dataset.veilHreflang = "true";
+      document.head.appendChild(link);
+    });
+  }
+}
 
 export default function App() {
   const [path, setPath] = useState(routeFromLocation);

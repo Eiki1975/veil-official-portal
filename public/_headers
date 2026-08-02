@@ -12,6 +12,12 @@
 /stories/*
   X-Robots-Tag: noindex, nofollow
 
+/en/stories/*
+  X-Robots-Tag: noindex, nofollow
+
+/story-data/*
+  X-Robots-Tag: noindex, nofollow
+
 /admin
   X-Robots-Tag: noindex, nofollow
 
