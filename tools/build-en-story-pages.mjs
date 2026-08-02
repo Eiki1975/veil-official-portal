@@ -16,15 +16,19 @@ function extractEnglishText(source) {
   return match[1].trim().split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean);
 }
 
-const episode = {
-  source: "src/content/season-01-reina-episode-01-en-20260802.md",
-  output: "public/en/stories/reina/season-1/episode-1/index.html",
-  jpUrl: "/stories/reina/season-1/episode-1",
-  enUrl: "/en/stories/reina/season-1/episode-1/",
-  title: "After Being Seen",
-  description: "After a VEIL show, Reina Amamiya notices a gaze she cannot explain away. An adult fictional episode from VEIL.",
-  ogImage: "/images/stories/season-01-reina/episode-01-illustrations-20260727/01-ladder-hem-v2-small-livehouse.png",
-  images: [
+const episodes = [
+  {
+    storyId: "season-01-reina-episode-01-canonical-20260727",
+    episode: 1,
+    source: "src/content/season-01-reina-episode-01-en-20260802.md",
+    output: "public/en/stories/reina/season-1/episode-1/index.html",
+    jpUrl: "/stories/reina/season-1/episode-1",
+    enUrl: "/en/stories/reina/season-1/episode-1/",
+    title: "After Being Seen",
+    description: "After a VEIL show, Reina Amamiya notices a gaze she cannot explain away. An adult fictional episode from VEIL.",
+    ogImage: "/images/stories/season-01-reina/episode-01-illustrations-20260727/01-ladder-hem-v2-small-livehouse.png",
+    ogImageAlt: "Reina Amamiya reaches toward tape on a wall after a VEIL show.",
+    images: [
     {
       id: "ep01-06-heels-off",
       alt: "Reina Amamiya holds her heels before climbing a ladder in sheer skin-tone stockings.",
@@ -85,28 +89,59 @@ const episode = {
       caption: "VISUAL RECORD 08 / EXIT",
       after: "Reina dipped her head with her usual smile.",
     },
-  ],
-};
+    ],
+  },
+  {
+    storyId: "season-01-reina-episode-02-canonical-20260802",
+    episode: 2,
+    source: "src/content/season-01-reina-episode-02-en-20260802.md",
+    output: "public/en/stories/reina/season-1/episode-2/index.html",
+    jpUrl: "/stories/reina/season-1/episode-2",
+    enUrl: "/en/stories/reina/season-1/episode-2/",
+    title: "The Second Look",
+    description: "At a shared-bill show, Reina Amamiya cannot stop returning to the moment she saw more than she meant to. An adult fictional episode from VEIL.",
+    ogImage: "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc01-dressing-room-doorway-v1.png?v=20260802",
+    ogImageAlt: "Reina Amamiya pauses at a dressing-room door before a VEIL show.",
+    images: [
+      { id: "ep02-01-dressing-room-doorway", alt: "Reina Amamiya pauses at a dressing-room door in a small live-music club.", caption: "VISUAL RECORD 01 / THE DOOR", afterIndex: 8 },
+      { id: "ep02-02-dressing-room-glimpse", alt: "Reina sees an anonymous drummer’s back through the dressing-room doorway.", caption: "VISUAL RECORD 02 / CURTAIN GAP", afterIndex: 13 },
+      { id: "ep02-03-turned-away", alt: "Reina lowers her gaze in the dressing room, trying to hide her discomposure.", caption: "VISUAL RECORD 03 / TURNED AWAY", afterIndex: 22 },
+      { id: "ep02-04-mirror-glance", alt: "Reina catches a partial view of her own face in the edge of a backstage mirror.", caption: "VISUAL RECORD 04 / SECOND LOOK", afterIndex: 40 },
+      { id: "ep02-06-stage-performance", alt: "Reina sings into a microphone on the intimate stage of a small live-music club.", caption: "VISUAL RECORD 05 / HOLD THE NOTE", afterIndex: 59 },
+      { id: "ep02-09-train-message", alt: "Reina sits beside a dark train window after the show, holding a phone with its screen unreadable.", caption: "VISUAL RECORD 06 / THE WAY HOME", afterIndex: 96 },
+      { id: "ep02-08-night-heat", alt: "Reina sits alone on her bed at night, eyes closed as she tries to settle herself.", caption: "VISUAL RECORD 07 / NIGHT HEAT", afterIndex: 123 },
+      { id: "ep02-11-afterglow", alt: "Reina rests against a pillow in the quiet after the night’s unresolved heat.", caption: "VISUAL RECORD 08 / AFTERGLOW", afterIndex: 158 },
+    ],
+  },
+];
 
 function figureHtml(image, className = "story-figure") {
   return `<figure class="${className}" id="visual-${escapeHtml(image.id)}"><img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" loading="lazy" /><figcaption>${escapeHtml(image.caption)}</figcaption></figure>`;
 }
 
 function storyHtml(paragraphs, images) {
-  const pending = new Map(images.map((image) => [image.after, image]));
-  const body = paragraphs.map((paragraph) => {
+  const pending = new Map(images.filter((image) => typeof image.after === "string").map((image) => [image.after, image]));
+  const imagesByIndex = new Map();
+  for (const image of images) {
+    if (!Number.isInteger(image.afterIndex)) continue;
+    const atIndex = imagesByIndex.get(image.afterIndex) || [];
+    atIndex.push(image);
+    imagesByIndex.set(image.afterIndex, atIndex);
+  }
+  const body = paragraphs.map((paragraph, index) => {
     const content = paragraph.startsWith("> ")
       ? `<blockquote>${escapeHtml(paragraph.slice(2))}</blockquote>`
       : `<p>${escapeHtml(paragraph)}</p>`;
-    const image = pending.get(paragraph);
-    if (image) pending.delete(paragraph);
-    return `${content}${image ? figureHtml(image) : ""}`;
+    const byText = pending.get(paragraph);
+    if (byText) pending.delete(paragraph);
+    const visuals = [...(imagesByIndex.get(index) || []), ...(byText ? [byText] : [])];
+    return `${content}${visuals.map((image) => figureHtml(image)).join("")}`;
   }).join("\n");
   if (pending.size) throw new Error(`Missing story anchors: ${[...pending.keys()].join(" | ")}`);
   return body;
 }
 
-function pageHtml(paragraphs, images) {
+function pageHtml(episode, paragraphs, images) {
   const story = storyHtml(paragraphs, images);
   const visuals = images.map((image) => figureHtml(image, "visual-index-figure")).join("\n");
   const review = images.map((image, index) => `<a href="#visual-${escapeHtml(image.id)}" class="review-card"><img src="${escapeHtml(image.src)}" alt="" loading="lazy" /><span><small>VISUAL ${String(index + 1).padStart(2, "0")}</small><strong>${escapeHtml(image.caption)}</strong></span></a>`).join("\n");
@@ -136,7 +171,7 @@ function pageHtml(paragraphs, images) {
     <meta property="og:description" content="${escapeHtml(episode.description)}" />
     <meta property="og:url" content="${canonical}" />
     <meta property="og:image" content="${ogImage}" />
-    <meta property="og:image:alt" content="Reina Amamiya reaches toward tape on a wall after a VEIL show." />
+    <meta property="og:image:alt" content="${escapeHtml(episode.ogImageAlt)}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(episode.title)} — Reina Amamiya | VEIL" />
     <meta name="twitter:description" content="${escapeHtml(episode.description)}" />
@@ -157,7 +192,7 @@ function pageHtml(paragraphs, images) {
       <article class="english-story" id="english-story" hidden>
         <header class="english-story-header">
           <p>SEASON 01 — REINA AMAMIYA</p>
-          <small>EPISODE 01 / 08</small>
+          <small>EPISODE ${String(episode.episode).padStart(2, "0")} / 08</small>
           <h1>${escapeHtml(episode.title)}</h1>
           <strong>18+ / FICTION / AI-ASSISTED ILLUSTRATIONS</strong>
           <span>All characters are fictional adults. This episode contains adult-oriented psychological and sensual fiction.</span>
@@ -180,17 +215,19 @@ function pageHtml(paragraphs, images) {
 `;
 }
 
-const source = await readFile(join(root, episode.source), "utf8");
 const japaneseStories = JSON.parse(await readFile(join(root, "src/content/serial-stories.json"), "utf8"));
-const japaneseEpisode = Array.isArray(japaneseStories) && japaneseStories.find((story) => story?.id === "season-01-reina-episode-01-canonical-20260727");
-if (!japaneseEpisode || !Array.isArray(japaneseEpisode.images)) throw new Error("The published Japanese EP01 image data is missing.");
-const imageSourceById = new Map(japaneseEpisode.images.map((image) => [image?.id, image?.image]));
-const images = episode.images.map((image) => {
-  const src = imageSourceById.get(image.id);
-  if (typeof src !== "string" || !src.startsWith("/images/")) throw new Error(`Missing shared image source for ${image.id}.`);
-  return { ...image, src };
-});
-const html = pageHtml(extractEnglishText(source), images);
-const output = join(root, episode.output);
-await mkdir(dirname(output), { recursive: true });
-await writeFile(output, html, "utf8");
+for (const episode of episodes) {
+  const source = await readFile(join(root, episode.source), "utf8");
+  const japaneseEpisode = Array.isArray(japaneseStories) && japaneseStories.find((story) => story?.id === episode.storyId);
+  if (!japaneseEpisode || !Array.isArray(japaneseEpisode.images)) throw new Error(`The published Japanese image data is missing for ${episode.storyId}.`);
+  const imageSourceById = new Map(japaneseEpisode.images.map((image) => [image?.id, image?.image]));
+  const images = episode.images.map((image) => {
+    const src = imageSourceById.get(image.id);
+    if (typeof src !== "string" || !src.startsWith("/images/")) throw new Error(`Missing shared image source for ${image.id}.`);
+    return { ...image, src };
+  });
+  const html = pageHtml(episode, extractEnglishText(source), images);
+  const output = join(root, episode.output);
+  await mkdir(dirname(output), { recursive: true });
+  await writeFile(output, html, "utf8");
+}

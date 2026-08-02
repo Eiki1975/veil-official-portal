@@ -79,5 +79,72 @@
       }
     ],
     "updatedAt": "2026-07-27T11:22:50.906Z"
+  },
+  {
+    "id": "season-01-reina-episode-02-canonical-20260802",
+    "memberSlug": "reina-amamiya",
+    "season": 1,
+    "episode": 2,
+    "title": "見てしまう",
+    "bodySource": "src/content/season-01-reina-episode-02-canonical-published-20260802.md",
+    "images": [
+      {
+        "id": "ep02-01-dressing-room-doorway",
+        "alt": "小さなライブハウスの楽屋の扉に手を置く、黒いステージ衣装の雨宮玲奈",
+        "caption": "VISUAL RECORD 01 / THE DOOR",
+        "image": "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc01-dressing-room-doorway-v1.png?v=20260802",
+        "afterIndex": 16
+      },
+      {
+        "id": "ep02-02-dressing-room-glimpse",
+        "alt": "少し開いた楽屋の扉で、黒いTシャツを着ようとする対バンのドラマーの後ろ姿に目を止める雨宮玲奈",
+        "caption": "VISUAL RECORD 02 / CURTAIN GAP",
+        "image": "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc02-dressing-room-glimpse-v1.png?v=20260802",
+        "afterIndex": 26
+      },
+      {
+        "id": "ep02-03-turned-away",
+        "alt": "楽屋で目を伏せ、動揺を隠そうとする雨宮玲奈",
+        "caption": "VISUAL RECORD 03 / TURNED AWAY",
+        "image": "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc03-turned-away-v1.png?v=20260802",
+        "afterIndex": 44
+      },
+      {
+        "id": "ep02-04-mirror-glance",
+        "alt": "小さなライブハウスの姿見で、自分の横顔を見返す雨宮玲奈",
+        "caption": "VISUAL RECORD 04 / SECOND LOOK",
+        "image": "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc04-mirror-glance-v1.png?v=20260802",
+        "afterIndex": 80
+      },
+      {
+        "id": "ep02-06-stage-performance",
+        "alt": "小さなライブハウスのステージで、マイクを握って歌う雨宮玲奈",
+        "caption": "VISUAL RECORD 05 / HOLD THE NOTE",
+        "image": "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc06-stage-performance-v1.png?v=20260802",
+        "afterIndex": 120
+      },
+      {
+        "id": "ep02-09-train-message",
+        "alt": "夜の電車でスマートフォンを伏せ、窓の反射を見つめる雨宮玲奈",
+        "caption": "VISUAL RECORD 06 / THE WAY HOME",
+        "image": "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc09-train-message-v1.png?v=20260802",
+        "afterIndex": 190
+      },
+      {
+        "id": "ep02-08-night-heat",
+        "alt": "夜の寝室で、目を閉じて気持ちを鎮めようとする雨宮玲奈",
+        "caption": "VISUAL RECORD 07 / NIGHT HEAT",
+        "image": "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc08-night-heat-v1.png?v=20260802",
+        "afterIndex": 236
+      },
+      {
+        "id": "ep02-11-afterglow",
+        "alt": "夜の寝室で枕に頬を預け、目を伏せる雨宮玲奈",
+        "caption": "VISUAL RECORD 08 / AFTERGLOW",
+        "image": "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc11-afterglow-v1.png?v=20260802",
+        "afterIndex": 306
+      }
+    ],
+    "updatedAt": "2026-08-02T14:32:17Z"
   }
 ]

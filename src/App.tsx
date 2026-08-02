@@ -21,9 +21,11 @@ const storyZero: Record<string, string> = {
 
 const englishEpisodeRouteByStoryId: Record<string, string> = {
   "season-01-reina-episode-01-canonical-20260727": "/en/stories/reina/season-1/episode-1/",
+  "season-01-reina-episode-02-canonical-20260802": "/en/stories/reina/season-1/episode-2/",
 };
 const englishEpisodeRouteByJapanesePath: Record<string, string> = {
   "/stories/reina/season-1/episode-1": "/en/stories/reina/season-1/episode-1/",
+  "/stories/reina/season-1/episode-2": "/en/stories/reina/season-1/episode-2/",
 };
 const firstPublishedStoryByMember = new Map<string, SerialStorySummary>();
 serialStories
@@ -313,11 +315,12 @@ function LegalPage({ type }: { type: string }) {
 function NotFound() { return <Shell><section className="not-found"><p>404</p><h1>RECORD NOT FOUND</h1><Link className="button ghost" href="/">VEILへ戻る</Link></section></Shell>; }
 
 function setMeta(path: string) {
-  const englishRoute = englishEpisodeRouteByJapanesePath[path];
-  const name = englishRoute ? "第1話 見られたあと" : path === "/" ? "VEIL OFFICIAL SITE" : path === "/admin" ? "VEIL LOCAL EDITOR" : path === "/discography" ? "DISCOGRAPHY" : path.includes("formation") ? "VEILが始まるまで" : path.includes("archive") ? "VEIL ARCHIVE" : path.includes("about") ? "ABOUT VEIL" : "VEIL";
+  const serialStory = serialStories.find((story) => path === `/stories/${story.memberSlug.split("-")[0]}/season-${story.season}/episode-${story.episode}`);
+  const englishRoute = serialStory ? englishEpisodeRouteByStoryId[serialStory.id] : englishEpisodeRouteByJapanesePath[path];
+  const name = serialStory ? `第${serialStory.episode}話 ${serialStory.title}` : path === "/" ? "VEIL OFFICIAL SITE" : path === "/admin" ? "VEIL LOCAL EDITOR" : path === "/discography" ? "DISCOGRAPHY" : path.includes("formation") ? "VEILが始まるまで" : path.includes("archive") ? "VEIL ARCHIVE" : path.includes("about") ? "ABOUT VEIL" : "VEIL";
   document.title = `${name} | VEIL`;
   const desc = document.querySelector('meta[name="description"]');
-  desc?.setAttribute("content", englishRoute ? "VEILの雨宮玲奈 Season 01 第1話『見られたあと』。登場人物は全員成人です。" : "VEILは、架空の成人女性4人によるバンドプロジェクト。音楽、ビジュアル、物語、結成資料を公開します。");
+  desc?.setAttribute("content", serialStory && englishRoute ? `VEILの雨宮玲奈 Season 01 第${serialStory.episode}話『${serialStory.title}』。登場人物は全員成人です。` : "VEILは、架空の成人女性4人によるバンドプロジェクト。音楽、ビジュアル、物語、結成資料を公開します。");
   let canonical = document.querySelector('link[rel="canonical"]');
   if (!canonical) { canonical = document.createElement("link"); canonical.setAttribute("rel", "canonical"); document.head.appendChild(canonical); }
   canonical.setAttribute("href", `${siteUrl}${path}`);
