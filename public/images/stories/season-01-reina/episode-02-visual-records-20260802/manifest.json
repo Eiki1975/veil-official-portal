@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "episodeId": "season-01-reina-episode-02-canonical-20260802",
-  "releaseScope": "Eight approved vertical visual records for the Japanese and English EP02 pages. The two language editions share these URLs; no duplicate image set is published.",
+  "releaseScope": "Nine approved vertical visual records for the Japanese and English EP02 pages. The two language editions share these URLs; no duplicate image set is published.",
   "assetFormat": {
     "mimeType": "image/png",
     "dimensions": "960x1280",
     "aspectRatio": "3:4"
   },
-  "releaseOrder": ["SC01", "SC02", "SC03", "SC04", "SC06", "SC09", "SC08", "SC11"],
+  "releaseOrder": ["SC01", "SC02", "SC03", "SC04", "SC06", "SC09", "SC08", "SC08B", "SC11"],
   "assets": [
     {
       "slot": "SC01",
@@ -72,6 +72,16 @@
       "sourceSha256": "fc0ba590342b75fa8d2a7a34fae6dccad1e35674000f4c527732e7cfe37a214c",
       "selectionRecord": "EP02_SC08_PUBLICATION_SELECTION_20260802.md",
       "placement": "After Japanese body index 236 / English paragraph index 123"
+    },
+    {
+      "slot": "SC08B",
+      "id": "ep02-08-night-heat-variation",
+      "publicFile": "ep02-sc08-night-heat-v2.png",
+      "sha256": "54e57e83813ef51dcab871fd251af5432d9d3cfdfb86a239a8260ee380d2da04",
+      "provenance": "User-selected candidate generated from the EP02 SC08 Pattern 2 scene recipe on 2026-08-03; copied non-destructively for publication.",
+      "sourceFile": "comfyui-candidate-e733700b-ae2d-4c0e-b0be-76331b93053b_00001_.png",
+      "sourceSha256": "54e57e83813ef51dcab871fd251af5432d9d3cfdfb86a239a8260ee380d2da04",
+      "placement": "After Japanese body index 236 / English paragraph index 123, immediately following SC08"
     },
     {
       "slot": "SC09",
