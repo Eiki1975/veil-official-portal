@@ -18,8 +18,17 @@
 /story-data/*
   X-Robots-Tag: noindex, nofollow
 
-/admin
+/admin*
   X-Robots-Tag: noindex, nofollow
 
 /__veil-admin/*
+  X-Robots-Tag: noindex, nofollow
+
+/legal/terms*
+  X-Robots-Tag: noindex, nofollow
+
+/legal/contact*
+  X-Robots-Tag: noindex, nofollow
+
+/404.html
   X-Robots-Tag: noindex, nofollow

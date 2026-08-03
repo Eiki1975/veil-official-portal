@@ -1,0 +1,220 @@
+[
+  {
+    "path": "/",
+    "title": "VEIL｜音楽・ビジュアル・物語で描く創作バンドプロジェクト",
+    "description": "VEILは、架空の成人女性4人によるバンドプロジェクトです。音楽、ビジュアル、結成記録と、心理の余韻を描く成人向け連載フィクションを公開しています。",
+    "image": "/images/veil-hero-band-v6-20260725.png",
+    "schemaType": "WebSite",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/about",
+    "title": "VEILとは｜架空の女性バンドを記録する創作プロジェクト",
+    "description": "音楽、仕事、日常、関係、言葉にしにくい欲望まで。架空の成人女性4人を一つの顔に固定せず記録する、VEILの制作方針を紹介します。",
+    "image": "/images/veil-hero-band-v6-20260725.png",
+    "schemaType": "AboutPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/discography",
+    "title": "DISCOGRAPHY｜VEILの音楽とデビューシングル",
+    "description": "VEILの音楽記録。デビューシングル『Borderline』のジャケット、作品情報と公式音源を掲載しています。",
+    "image": "/images/music/borderline-debut-single-cover-v1-20260801.png",
+    "schemaType": "CollectionPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/gallery",
+    "title": "VEIL GALLERY｜4人の日常と関係を残すビジュアル記録",
+    "description": "雨宮玲奈、神崎瑞希、小宮ひより、白石理沙。VEILの4人の日常、衣装、表情と関係を人物別にたどるビジュアル記録です。",
+    "image": "/images/veil-hero-band-v6-20260725.png",
+    "schemaType": "CollectionPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/gallery/reina",
+    "title": "雨宮玲奈のビジュアル記録｜VEIL GALLERY",
+    "description": "VEILのボーカル雨宮玲奈の日常、夜、音楽と人間関係を残した公式ビジュアル記録です。",
+    "image": "/images/members/v5/reina-amamiya-casual-portrait-smile-20260725.png",
+    "schemaType": "CollectionPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/gallery/mizuki",
+    "title": "神崎瑞希のビジュアル記録｜VEIL GALLERY",
+    "description": "VEILのギタリスト神崎瑞希の日常、音楽と人間関係を残した公式ビジュアル記録です。",
+    "image": "/images/members/v5/mizuki-kanzaki-casual-portrait-20260725.png",
+    "schemaType": "CollectionPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/gallery/hiyori",
+    "title": "小宮ひよりのビジュアル記録｜VEIL GALLERY",
+    "description": "VEILのベーシスト小宮ひよりの日常、練習と人間関係を残した公式ビジュアル記録です。",
+    "image": "/images/members/v5/hiyori-komiya-casual-portrait-20260725.png",
+    "schemaType": "CollectionPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/gallery/risa",
+    "title": "白石理沙のビジュアル記録｜VEIL GALLERY",
+    "description": "VEILのドラマー白石理沙の日常、演奏と人間関係を残した公式ビジュアル記録です。",
+    "image": "/images/members/v5/risa-shiraishi-casual-portrait-20260725.png",
+    "schemaType": "CollectionPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/archive",
+    "title": "VEIL ARCHIVE｜結成前から残る募集・応募・活動資料",
+    "description": "募集告知、応募フォーム、前史資料。架空の女性バンドVEILが成立していく過程をたどる公式Archiveです。",
+    "image": "/images/archive/takase-recruitment-poster.png",
+    "schemaType": "CollectionPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/news",
+    "title": "VEIL NEWS｜公開・更新履歴",
+    "description": "VEIL公式サイトの公開・更新履歴。雨宮玲奈の連載、音楽、ビジュアルとサイト更新の最新情報をお知らせします。",
+    "image": "/images/veil-hero-band-v6-20260725.png",
+    "schemaType": "CollectionPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/story/formation",
+    "title": "VEILが始まるまで｜結成ストーリー『最後の募集』",
+    "description": "高瀬真紀が一枚の募集告知を出し、雨宮玲奈、神崎瑞希、小宮ひより、白石理沙と出会うまでを描くVEIL結成ストーリーです。",
+    "image": "/images/veil-backstage.jpg",
+    "schemaType": "CreativeWork",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/members/reina-amamiya",
+    "title": "雨宮玲奈｜VEIL Vocal・人物紹介とStory Zero",
+    "description": "VEILのボーカル雨宮玲奈。公式プロフィール、人物紹介と、彼女がVEILへ来るまでを描くStory Zeroを公開しています。",
+    "image": "/images/members/v5/reina-amamiya-stage-portrait-20260725.png",
+    "schemaType": "WebPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/members/mizuki-kanzaki",
+    "title": "神崎瑞希｜VEIL Guitar・人物紹介とStory Zero",
+    "description": "VEILのギタリスト神崎瑞希。公式プロフィール、人物紹介と、彼女がVEILへ来るまでを描くStory Zeroを公開しています。",
+    "image": "/images/members/v5/mizuki-kanzaki-stage-portrait-20260725.png",
+    "schemaType": "WebPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/members/hiyori-komiya",
+    "title": "小宮ひより｜VEIL Bass・人物紹介とStory Zero",
+    "description": "VEILのベーシスト小宮ひより。公式プロフィール、人物紹介と、彼女がVEILへ来るまでを描くStory Zeroを公開しています。",
+    "image": "/images/members/v5/hiyori-komiya-stage-portrait-20260725.png",
+    "schemaType": "WebPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/members/risa-shiraishi",
+    "title": "白石理沙｜VEIL Drums・人物紹介とStory Zero",
+    "description": "VEILのドラマー白石理沙。公式プロフィール、人物紹介と、彼女がVEILへ来るまでを描くStory Zeroを公開しています。",
+    "image": "/images/members/v5/risa-shiraishi-stage-portrait-20260725.png",
+    "schemaType": "WebPage",
+    "robots": "index,follow,max-image-preview:large",
+    "sitemap": true,
+    "shell": true,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/legal/privacy",
+    "title": "プライバシーポリシー｜VEIL OFFICIAL SITE",
+    "description": "VEIL公式サイトのアクセス解析と、閲覧時に扱う情報について説明します。",
+    "image": "/images/veil-hero-band-v6-20260725.png",
+    "schemaType": "WebPage",
+    "robots": "index,follow",
+    "shell": true,
+    "sitemap": false,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/legal/adult-policy",
+    "title": "18歳以上向けコンテンツの閲覧方針｜VEIL",
+    "description": "VEILに含まれる成人向けフィクション、年齢確認、架空の成人登場人物とAI支援ビジュアルについて説明します。",
+    "image": "/images/veil-hero-band-v6-20260725.png",
+    "schemaType": "WebPage",
+    "robots": "index,follow",
+    "shell": true,
+    "sitemap": false,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/legal/terms",
+    "title": "利用規約（準備中）｜VEIL",
+    "description": "VEIL公式サイトの利用規約は現在準備中です。正式な文面の確認後に、このページで公開します。",
+    "image": "/images/veil-hero-band-v6-20260725.png",
+    "schemaType": "WebPage",
+    "robots": "noindex,nofollow",
+    "shell": true,
+    "sitemap": false,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/legal/contact",
+    "title": "お問い合わせ（準備中）｜VEIL",
+    "description": "VEIL公式サイトのお問い合わせ窓口は現在準備中です。正式な連絡先の確認後に、このページで公開します。",
+    "image": "/images/veil-hero-band-v6-20260725.png",
+    "schemaType": "WebPage",
+    "robots": "noindex,nofollow",
+    "shell": true,
+    "sitemap": false,
+    "lastmod": "2026-08-03"
+  },
+  {
+    "path": "/admin",
+    "title": "VEIL LOCAL EDITOR",
+    "description": "VEILのローカル編集画面です。",
+    "image": "/images/veil-hero-band-v6-20260725.png",
+    "schemaType": "WebPage",
+    "robots": "noindex,nofollow",
+    "shell": true,
+    "sitemap": false,
+    "lastmod": "2026-08-03"
+  }
+]

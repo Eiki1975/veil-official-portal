@@ -16,6 +16,14 @@ const escapeHtml = (value) => String(value)
 const safeHref = (value) => typeof value === "string" && value.startsWith("/") && !value.startsWith("//") && /^\/[A-Za-z0-9._~:/?#\[\]@!$&'()*+,;=%-]*$/.test(value) && !value.includes("..") && !/%2e/i.test(value)
   ? value
   : "";
+const canonicalHref = (value) => {
+  const href = safeHref(value);
+  if (!href) return "";
+  const suffixIndex = href.search(/[?#]/);
+  const pathname = suffixIndex >= 0 ? href.slice(0, suffixIndex) : href;
+  const suffix = suffixIndex >= 0 ? href.slice(suffixIndex) : "";
+  return pathname === "/" ? `/${suffix}` : `${pathname.replace(/\/+$/, "")}/${suffix}`;
+};
 
 const sourceValue = JSON.parse(await readFile(source, "utf8"));
 if (!Array.isArray(sourceValue) || !sourceValue.length) throw new Error("News source must contain at least one entry.");
@@ -28,7 +36,7 @@ const entries = sourceValue.map((entry) => {
   const title = typeof entry.title === "string" ? entry.title : "";
   const summary = typeof entry.summary === "string" ? entry.summary : "";
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateTime) || !date || !type || !title || !summary) throw new Error("News entry is missing required public fields.");
-  return { date, dateTime, type, title, summary, href: safeHref(entry.href), adult: entry.adult === true };
+  return { date, dateTime, type, title, summary, href: canonicalHref(entry.href), adult: entry.adult === true };
 });
 
 function itemHtml(entry) {
@@ -71,7 +79,7 @@ const html = `<!doctype html>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#09090b" />
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
     <title>VEIL NEWS｜公開・更新履歴</title>
     <meta name="description" content="VEIL公式サイトの公開・更新履歴。雨宮玲奈 Season 01、音楽、記録の最新情報をお知らせします。" />
     <link rel="canonical" href="${siteUrl}/news/" />
@@ -96,9 +104,9 @@ const html = `<!doctype html>
       <section class="news-log" aria-label="VEILの公開・更新履歴">
         ${entries.map(itemHtml).join("\n        ")}
       </section>
-      <aside class="notice"><strong>閲覧について</strong><p>一部の物語には成人向け表現が含まれます。該当する記録は、18歳以上であることを確認した後に読むことができます。</p></aside>
+      <aside class="notice"><strong>閲覧について</strong><p>一部の物語には成人向け表現が含まれます。該当する記録は、18歳以上であることを確認した後に読むことができます。</p><a href="/editorial/reading-guide/">記録者が、この物語を届けたい理由 <span aria-hidden="true">→</span></a></aside>
     </main>
-    <footer><span>VEIL / FICTIONAL BAND PROJECT</span><a href="/">VEIL OFFICIAL SITE</a></footer>
+    <footer><span>VEIL / FICTIONAL BAND PROJECT</span><nav><a href="/editorial/reading-guide/">READER GUIDE</a><a href="/">VEIL OFFICIAL SITE</a></nav></footer>
   </body>
 </html>
 `;
