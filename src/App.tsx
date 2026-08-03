@@ -6,6 +6,7 @@ import { serialStories, type SerialStory, type SerialStoryImage, type SerialStor
 import { PersistentAudioPlayer, type AudioPlayerHandle } from "./AudioPlayer";
 import "./styles/music-player.css";
 import { LocalAdmin } from "./LocalAdmin";
+import seoPageData from "./content/seo-pages.json";
 import prologue from "./content/prologue.md?raw";
 import reinaStory from "./content/story-zero/reina.md?raw";
 import mizukiStory from "./content/story-zero/mizuki.md?raw";
@@ -42,10 +43,27 @@ serialStories
   });
 const galleryItems = galleryGroups.flatMap((group) => group.items);
 
+type SeoPage = {
+  path: string;
+  title: string;
+  description: string;
+  image: string;
+  schemaType: string;
+  robots: string;
+};
+const seoPages = seoPageData as SeoPage[];
+
 const baseUrl = import.meta.env.BASE_URL;
 const xUrl = import.meta.env.VITE_X_URL?.trim();
 const assetUrl = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
-const routeUrl = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
+function canonicalRoutePath(path: string) {
+  const suffixIndex = path.search(/[?#]/);
+  const pathname = suffixIndex >= 0 ? path.slice(0, suffixIndex) : path;
+  const suffix = suffixIndex >= 0 ? path.slice(suffixIndex) : "";
+  const canonical = pathname === "/" ? "/" : `${pathname.replace(/\/+$/, "")}/`;
+  return `${canonical}${suffix}`;
+}
+const routeUrl = (path: string) => `${baseUrl}${canonicalRoutePath(path).replace(/^\//, "")}`;
 
 function routeFromLocation() {
   const forwardedPath = new URLSearchParams(location.search).get("path");
@@ -65,9 +83,10 @@ const track = (event: string, detail?: string) => {
 
 function Link({ href, children, className, event }: { href: string; children: React.ReactNode; className?: string; event?: string }) {
   const local = href.startsWith("/");
+  const documentRoute = /^\/(?:editorial|en|ja|news)\//.test(canonicalRoutePath(href));
   return <a href={local ? routeUrl(href) : href} className={className} onClick={(e) => {
     if (event) track(event, href);
-    if (local) {
+    if (local && !documentRoute) {
       e.preventDefault();
       history.pushState({}, "", routeUrl(href));
       window.dispatchEvent(new PopStateEvent("popstate"));
@@ -92,7 +111,7 @@ function Header() {
 function Footer() {
   return <footer className="footer">
     <div><p className="footer-logo">VEIL</p><p>Music, visuals and stories of four fictional women.</p></div>
-    <nav><Link href="/news/">NEWS</Link><Link href="/legal/privacy">PRIVACY</Link><Link href="/legal/terms">TERMS</Link><Link href="/legal/adult-policy">18+ NOTICE</Link><Link href="/legal/contact">CONTACT</Link></nav>
+    <nav><Link href="/news/">NEWS</Link><Link href="/editorial/reading-guide/">READER GUIDE</Link><Link href="/legal/privacy">PRIVACY</Link><Link href="/legal/terms">TERMS</Link><Link href="/legal/adult-policy">18+ NOTICE</Link><Link href="/legal/contact">CONTACT</Link></nav>
     <p className="fine">VEILはAIを含む制作手法を活用した創作バンドプロジェクトです。登場人物は架空ですが、公開される作品は実際の創作物です。</p>
   </footer>;
 }
@@ -137,7 +156,7 @@ function MemberGalleryPage({ member }: { member: Member }) {
 
 function Home({ onPlayBorderline }: { onPlayBorderline: () => void }) {
   return <Shell>
-    <section className="hero" id="top"><div className="hero-media"><img src={assetUrl("/images/veil-hero-band-v6-20260725.png")} alt="バンド写真として並ぶVEILの4人。中央に雨宮玲奈、神崎瑞希、小宮ひより、白石理沙" className="hero-image" /></div><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">音楽、ビジュアル、物語を通して、4人の女性を記録するバンドプロジェクト。</p><div className="hero-actions"><a className="button primary" href="#members">MEMBERS</a><Link className="button ghost" href="/about">ABOUT VEIL</Link></div></div><span className="scroll-mark">SCROLL</span></section>
+    <section className="hero" id="top"><div className="hero-media"><picture><source srcSet={assetUrl("/images/veil-hero-band-v6-20260725-bluesky.jpg")} type="image/jpeg" /><img src={assetUrl("/images/veil-hero-band-v6-20260725.png")} alt="バンド写真として並ぶVEILの4人。中央に雨宮玲奈、神崎瑞希、小宮ひより、白石理沙" className="hero-image" width="1672" height="941" /></picture></div><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">音楽、ビジュアル、物語を通して、4人の女性を記録するバンドプロジェクト。</p><div className="hero-actions"><a className="button primary" href="#members">MEMBERS</a><Link className="button ghost" href="/about">ABOUT VEIL</Link></div></div><span className="scroll-mark">SCROLL</span></section>
     <MembersGrid />
     <section className="section" id="latest"><SectionTitle eyebrow="UPDATES" title="LATEST / NEWS" copy="公開した作品と、読める導線に影響する更新を記録します。" /><NewsList items={news.slice(0, 4)} /><Link className="text-link section-link" href="/news/" event="news_index_open">VIEW ALL UPDATES <ArrowRight size={16} /></Link></section>
     <GalleryDirectory id="gallery" />
@@ -150,7 +169,7 @@ function Home({ onPlayBorderline }: { onPlayBorderline: () => void }) {
       const episodeLabel = latest ? `SEASON ${String(latest.season).padStart(2, "0")} / ${currentSeason.length > 1 ? `EPISODES 01–${String(latest.episode).padStart(2, "0")}` : `EPISODE ${String(latest.episode).padStart(2, "0")}`} 公開中` : "COMING SOON";
       return <Link key={member.slug} href={`/stories/${member.slug.split("-")[0]}`} event="adult_story_entry"><span>{member.name}</span><small>{latest ? `18+ / ${episodeLabel}` : "18+ / COMING SOON"}</small>{latest && <strong>最新：第{latest.episode}話『{latest.title}』</strong>}<ArrowRight /></Link>;
     })}</div></section>
-    <section className="feature about-preview" id="about"><div><p className="eyebrow">INDEPENDENT RECORD</p><h2>ABOUT VEIL</h2><p>{aboutParagraphs[0]}</p><p>{aboutParagraphs[1]}</p><Link className="button ghost" href="/about" event="about_full_click">全文を読む</Link></div></section>
+    <section className="feature about-preview" id="about"><div><p className="eyebrow">INDEPENDENT RECORD</p><h2>ABOUT VEIL</h2><p>{aboutParagraphs[0]}</p><p>{aboutParagraphs[1]}</p><div className="about-preview-actions"><Link className="button ghost" href="/about" event="about_full_click">全文を読む</Link><Link className="text-link" href="/editorial/reading-guide/" event="recorder_guide_open">記録者が、この物語を届けたい理由 <ArrowRight size={16} /></Link></div></div></section>
     <section className="section two-column" id="music"><div><SectionTitle eyebrow="DISCOGRAPHY" title="MUSIC" /><div className="music-release-card"><div className="music-release-card__cover"><img src={assetUrl(borderlineRelease.cover)} alt="VEILのデビューシングル『Borderline』のジャケット" loading="lazy" /><span>VEIL<strong>BORDERLINE</strong></span></div><div className="music-release-card__body"><p className="music-release-card__type">{borderlineRelease.type}</p><h3>{borderlineRelease.title}</h3><p>VEILのデビューシングル。再生を押すと、画面を移動しても操作できる小さなプレイヤーが開きます。</p><button className="music-play-button" type="button" onClick={onPlayBorderline}><Play size={16} fill="currentColor" /> 再生する</button><Link className="text-link music-release-link" href="/discography" event="music_discography_click">DISCOGRAPHY <ArrowRight size={16} /></Link></div></div></div><div id="support"><SectionTitle eyebrow="KEEP THE RECORD GOING" title="SUPPORT" /><p>VEILの次の音楽、ビジュアル、物語の制作を支えるための導線です。支援サービスは準備中です。</p><button className="button disabled" onClick={() => track("support_click")}>SUPPORT — COMING SOON</button></div></section>
     <section className="section follow" id="follow"><SectionTitle eyebrow="FOLLOW THE RECORD" title="続きが気になる方へ" copy="新しい記録は、Xでお知らせします。" />{xUrl ? <a className="button primary follow-x" href={xUrl} target="_blank" rel="noreferrer" onClick={() => track("x_follow_click")}>Xで最新情報を見る <ExternalLink size={16} /></a> : <button className="button disabled follow-x" type="button">X — COMING SOON</button>}</section>
     <section className="adult-external"><div><p className="eyebrow">EXTERNAL 18+ CONTENT</p><h2>より奥の記録へ</h2><p className="coming">COMING SOON</p><p>成人向けコンテンツと外部サービスへの導線は現在準備中です。18歳未満の方は利用できません。</p></div></section>
@@ -239,7 +258,7 @@ function MemberPage({ member }: { member: Member }) { return <Shell><PageHero ey
 
 function FormationPage() { return <Shell><PageHero eyebrow="FORMATION STORY" title="VEILが始まるまで" copy="高瀬真紀が一枚の募集告知を出し、4人の女性と出会うまでの記録。" image="/images/veil-backstage.jpg" /><article className="prose page-section reading-page"><p className="byline">高瀬真紀<br /><small>VEIL結成時の募集担当者</small></p><p>高瀬真紀は、VEIL結成へ向けた募集を始めた人物です。以下は、その募集が出されるまでを描くプロローグです。</p><FormationStoryChoices /><StoryText text={prologue} /><h2>THE FOUR APPLICATIONS</h2><div className="member-link-list">{members.map(m => <Link href={`/members/${m.slug}`} key={m.slug}>{m.name}<span>{m.role}</span><ArrowRight /></Link>)}</div><h2>RELATED ARCHIVE</h2><ArchiveCards /><div className="next-links"><Link href="/archive">VEIL ARCHIVE <ArrowRight /></Link></div></article></Shell>; }
 
-function AboutPage() { return <Shell><PageHero eyebrow="INDEPENDENT RECORD" title="ABOUT VEIL" copy="音楽だけでは表せなかった彼女たちの姿を記録する場所。" /><article className="prose page-section"><p className="byline">記録者<br /><small>Independent Observer / Recorder</small></p><p>このサイトを記録する者は、レーベルやVEILの所有者ではありません。4人と彼女たちを取り巻く時間を、独立した立場から観察し、記録しています。</p>{aboutParagraphs.map((p, i) => <p key={i}>{p}</p>)}<Link className="button ghost" href="/story/formation">VEILが始まるまで</Link></article></Shell>; }
+function AboutPage() { return <Shell><PageHero eyebrow="INDEPENDENT RECORD" title="ABOUT VEIL" copy="音楽だけでは表せなかった彼女たちの姿を記録する場所。" /><article className="prose page-section"><p className="byline">記録者<br /><small>Independent Observer / Recorder</small></p><p>このサイトを記録する者は、レーベルやVEILの所有者ではありません。4人と彼女たちを取り巻く時間を、独立した立場から観察し、記録しています。</p>{aboutParagraphs.map((p, i) => <p key={i}>{p}</p>)}<div className="next-links"><Link href="/story/formation">VEILが始まるまで <ArrowRight /></Link><Link href="/editorial/reading-guide/">記録者が、この物語を届けたい理由 <ArrowRight /></Link></div></article></Shell>; }
 
 function ArchivePage() { return <Shell><PageHero eyebrow="OFFICIAL RECORDS" title="VEIL ARCHIVE" copy="募集告知、応募文、面談メモ。VEILが成立していく過程に残された記録。" /><div className="page-section"><ArchiveCards /><div className="next-links"><Link href="/story/formation">FORMATION STORY <ArrowRight /></Link><Link href="/#members">MEMBERS <ArrowRight /></Link></div></div></Shell>; }
 
@@ -331,30 +350,113 @@ function LegalPage({ type }: { type: string }) {
   };
   const [title, body] = content[type] || ["NOT FOUND", "ページが見つかりません。"];
   const isPrivacy = type === "privacy";
+  const isAdultPolicy = type === "adult-policy";
+  const isComing = type === "terms" || type === "contact";
 
-  return <Shell><PageHero eyebrow={isPrivacy ? "VEIL OFFICIAL SITE / PRIVACY" : "VEIL OFFICIAL SITE / COMING SOON"} title={title} copy={body} /><article className="prose page-section">{isPrivacy ? <><p>Cloudflare Web Analytics により、訪問数、閲覧ページ、流入元、利用環境などの統計情報を確認します。</p><p>当サイトの運営者が、アクセス解析のために氏名、メールアドレス、本文の入力内容などを取得することはありません。</p><p>収集・処理は Cloudflare のプライバシー方針に基づいて行われます。</p></> : <><p className="status-chip">COMING SOON</p><p>このページは運用開始前のページ枠です。法的文面は公開前に専門家の確認が必要です。</p></>}</article></Shell>;
+  return <Shell><PageHero eyebrow={isPrivacy ? "VEIL OFFICIAL SITE / PRIVACY" : isAdultPolicy ? "VEIL OFFICIAL SITE / 18+ POLICY" : "VEIL OFFICIAL SITE / COMING SOON"} title={title} copy={body} /><article className="prose page-section">{isPrivacy ? <><p>Cloudflare Web Analytics により、訪問数、閲覧ページ、流入元、利用環境などの統計情報を確認します。</p><p>当サイトの運営者が、アクセス解析のために氏名、メールアドレス、本文の入力内容などを取得することはありません。</p><p>収集・処理は Cloudflare のプライバシー方針に基づいて行われます。</p></> : isAdultPolicy ? <><h2>対象となる記録</h2><p>VEILの一部の物語には、成人同士の親密さや欲望を扱う成人向け表現があります。登場人物はすべて架空の成人です。</p><h2>年齢確認</h2><p>該当する物語は18歳以上の方を対象とし、本文を開く前に年齢確認を表示します。同意状態は利用中の端末内にのみ保存します。</p><h2>ビジュアルの制作方法</h2><p>挿絵にはAIを含む制作手法を用いています。物語ページでフィクション、成人向け表現、AI支援イラストであることを表示します。</p><h2>現在の提供範囲</h2><p>現在公開しているのは物語、静止画と音楽です。成人向け動画、DVD、イメージビデオ、外部販売サービスは提供していません。</p><div className="next-links"><Link href="/editorial/reading-guide/">記録者が、この物語を届けたい理由 <ArrowRight /></Link><Link href="/editorial/sensual-fiction/">官能表現の編集方針 <ArrowRight /></Link></div></> : isComing ? <><p className="status-chip">COMING SOON</p><p>このページは運用開始前のページ枠です。法的文面は公開前に専門家の確認が必要です。</p></> : <p>ページが見つかりません。</p>}</article></Shell>;
 }
 
 function NotFound() { return <Shell><section className="not-found"><p>404</p><h1>RECORD NOT FOUND</h1><Link className="button ghost" href="/">VEILへ戻る</Link></section></Shell>; }
 
+function upsertMeta(selector: string, attributes: Record<string, string>) {
+  let element = document.head.querySelector<HTMLMetaElement>(selector);
+  if (!element) {
+    element = document.createElement("meta");
+    document.head.appendChild(element);
+  }
+  Object.entries(attributes).forEach(([key, value]) => element?.setAttribute(key, value));
+}
+
+function pageStructuredData(page: SeoPage, canonical: string) {
+  if (page.path === "/") {
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        { "@type": "WebSite", name: "VEIL OFFICIAL SITE", url: `${siteUrl}/`, inLanguage: ["ja", "en"] },
+        { "@type": "CreativeWork", name: "VEIL", description: page.description, url: `${siteUrl}/`, isFamilyFriendly: false, about: ["架空バンド", "音楽", "ビジュアル", "成人向け連載フィクション"] },
+      ],
+    };
+  }
+  return {
+    "@context": "https://schema.org",
+    "@type": page.schemaType || "WebPage",
+    name: page.title,
+    description: page.description,
+    url: canonical,
+    inLanguage: "ja",
+    isPartOf: { "@type": "WebSite", name: "VEIL OFFICIAL SITE", url: `${siteUrl}/` },
+  };
+}
+
 function setMeta(path: string) {
   const serialStory = serialStories.find((story) => path === `/stories/${story.memberSlug.split("-")[0]}/season-${story.season}/episode-${story.episode}`);
-  const englishRoute = serialStory ? englishEpisodeRouteByStoryId[serialStory.id] : englishEpisodeRouteByJapanesePath[path];
-  const isNews = path === "/news";
-  const name = serialStory ? `第${serialStory.episode}話 ${serialStory.title}` : path === "/" ? "VEIL OFFICIAL SITE" : path === "/admin" ? "VEIL LOCAL EDITOR" : path === "/discography" ? "DISCOGRAPHY" : isNews ? "VEIL NEWS" : path.includes("formation") ? "VEILが始まるまで" : path.includes("archive") ? "VEIL ARCHIVE" : path.includes("about") ? "ABOUT VEIL" : "VEIL";
-  document.title = `${name} | VEIL`;
-  const desc = document.querySelector('meta[name="description"]');
-  desc?.setAttribute("content", serialStory && englishRoute ? `VEILの雨宮玲奈 Season 01 第${serialStory.episode}話『${serialStory.title}』。登場人物は全員成人です。` : isNews ? "VEIL公式サイトの公開・更新履歴。雨宮玲奈 Season 01、音楽、記録の最新情報をお知らせします。" : "VEILは、架空の成人女性4人によるバンドプロジェクト。音楽、ビジュアル、物語、結成資料を公開します。");
-  let canonical = document.querySelector('link[rel="canonical"]');
-  if (!canonical) { canonical = document.createElement("link"); canonical.setAttribute("rel", "canonical"); document.head.appendChild(canonical); }
-  canonical.setAttribute("href", `${siteUrl}${isNews ? "/news/" : path}`);
+  const storyMember = members.find((member) => path === `/stories/${member.slug.split("-")[0]}`);
+  const registered = seoPages.find((page) => page.path === path);
+  const member = serialStory ? members.find((entry) => entry.slug === serialStory.memberSlug) : storyMember;
+  const page: SeoPage = registered || (serialStory && member ? {
+    path,
+    title: `${member.name} 第${serialStory.episode}話「${serialStory.title}」｜VEIL`,
+    description: `${member.name} Season ${String(serialStory.season).padStart(2, "0")} 第${serialStory.episode}話「${serialStory.title}」。登場人物はすべて架空の成人です。`,
+    image: member.image,
+    schemaType: "WebPage",
+    robots: "noindex,nofollow",
+  } : storyMember ? {
+    path,
+    title: `${storyMember.name}の成人向け連載｜VEIL STORIES`,
+    description: `${storyMember.name}の心理と関係の変化を追うVEILの成人向け連載一覧です。登場人物はすべて架空の成人です。`,
+    image: storyMember.image,
+    schemaType: "CollectionPage",
+    robots: "noindex,nofollow",
+  } : {
+    path,
+    title: "ページが見つかりません｜VEIL",
+    description: "指定されたVEILの記録は見つかりませんでした。",
+    image: "/images/veil-hero-band-v6-20260725.png",
+    schemaType: "WebPage",
+    robots: "noindex,nofollow",
+  });
+  const canonical = `${siteUrl}${canonicalRoutePath(path)}`;
+  const image = `${siteUrl}${page.image}`;
+  document.documentElement.lang = "ja";
+  document.title = page.title;
+  upsertMeta('meta[name="description"]', { name: "description", content: page.description });
+  upsertMeta('meta[name="robots"]', { name: "robots", content: page.robots });
+  upsertMeta('meta[property="og:type"]', { property: "og:type", content: "website" });
+  upsertMeta('meta[property="og:site_name"]', { property: "og:site_name", content: "VEIL OFFICIAL SITE" });
+  upsertMeta('meta[property="og:title"]', { property: "og:title", content: page.title });
+  upsertMeta('meta[property="og:description"]', { property: "og:description", content: page.description });
+  upsertMeta('meta[property="og:url"]', { property: "og:url", content: canonical });
+  upsertMeta('meta[property="og:image"]', { property: "og:image", content: image });
+  upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
+  upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: page.title });
+  upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: page.description });
+  upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: image });
+
+  let canonicalLink = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!canonicalLink) {
+    canonicalLink = document.createElement("link");
+    canonicalLink.rel = "canonical";
+    document.head.appendChild(canonicalLink);
+  }
+  canonicalLink.href = canonical;
+
+  let schema = document.head.querySelector<HTMLScriptElement>("#veil-structured-data");
+  if (!schema) {
+    schema = document.createElement("script");
+    schema.id = "veil-structured-data";
+    schema.type = "application/ld+json";
+    document.head.appendChild(schema);
+  }
+  schema.textContent = JSON.stringify(pageStructuredData(page, canonical));
+
   document.querySelectorAll('link[data-veil-hreflang]').forEach((link) => link.remove());
+  const englishRoute = serialStory ? englishEpisodeRouteByStoryId[serialStory.id] : englishEpisodeRouteByJapanesePath[path];
   if (englishRoute) {
-    [["ja", path], ["en", englishRoute], ["x-default", "/en/start/"]].forEach(([lang, href]) => {
+    [["ja", canonicalRoutePath(path)], ["en", canonicalRoutePath(englishRoute)], ["x-default", "/en/start/"]].forEach(([lang, href]) => {
       const link = document.createElement("link");
-      link.setAttribute("rel", "alternate");
-      link.setAttribute("hreflang", lang);
-      link.setAttribute("href", `${siteUrl}${href}`);
+      link.rel = "alternate";
+      link.hreflang = lang;
+      link.href = `${siteUrl}${href}`;
       link.dataset.veilHreflang = "true";
       document.head.appendChild(link);
     });

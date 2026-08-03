@@ -1,27 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://veil-archive.com/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/about/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/discography/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/gallery/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/gallery/reina/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/gallery/mizuki/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/gallery/hiyori/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/gallery/risa/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/archive/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/story/formation/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/members/reina-amamiya/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/members/mizuki-kanzaki/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/members/hiyori-komiya/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/members/risa-shiraishi/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
     <loc>https://veil-archive.com/ja/start/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://veil-archive.com/ja/start/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/start/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://veil-archive.com/ja/start/" />
+    <lastmod>2026-08-03</lastmod>
   </url>
   <url>
     <loc>https://veil-archive.com/en/start/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://veil-archive.com/ja/start/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/start/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://veil-archive.com/ja/start/" />
+    <lastmod>2026-08-03</lastmod>
   </url>
-  <url><loc>https://veil-archive.com/about</loc></url>
-  <url><loc>https://veil-archive.com/story/formation</loc></url>
-  <url><loc>https://veil-archive.com/members/reina-amamiya</loc></url>
-  <url><loc>https://veil-archive.com/members/mizuki-kanzaki</loc></url>
-  <url><loc>https://veil-archive.com/members/hiyori-komiya</loc></url>
-  <url><loc>https://veil-archive.com/members/risa-shiraishi</loc></url>
-  <url><loc>https://veil-archive.com/news/</loc><lastmod>2026-08-03</lastmod></url>
-  <url><loc>https://veil-archive.com/stories/reina/season-1/episode-1</loc></url>
-  <url><loc>https://veil-archive.com/stories/reina/season-1/episode-2</loc></url>
-  <url><loc>https://veil-archive.com/editorial/reading-guide/</loc></url>
-  <url><loc>https://veil-archive.com/editorial/sensual-fiction/</loc></url>
-  <url><loc>https://veil-archive.com/editorial/visual-records/</loc></url>
+  <url>
+    <loc>https://veil-archive.com/news/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/editorial/reading-guide/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://veil-archive.com/editorial/reading-guide/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/editorial/reading-guide/" />
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/en/editorial/reading-guide/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://veil-archive.com/editorial/reading-guide/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/editorial/reading-guide/" />
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/editorial/sensual-fiction/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/editorial/visual-records/</loc>
+    <lastmod>2026-08-03</lastmod>
+  </url>
 </urlset>

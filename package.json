@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "dev": "node tools/build-story-data.mjs && node tools/build-news-page.mjs && vite --host 127.0.0.1",
-    "build": "node tools/build-story-data.mjs && node tools/build-news-page.mjs && node tools/build-en-story-pages.mjs && tsc && vite build",
-    "lint": "node tools/build-story-data.mjs && node tools/build-news-page.mjs && tsc --noEmit",
+    "dev": "node tools/build-story-data.mjs && node tools/build-news-page.mjs && node tools/build-sitemap.mjs && vite --host 127.0.0.1",
+    "build": "node tools/build-story-data.mjs && node tools/build-news-page.mjs && node tools/build-en-story-pages.mjs && node tools/build-sitemap.mjs && tsc && vite build && node tools/build-seo-shells.mjs && node tools/check-seo.mjs",
+    "lint": "node tools/build-story-data.mjs && node tools/build-news-page.mjs && node tools/build-sitemap.mjs && node --check tools/build-seo-shells.mjs && node --check tools/check-seo.mjs && tsc --noEmit",
+    "seo:check": "node tools/check-seo.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {

@@ -22,7 +22,7 @@ const episodes = [
     episode: 1,
     source: "src/content/season-01-reina-episode-01-en-20260802.md",
     output: "public/en/stories/reina/season-1/episode-1/index.html",
-    jpUrl: "/stories/reina/season-1/episode-1",
+    jpUrl: "/stories/reina/season-1/episode-1/",
     enUrl: "/en/stories/reina/season-1/episode-1/",
     title: "After Being Seen",
     description: "After a VEIL show, Reina Amamiya notices a gaze she cannot explain away. An adult fictional episode from VEIL.",
@@ -96,7 +96,7 @@ const episodes = [
     episode: 2,
     source: "src/content/season-01-reina-episode-02-en-20260802.md",
     output: "public/en/stories/reina/season-1/episode-2/index.html",
-    jpUrl: "/stories/reina/season-1/episode-2",
+    jpUrl: "/stories/reina/season-1/episode-2/",
     enUrl: "/en/stories/reina/season-1/episode-2/",
     title: "The Second Look",
     description: "At a shared-bill show, Reina Amamiya cannot stop returning to the moment she saw more than she meant to. An adult fictional episode from VEIL.",
@@ -209,7 +209,7 @@ function pageHtml(episode, paragraphs, images) {
         <nav class="story-next"><a href="/en/start/">← Back to the English entry</a><span>NEXT RECORD — COMING SOON</span></nav>
       </article>
     </main>
-    <footer class="story-footer"><p>VEIL / FICTIONAL BAND PROJECT</p><a href="/en/start/">English entry</a></footer>
+    <footer class="story-footer"><p>VEIL / FICTIONAL BAND PROJECT</p><nav><a href="/en/editorial/reading-guide/">From the VEIL editor</a><a href="/en/start/">English entry</a></nav></footer>
   </body>
 </html>
 `;
