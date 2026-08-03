@@ -1,0 +1,69 @@
+[
+  {
+    "date": "2026.08.03",
+    "dateTime": "2026-08-03",
+    "type": "STORY RELEASE",
+    "title": "雨宮玲奈 Season 01 第2話『見てしまう』を公開しました",
+    "summary": "雨宮玲奈のSeason 01、第2話を公開しました。第1話から続く彼女の記録を、本文とビジュアル記録で読むことができます。",
+    "href": "/stories/reina/season-1/episode-2",
+    "adult": true
+  },
+  {
+    "date": "2026.08.03",
+    "dateTime": "2026-08-03",
+    "type": "SITE UPDATE",
+    "title": "STORIESの公開状況を更新しました",
+    "summary": "トップページから、雨宮玲奈 Season 01 の第1話・第2話が公開中であることを確認できるようにしました。",
+    "href": "/stories/reina"
+  },
+  {
+    "date": "2026.08.02",
+    "dateTime": "2026-08-02",
+    "type": "STORY / ENGLISH",
+    "title": "雨宮玲奈 Season 01 第1話『見られたあと』英語版を公開しました",
+    "summary": "英語の入口から、同じビジュアル記録を使った英語版の第1話を読むことができます。",
+    "href": "/en/stories/reina/season-1/episode-1/",
+    "adult": true
+  },
+  {
+    "date": "2026.08.01",
+    "dateTime": "2026-08-01",
+    "type": "MUSIC RELEASE",
+    "title": "デビューシングル『Borderline』を公開しました",
+    "summary": "ディスコグラフィーから再生すると、ページを移動しても操作できるプレイヤーが開きます。",
+    "href": "/discography"
+  },
+  {
+    "date": "2026.07.27",
+    "dateTime": "2026-07-27",
+    "type": "STORY RELEASE",
+    "title": "雨宮玲奈 Season 01 第1話『見られたあと』を公開しました",
+    "summary": "雨宮玲奈の連載は、第1話から読むことができます。",
+    "href": "/stories/reina/season-1/episode-1",
+    "adult": true
+  },
+  {
+    "date": "2026.07.12",
+    "dateTime": "2026-07-12",
+    "type": "STORY ZERO",
+    "title": "4人がVEILへ来るまでの記録を公開しました",
+    "summary": "各メンバーの人物紹介と、VEILへ来るまでの記録を公開しました。",
+    "href": "/#members"
+  },
+  {
+    "date": "2026.07.12",
+    "dateTime": "2026-07-12",
+    "type": "FORMATION",
+    "title": "PROLOGUE『最後の募集』を公開しました",
+    "summary": "VEILの結成前から残る、4人が出会うまでの記録を公開しました。",
+    "href": "/story/formation"
+  },
+  {
+    "date": "2026.07.12",
+    "dateTime": "2026-07-12",
+    "type": "ARCHIVE",
+    "title": "結成前後の資料をArchiveに追加しました",
+    "summary": "募集告知、応募文、面談メモなどの結成資料を公開しました。",
+    "href": "/archive"
+  }
+]

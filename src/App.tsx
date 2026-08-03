@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ArrowUp, ExternalLink, Menu, Play, X } from "lucide-react";
-import { aboutParagraphs, archiveItems, galleryGroups, members, navItems, news, siteUrl, type GalleryItem, type Member } from "./data/veilContent";
+import { aboutParagraphs, archiveItems, galleryGroups, members, navItems, news, siteUrl, type GalleryItem, type Member, type NewsItem } from "./data/veilContent";
 import { borderlineRelease } from "./data/music";
 import { serialStories, type SerialStory, type SerialStoryImage, type SerialStorySummary } from "./data/serialStories";
 import { PersistentAudioPlayer, type AudioPlayerHandle } from "./AudioPlayer";
@@ -28,11 +28,17 @@ const englishEpisodeRouteByJapanesePath: Record<string, string> = {
   "/stories/reina/season-1/episode-2": "/en/stories/reina/season-1/episode-2/",
 };
 const firstPublishedStoryByMember = new Map<string, SerialStorySummary>();
+const publishedStoriesByMember = new Map<string, SerialStorySummary[]>();
+const latestPublishedStoryByMember = new Map<string, SerialStorySummary>();
 serialStories
   .slice()
   .sort((a, b) => a.season - b.season || a.episode - b.episode)
   .forEach((story) => {
     if (!firstPublishedStoryByMember.has(story.memberSlug)) firstPublishedStoryByMember.set(story.memberSlug, story);
+    const published = publishedStoriesByMember.get(story.memberSlug) || [];
+    published.push(story);
+    publishedStoriesByMember.set(story.memberSlug, published);
+    latestPublishedStoryByMember.set(story.memberSlug, story);
   });
 const galleryItems = galleryGroups.flatMap((group) => group.items);
 
@@ -86,7 +92,7 @@ function Header() {
 function Footer() {
   return <footer className="footer">
     <div><p className="footer-logo">VEIL</p><p>Music, visuals and stories of four fictional women.</p></div>
-    <nav><Link href="/legal/privacy">PRIVACY</Link><Link href="/legal/terms">TERMS</Link><Link href="/legal/adult-policy">18+ NOTICE</Link><Link href="/legal/contact">CONTACT</Link></nav>
+    <nav><Link href="/news/">NEWS</Link><Link href="/legal/privacy">PRIVACY</Link><Link href="/legal/terms">TERMS</Link><Link href="/legal/adult-policy">18+ NOTICE</Link><Link href="/legal/contact">CONTACT</Link></nav>
     <p className="fine">VEILはAIを含む制作手法を活用した創作バンドプロジェクトです。登場人物は架空ですが、公開される作品は実際の創作物です。</p>
   </footer>;
 }
@@ -95,6 +101,15 @@ function Shell({ children }: { children: React.ReactNode }) { return <><Header /
 
 function SectionTitle({ eyebrow, title, copy }: { eyebrow?: string; title: string; copy?: string }) {
   return <header className="section-title">{eyebrow && <p className="eyebrow">{eyebrow}</p>}<h2>{title}</h2>{copy && <p>{copy}</p>}</header>;
+}
+
+function NewsList({ items, full = false }: { items: NewsItem[]; full?: boolean }) {
+  return <div className={`news-list${full ? " news-list-full" : ""}`}>{items.map((item) => {
+    const content = <><time dateTime={item.dateTime}>{item.date}</time><span>{item.type}{item.adult ? " / 18+" : ""}</span><div className="news-copy"><h3>{item.title}</h3>{item.summary && <p>{item.summary}</p>}</div><ArrowRight className="news-arrow" size={16} aria-hidden="true" /></>;
+    return item.href
+      ? <Link key={item.title} href={item.href} className="news-row news-row-link" event="news_open">{content}</Link>
+      : <article className="news-row" key={item.title}>{content}</article>;
+  })}</div>;
 }
 
 function MembersGrid() {
@@ -124,11 +139,17 @@ function Home({ onPlayBorderline }: { onPlayBorderline: () => void }) {
   return <Shell>
     <section className="hero" id="top"><div className="hero-media"><img src={assetUrl("/images/veil-hero-band-v6-20260725.png")} alt="バンド写真として並ぶVEILの4人。中央に雨宮玲奈、神崎瑞希、小宮ひより、白石理沙" className="hero-image" /></div><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">音楽、ビジュアル、物語を通して、4人の女性を記録するバンドプロジェクト。</p><div className="hero-actions"><a className="button primary" href="#members">MEMBERS</a><Link className="button ghost" href="/about">ABOUT VEIL</Link></div></div><span className="scroll-mark">SCROLL</span></section>
     <MembersGrid />
-    <section className="section" id="latest"><SectionTitle eyebrow="UPDATES" title="LATEST / NEWS" /><div className="news-list">{news.map(n => <article key={n.title}><time>{n.date}</time><span>{n.type}</span><h3>{n.title}</h3></article>)}</div></section>
+    <section className="section" id="latest"><SectionTitle eyebrow="UPDATES" title="LATEST / NEWS" copy="公開した作品と、読める導線に影響する更新を記録します。" /><NewsList items={news.slice(0, 4)} /><Link className="text-link section-link" href="/news/" event="news_index_open">VIEW ALL UPDATES <ArrowRight size={16} /></Link></section>
     <GalleryDirectory id="gallery" />
     <section className="feature feature-formation" id="formation" style={{ backgroundImage: `url(${assetUrl("/images/veil-backstage.jpg")})` }}><div><p className="eyebrow">HOW VEIL BEGAN</p><h2>VEILが<br />始まるまで</h2><p>高瀬真紀が新しい女性バンドの募集を始め、4人を見つけ、集めた。これはVEILが成立するまでの物語。</p><Link className="button primary formation-cta" href="/story/formation" event="formation_click"><span>PROLOGUE</span>『最後の募集』を読む <ArrowRight size={18} /></Link></div></section>
     <section className="section" id="archive"><SectionTitle eyebrow="DOCUMENTS BEFORE THE FIRST NOTE" title="VEIL ARCHIVE" copy="結成前から残る記録。" /><ArchiveCards limit={3} /><Link className="text-link section-link" href="/archive">VIEW ARCHIVE <ArrowRight size={16} /></Link></section>
-    <section className="section stories" id="stories"><SectionTitle eyebrow="FICTION" title="STORIES" copy="Story Zeroの先に続く、4人それぞれの物語。" /><div className="story-strip">{members.map(m => <Link key={m.slug} href={`/stories/${m.slug.split("-")[0]}`} event="adult_story_entry"><span>{m.name}</span><small>18+ / COMING SOON</small><ArrowRight /></Link>)}</div></section>
+    <section className="section stories" id="stories"><SectionTitle eyebrow="FICTION" title="STORIES" copy="Story Zeroの先に続く、4人それぞれの物語。" /><div className="story-strip">{members.map((member) => {
+      const published = publishedStoriesByMember.get(member.slug) || [];
+      const latest = latestPublishedStoryByMember.get(member.slug);
+      const currentSeason = latest ? published.filter((story) => story.season === latest.season) : [];
+      const episodeLabel = latest ? `SEASON ${String(latest.season).padStart(2, "0")} / ${currentSeason.length > 1 ? `EPISODES 01–${String(latest.episode).padStart(2, "0")}` : `EPISODE ${String(latest.episode).padStart(2, "0")}`} 公開中` : "COMING SOON";
+      return <Link key={member.slug} href={`/stories/${member.slug.split("-")[0]}`} event="adult_story_entry"><span>{member.name}</span><small>{latest ? `18+ / ${episodeLabel}` : "18+ / COMING SOON"}</small>{latest && <strong>最新：第{latest.episode}話『{latest.title}』</strong>}<ArrowRight /></Link>;
+    })}</div></section>
     <section className="feature about-preview" id="about"><div><p className="eyebrow">INDEPENDENT RECORD</p><h2>ABOUT VEIL</h2><p>{aboutParagraphs[0]}</p><p>{aboutParagraphs[1]}</p><Link className="button ghost" href="/about" event="about_full_click">全文を読む</Link></div></section>
     <section className="section two-column" id="music"><div><SectionTitle eyebrow="DISCOGRAPHY" title="MUSIC" /><div className="music-release-card"><div className="music-release-card__cover"><img src={assetUrl(borderlineRelease.cover)} alt="VEILのデビューシングル『Borderline』のジャケット" loading="lazy" /><span>VEIL<strong>BORDERLINE</strong></span></div><div className="music-release-card__body"><p className="music-release-card__type">{borderlineRelease.type}</p><h3>{borderlineRelease.title}</h3><p>VEILのデビューシングル。再生を押すと、画面を移動しても操作できる小さなプレイヤーが開きます。</p><button className="music-play-button" type="button" onClick={onPlayBorderline}><Play size={16} fill="currentColor" /> 再生する</button><Link className="text-link music-release-link" href="/discography" event="music_discography_click">DISCOGRAPHY <ArrowRight size={16} /></Link></div></div></div><div id="support"><SectionTitle eyebrow="KEEP THE RECORD GOING" title="SUPPORT" /><p>VEILの次の音楽、ビジュアル、物語の制作を支えるための導線です。支援サービスは準備中です。</p><button className="button disabled" onClick={() => track("support_click")}>SUPPORT — COMING SOON</button></div></section>
     <section className="section follow" id="follow"><SectionTitle eyebrow="FOLLOW THE RECORD" title="続きが気になる方へ" copy="新しい記録は、Xでお知らせします。" />{xUrl ? <a className="button primary follow-x" href={xUrl} target="_blank" rel="noreferrer" onClick={() => track("x_follow_click")}>Xで最新情報を見る <ExternalLink size={16} /></a> : <button className="button disabled follow-x" type="button">X — COMING SOON</button>}</section>
@@ -221,6 +242,8 @@ function FormationPage() { return <Shell><PageHero eyebrow="FORMATION STORY" tit
 function AboutPage() { return <Shell><PageHero eyebrow="INDEPENDENT RECORD" title="ABOUT VEIL" copy="音楽だけでは表せなかった彼女たちの姿を記録する場所。" /><article className="prose page-section"><p className="byline">記録者<br /><small>Independent Observer / Recorder</small></p><p>このサイトを記録する者は、レーベルやVEILの所有者ではありません。4人と彼女たちを取り巻く時間を、独立した立場から観察し、記録しています。</p>{aboutParagraphs.map((p, i) => <p key={i}>{p}</p>)}<Link className="button ghost" href="/story/formation">VEILが始まるまで</Link></article></Shell>; }
 
 function ArchivePage() { return <Shell><PageHero eyebrow="OFFICIAL RECORDS" title="VEIL ARCHIVE" copy="募集告知、応募文、面談メモ。VEILが成立していく過程に残された記録。" /><div className="page-section"><ArchiveCards /><div className="next-links"><Link href="/story/formation">FORMATION STORY <ArrowRight /></Link><Link href="/#members">MEMBERS <ArrowRight /></Link></div></div></Shell>; }
+
+function NewsPage() { return <Shell><PageHero eyebrow="SITE UPDATES" title="NEWS" copy="公開した作品と、読める導線に影響する更新を記録します。" /><article className="page-section news-page"><p className="news-page-intro">公開済みの作品、音楽、読める場所に関わる変更だけを、日付とともに残します。物語には成人向け表現を含むものがあります。</p><NewsList items={news} full /><Link className="text-link section-link" href="/">VEIL TOP <ArrowRight size={16} /></Link></article></Shell>; }
 
 function AdultStoryPage({ member }: { member: Member }) {
   const key = `veil-age-ok-${member.slug}`; const [ok, setOk] = useState(() => localStorage.getItem(key) === "yes");
@@ -317,13 +340,14 @@ function NotFound() { return <Shell><section className="not-found"><p>404</p><h1
 function setMeta(path: string) {
   const serialStory = serialStories.find((story) => path === `/stories/${story.memberSlug.split("-")[0]}/season-${story.season}/episode-${story.episode}`);
   const englishRoute = serialStory ? englishEpisodeRouteByStoryId[serialStory.id] : englishEpisodeRouteByJapanesePath[path];
-  const name = serialStory ? `第${serialStory.episode}話 ${serialStory.title}` : path === "/" ? "VEIL OFFICIAL SITE" : path === "/admin" ? "VEIL LOCAL EDITOR" : path === "/discography" ? "DISCOGRAPHY" : path.includes("formation") ? "VEILが始まるまで" : path.includes("archive") ? "VEIL ARCHIVE" : path.includes("about") ? "ABOUT VEIL" : "VEIL";
+  const isNews = path === "/news";
+  const name = serialStory ? `第${serialStory.episode}話 ${serialStory.title}` : path === "/" ? "VEIL OFFICIAL SITE" : path === "/admin" ? "VEIL LOCAL EDITOR" : path === "/discography" ? "DISCOGRAPHY" : isNews ? "VEIL NEWS" : path.includes("formation") ? "VEILが始まるまで" : path.includes("archive") ? "VEIL ARCHIVE" : path.includes("about") ? "ABOUT VEIL" : "VEIL";
   document.title = `${name} | VEIL`;
   const desc = document.querySelector('meta[name="description"]');
-  desc?.setAttribute("content", serialStory && englishRoute ? `VEILの雨宮玲奈 Season 01 第${serialStory.episode}話『${serialStory.title}』。登場人物は全員成人です。` : "VEILは、架空の成人女性4人によるバンドプロジェクト。音楽、ビジュアル、物語、結成資料を公開します。");
+  desc?.setAttribute("content", serialStory && englishRoute ? `VEILの雨宮玲奈 Season 01 第${serialStory.episode}話『${serialStory.title}』。登場人物は全員成人です。` : isNews ? "VEIL公式サイトの公開・更新履歴。雨宮玲奈 Season 01、音楽、記録の最新情報をお知らせします。" : "VEILは、架空の成人女性4人によるバンドプロジェクト。音楽、ビジュアル、物語、結成資料を公開します。");
   let canonical = document.querySelector('link[rel="canonical"]');
   if (!canonical) { canonical = document.createElement("link"); canonical.setAttribute("rel", "canonical"); document.head.appendChild(canonical); }
-  canonical.setAttribute("href", `${siteUrl}${path}`);
+  canonical.setAttribute("href", `${siteUrl}${isNews ? "/news/" : path}`);
   document.querySelectorAll('link[data-veil-hreflang]').forEach((link) => link.remove());
   if (englishRoute) {
     [["ja", path], ["en", englishRoute], ["x-default", "/en/start/"]].forEach(([lang, href]) => {
@@ -358,6 +382,7 @@ export default function App() {
     if (path === "/gallery") return <Shell><GalleryDirectory /></Shell>;
     const galleryMember = members.find(m => path === `/gallery/${m.slug.split("-")[0]}`); if (galleryMember) return <MemberGalleryPage member={galleryMember} />;
     if (path === "/archive") return <ArchivePage />;
+    if (path === "/news") return <NewsPage />;
     if (path === "/story/formation") return <FormationPage />;
     const member = members.find(m => path === `/members/${m.slug}`); if (member) return <MemberPage member={member} />;
     const episodeMatch = path.match(/^\/stories\/(reina|mizuki|hiyori|risa)\/season-(\d+)\/episode-(\d+)$/);

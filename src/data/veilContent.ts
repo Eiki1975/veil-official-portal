@@ -1,3 +1,5 @@
+import newsData from "../content/news.json";
+
 export const siteUrl = import.meta.env.VITE_SITE_URL || "https://veil-archive.com";
 
 export type Member = {
@@ -33,11 +35,17 @@ export const members: Member[] = [
   },
 ];
 
-export const news = [
-  { date: "2026.07.12", type: "STORY ZERO", title: "4人がVEILへ来るまでの記録を公開しました" },
-  { date: "2026.07.12", type: "FORMATION", title: "PROLOGUE『最後の募集』を公開しました" },
-  { date: "2026.07.12", type: "ARCHIVE", title: "結成前後の資料をArchiveに追加しました" },
-];
+export type NewsItem = {
+  date: string;
+  dateTime: string;
+  type: string;
+  title: string;
+  summary: string;
+  href?: string;
+  adult?: boolean;
+};
+
+export const news = newsData as NewsItem[];
 
 export type GalleryItem = {
   record: string;
