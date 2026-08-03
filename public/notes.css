@@ -1,0 +1,72 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  background: #09090b;
+  color: #f2ede5;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: #09090b; color: #ded6d4; }
+a { color: inherit; text-underline-offset: 0.2em; }
+a:hover { color: #fff; }
+a:focus-visible { outline: 2px solid #d5a66c; outline-offset: 4px; }
+
+.notes-header, .notes-footer { width: min(100% - 2rem, 74rem); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.notes-header { min-height: 5rem; border-bottom: 1px solid rgba(255,255,255,.14); }
+.wordmark { display: inline-flex; align-items: baseline; gap: .65rem; text-decoration: none; }
+.wordmark strong { color: #f2ede5; font: 500 1.35rem/1 Georgia, serif; letter-spacing: .18em; }
+.wordmark span, .top-link { color: #aaa0a6; font: 500 .62rem/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; letter-spacing: .16em; }
+.top-link { text-decoration: none; }
+
+main { width: min(100% - 2rem, 74rem); margin: 0 auto; }
+.notes-index, .notes-article { width: min(100%, 48rem); margin: 0 auto; padding: clamp(4rem, 10vw, 8rem) 0; }
+.notes-intro, .notes-article-header { border-bottom: 1px solid rgba(255,255,255,.14); padding-bottom: clamp(2rem, 5vw, 3.5rem); }
+.eyebrow { margin: 0 0 1.2rem; color: #aaa0a6; font: 500 .62rem/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; letter-spacing: .17em; }
+h1, h2, h3 { font-family: "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif; font-weight: 400; }
+h1 { margin: 0; color: #f8f4ef; font-size: clamp(2.6rem, 8vw, 5.8rem); line-height: 1; letter-spacing: .04em; }
+.subtitle { margin: .9rem 0 0; color: #d5a66c; font: 500 .72rem/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; letter-spacing: .16em; }
+.lead { margin: 2rem 0 0; color: #cfc5c6; font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: clamp(1rem, 2vw, 1.18rem); line-height: 2; }
+
+.notes-list { border-top: 1px solid rgba(255,255,255,.14); margin-top: clamp(2.8rem, 7vw, 5rem); }
+.note-row { display: grid; grid-template-columns: 9rem minmax(0,1fr) auto; gap: 1.35rem; align-items: start; padding: 1.7rem 0; border-bottom: 1px solid rgba(255,255,255,.14); }
+.note-row-meta { display: grid; gap: .45rem; color: #aaa0a6; font: 500 .6rem/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; letter-spacing: .1em; }
+.note-row h2 { margin: 0; color: #f2ede5; font-size: clamp(1.3rem, 3vw, 1.75rem); line-height: 1.45; }
+.note-row h2 a { text-decoration: none; }
+.note-row h2 a:hover { text-decoration: underline; }
+.note-row p { margin: .65rem 0 0; color: #aaa0a6; font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: .9rem; line-height: 1.9; }
+.note-row-link, .back-link { display: inline-flex; align-items: center; gap: .45rem; color: #d8cdcf; font: 500 .64rem/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; letter-spacing: .1em; white-space: nowrap; }
+.notes-empty, .notes-disclosure { margin-top: clamp(2.8rem, 7vw, 5rem); padding: 1.4rem 0; border-block: 1px solid rgba(255,255,255,.14); }
+.notes-empty strong, .notes-disclosure strong { color: #ebe4e2; font: 500 1.05rem/1.7 "Hiragino Mincho ProN", "Yu Mincho", serif; }
+.notes-empty p, .notes-disclosure p { margin: .5rem 0 0; color: #aaa0a6; font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: .88rem; line-height: 1.9; }
+
+.notes-article-header dl { display: flex; flex-wrap: wrap; gap: 0; margin: 2rem 0 0; border-top: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); }
+.notes-article-header dl div { min-width: 8rem; padding: .85rem 1rem .85rem 0; margin-right: 1rem; }
+.notes-article-header dt { color: #aaa0a6; font: 500 .55rem/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; letter-spacing: .12em; }
+.notes-article-header dd { margin: .35rem 0 0; color: #e8e0df; font-size: .78rem; }
+.note-cover { margin: 2.5rem 0 0; border: 1px solid rgba(255,255,255,.14); background: #141215; }
+.note-cover img { display: block; width: 100%; height: auto; }
+.note-body { margin-top: clamp(3rem, 7vw, 5rem); }
+.note-body h2 { margin: 3.3rem 0 1.1rem; color: #f2ede5; font-size: clamp(1.5rem, 3.2vw, 2.2rem); line-height: 1.4; }
+.note-body h3 { margin: 2.6rem 0 1rem; color: #e8e0df; font-size: 1.2rem; line-height: 1.55; }
+.note-body p, .note-body li { color: #d5cccb; font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: 1rem; line-height: 2.1; }
+.note-body p { margin: 0 0 1.25rem; }
+.note-body ul { margin: 0 0 1.4rem; padding-left: 1.25rem; }
+.note-body li + li { margin-top: .55rem; }
+.notes-article .notes-disclosure { margin-top: clamp(3.4rem, 8vw, 5.5rem); }
+.back-link { margin-top: 2.5rem; }
+
+.notes-footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(255,255,255,.14); color: #aaa0a6; font: 500 .58rem/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; letter-spacing: .12em; }
+.notes-footer nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 1rem; }
+.notes-footer nav a { text-decoration: none; }
+
+@media (max-width: 640px) {
+  .wordmark span { display: none; }
+  .notes-index, .notes-article { padding-block: 3.6rem 5rem; }
+  .note-row { grid-template-columns: minmax(0,1fr) auto; gap: .8rem 1rem; padding: 1.35rem 0; }
+  .note-row-meta { grid-column: 1 / -1; display: flex; gap: .75rem; }
+  .note-row p { font-size: .84rem; }
+  .notes-article-header dl div { min-width: 6rem; }
+  .notes-footer { align-items: flex-start; flex-direction: column; }
+  .notes-footer nav { justify-content: flex-start; }
+}

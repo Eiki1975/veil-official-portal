@@ -11,6 +11,8 @@ const robots = await read("robots.txt");
 const sitemap = await read("sitemap.xml");
 const headers = await read("_headers");
 const redirects = await read("_redirects");
+const notesDocument = JSON.parse(await readFile(join(root, "src/content/notes-published/index.json"), "utf8"));
+const notes = Array.isArray(notesDocument?.notes) ? notesDocument.notes : [];
 
 expect(!/Disallow:\s*\/(?:en\/)?stories\//i.test(robots), "robots.txt must allow story crawling so noindex can be observed.");
 expect(/Sitemap:\s*https:\/\/veil-archive\.com\/sitemap\.xml/i.test(robots), "robots.txt must declare the production sitemap.");
@@ -63,6 +65,25 @@ expect(japaneseGuide.includes('hreflang="en"') && japaneseGuide.includes("/en/ed
 expect(englishGuide.includes('hreflang="ja"') && englishGuide.includes("/editorial/reading-guide/"), "English guide must link to the Japanese alternate.");
 expect(japaneseGuide.includes("官能小説") && japaneseGuide.includes("イメージビデオ") && japaneseGuide.includes("グラビア"), "Japanese recorder note must cover the approved search intent naturally.");
 expect(englishGuide.includes("erotic fiction") && englishGuide.includes("Japanese image videos") && englishGuide.includes("gravure"), "English recorder note must cover the approved search intent naturally.");
+
+const notesIndex = await read("notes/index.html");
+if (!notes.length) {
+  expect(!sitemap.includes("https://veil-archive.com/notes/"), "Empty VEIL NOTES must not enter the sitemap.");
+  expect(notesIndex.includes('<link rel="canonical" href="https://veil-archive.com/notes/"'), "Empty VEIL NOTES must retain its canonical URL.");
+  expect(/<meta\s+name="robots"\s+content="noindex,nofollow"/i.test(notesIndex), "Empty VEIL NOTES must remain noindex.");
+  expect(notesIndex.includes("公開済みの制作ノートは、まだありません。"), "Empty VEIL NOTES must not invent an article.");
+} else {
+  expect(sitemap.includes("https://veil-archive.com/notes/"), "Published VEIL NOTES index must enter the sitemap.");
+  expect(/<meta\s+name="robots"\s+content="index,follow,max-image-preview:large"/i.test(notesIndex), "Published VEIL NOTES index must be indexable.");
+  for (const note of notes) {
+    const pathname = `notes/${note.slug}/index.html`;
+    const html = await read(pathname);
+    expect(sitemap.includes(`https://veil-archive.com/notes/${note.slug}/`), `Published VEIL NOTES article must enter the sitemap: ${note.slug}`);
+    expect(html.includes(`<link rel="canonical" href="https://veil-archive.com/notes/${note.slug}/"`), `VEIL NOTES article canonical is wrong: ${note.slug}`);
+    expect(/<meta\s+name="robots"\s+content="index,follow,max-image-preview:large"/i.test(html), `VEIL NOTES article must be indexable: ${note.slug}`);
+    expect(/"@type":"BlogPosting"/.test(html), `VEIL NOTES article must include BlogPosting JSON-LD: ${note.slug}`);
+  }
+}
 
 if (failures.length) {
   console.error(`SEO verification failed (${failures.length}):`);

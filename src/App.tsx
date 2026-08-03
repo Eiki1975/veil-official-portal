@@ -83,7 +83,7 @@ const track = (event: string, detail?: string) => {
 
 function Link({ href, children, className, event }: { href: string; children: React.ReactNode; className?: string; event?: string }) {
   const local = href.startsWith("/");
-  const documentRoute = /^\/(?:editorial|en|ja|news)\//.test(canonicalRoutePath(href));
+  const documentRoute = /^\/(?:editorial|en|ja|news|notes)\//.test(canonicalRoutePath(href));
   return <a href={local ? routeUrl(href) : href} className={className} onClick={(e) => {
     if (event) track(event, href);
     if (local && !documentRoute) {
@@ -111,7 +111,7 @@ function Header() {
 function Footer() {
   return <footer className="footer">
     <div><p className="footer-logo">VEIL</p><p>Music, visuals and stories of four fictional women.</p></div>
-    <nav><Link href="/news/">NEWS</Link><Link href="/editorial/reading-guide/">READER GUIDE</Link><Link href="/legal/privacy">PRIVACY</Link><Link href="/legal/terms">TERMS</Link><Link href="/legal/adult-policy">18+ NOTICE</Link><Link href="/legal/contact">CONTACT</Link></nav>
+    <nav><Link href="/news/">NEWS</Link><Link href="/notes/">NOTES</Link><Link href="/editorial/reading-guide/">READER GUIDE</Link><Link href="/legal/privacy">PRIVACY</Link><Link href="/legal/terms">TERMS</Link><Link href="/legal/adult-policy">18+ NOTICE</Link><Link href="/legal/contact">CONTACT</Link></nav>
     <p className="fine">VEILはAIを含む制作手法を活用した創作バンドプロジェクトです。登場人物は架空ですが、公開される作品は実際の創作物です。</p>
   </footer>;
 }
@@ -136,8 +136,16 @@ function MembersGrid() {
     <div className="member-grid">{members.map((m, i) => <article className="member-card" key={m.slug}>
       <Link href={`/members/${m.slug}`} event="member_card_click"><div className="member-image-wrap"><img src={assetUrl(m.image)} alt={m.alt} width="1200" height="1500" loading={i ? "lazy" : "eager"} /></div></Link>
       <div className="member-body"><p className="member-index">0{i + 1} / {m.role}</p><h3>{m.name}</h3><p className="member-en">{m.nameEn}</p><p>{m.intro}</p><Link className="text-link" href={`/members/${m.slug}`} event="story_zero_click">STORY ZERO <ArrowRight size={16} /></Link></div>
-    </article>)}</div>
+    </article>)}</div><NotesTeaser />
   </section>;
+}
+
+function NotesTeaser() {
+  return <aside className="notes-teaser" aria-labelledby="notes-teaser-title">
+    <div className="notes-teaser__title"><p>OUTSIDE THE STORY</p><h2 id="notes-teaser-title">VEIL NOTES <span>制作の記録</span></h2></div>
+    <p className="notes-teaser__copy">作品が形になるまでの、公開された制作の記録。</p>
+    <Link className="notes-teaser__link" href="/notes/" event="notes_index_open">制作の記録を読む <ArrowRight size={16} /></Link>
+  </aside>;
 }
 
 function GalleryDirectory({ id }: { id?: string }) {

@@ -5,10 +5,22 @@ const root = process.cwd();
 const siteUrl = "https://veil-archive.com";
 const seoPages = JSON.parse(await readFile(join(root, "src/content/seo-pages.json"), "utf8"));
 const news = JSON.parse(await readFile(join(root, "src/content/news.json"), "utf8"));
+const notesDocument = JSON.parse(await readFile(join(root, "src/content/notes-published/index.json"), "utf8"));
 
 if (!Array.isArray(seoPages) || !seoPages.length) throw new Error("SEO page registry must not be empty.");
 if (!Array.isArray(news) || !news.length || !/^\d{4}-\d{2}-\d{2}$/.test(news[0]?.dateTime || "")) {
   throw new Error("Latest news date is required for sitemap generation.");
+}
+if (!notesDocument || typeof notesDocument !== "object" || Array.isArray(notesDocument) || notesDocument.schemaVersion !== 1 || !Array.isArray(notesDocument.notes)) {
+  throw new Error("VEIL NOTES public index has an invalid schema.");
+}
+const notes = notesDocument.notes;
+const noteSlug = (value) => /^[a-z0-9][a-z0-9-]{0,79}$/.test(String(value || ""));
+const noteDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(String(value || ""));
+for (const note of notes) {
+  if (!note || typeof note !== "object" || !noteSlug(note.slug) || !noteDate(note.publishedAt) || !noteDate(note.updatedAt)) {
+    throw new Error("VEIL NOTES public entry is invalid.");
+  }
 }
 
 const canonicalPath = (path) => path === "/" ? "/" : `${path.replace(/\/+$/, "")}/`;
@@ -51,6 +63,10 @@ const entries = [
   { path: "/ja/start", lastmod: "2026-08-03", alternates: startAlternates },
   { path: "/en/start", lastmod: "2026-08-03", alternates: startAlternates },
   { path: "/news", lastmod: news[0].dateTime },
+  ...(notes.length ? [
+    { path: "/notes", lastmod: notes.map((note) => note.updatedAt).sort().at(-1) },
+    ...notes.map((note) => ({ path: `/notes/${note.slug}`, lastmod: note.updatedAt })),
+  ] : []),
   { path: "/editorial/reading-guide", lastmod: "2026-08-03", alternates: editorialAlternates },
   { path: "/en/editorial/reading-guide", lastmod: "2026-08-03", alternates: editorialAlternates },
   { path: "/editorial/sensual-fiction", lastmod: "2026-08-03" },
