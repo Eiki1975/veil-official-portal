@@ -1,11 +1,36 @@
 [
   {
+    "date": "2026.08.05",
+    "dateTime": "2026-08-05",
+    "type": "VEIL NOTES",
+    "title": "VEIL NOTES #02『見たかったのは、新しい一枚だけではなかった』を公開しました",
+    "summary": "キャラクターと物語を、なぜ一枚の画像だけで終わらせずに育てようと思ったのか。その転換点を記録した制作ノートを公開しました。",
+    "href": "/notes/not-just-a-new-image/"
+  },
+  {
+    "date": "2026.08.04",
+    "dateTime": "2026-08-04",
+    "type": "VEIL NOTES",
+    "title": "VEIL NOTES #01『毎日の夜のおかずに、少し飽きてしまった方へ』を公開しました",
+    "summary": "VEIL NOTESを開始しました。制作の記録として何を公開し、何を公開しないかを最初に説明しています。",
+    "href": "/notes/g-life-introduction/"
+  },
+  {
     "date": "2026.08.03",
     "dateTime": "2026-08-03",
     "type": "STORY RELEASE",
     "title": "雨宮玲奈 Season 01 第2話『見てしまう』を公開しました",
     "summary": "雨宮玲奈のSeason 01、第2話を公開しました。第1話から続く彼女の記録を、本文とビジュアル記録で読むことができます。",
     "href": "/stories/reina/season-1/episode-2",
+    "adult": true
+  },
+  {
+    "date": "2026.08.03",
+    "dateTime": "2026-08-03",
+    "type": "STORY / ENGLISH",
+    "title": "雨宮玲奈 Season 01 第2話『見てしまう』英語版を公開しました",
+    "summary": "英語の入口から、同じビジュアル記録を使った英語版『The Second Look』を読むことができます。",
+    "href": "/en/stories/reina/season-1/episode-2/",
     "adult": true
   },
   {
