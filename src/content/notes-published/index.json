@@ -1,4 +1,15 @@
 {
   "schemaVersion": 1,
-  "notes": []
+  "notes": [
+    {
+      "id": "veil-notes-01-g-life-introduction",
+      "slug": "g-life-introduction",
+      "title": "毎日の夜のおかずに、少し飽きてしまった方へ",
+      "summary": "ただ探すだけでは満たされない夜から、自分の好みを知り、成人の架空キャラクターと世界を少しずつ育てるG-Lifeへ。この連載で記録することと、その境界を最初に説明します。",
+      "category": "はじまり",
+      "publishedAt": "2026-08-04",
+      "updatedAt": "2026-08-04",
+      "readingMinutes": 5
+    }
+  ]
 }
