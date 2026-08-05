@@ -351,7 +351,7 @@ function SerialStoryPage({ story: summary, member }: { story: SerialStorySummary
 
 function LegalPage({ type }: { type: string }) {
   const content: Record<string, [string, string]> = {
-    privacy: ["PRIVACY POLICY", "当サイトでは、閲覧傾向の把握とサイト改善のために Cloudflare Web Analytics を利用しています。"],
+    privacy: ["PRIVACY POLICY", "当サイトでは、閲覧傾向の把握とサイト改善のために Cloudflare Web Analytics と Google Analytics を利用しています。"],
     terms: ["TERMS OF USE", "著作権、禁止事項、免責については公開前に管理者と専門家の確認を経て正式文面を掲載します。"],
     "adult-policy": ["ADULT CONTENT POLICY / 18+ NOTICE", "VEILの一部の物語には成人向け表現が含まれます。18歳未満の方は閲覧できません。外部サービスではそのサービスの規約と決済条件が適用されます。"],
     contact: ["CONTACT", "お問い合わせ先は未設定です。架空の事業者情報は掲載せず、正式な運営者情報の確定後に更新します。"],
@@ -361,7 +361,7 @@ function LegalPage({ type }: { type: string }) {
   const isAdultPolicy = type === "adult-policy";
   const isComing = type === "terms" || type === "contact";
 
-  return <Shell><PageHero eyebrow={isPrivacy ? "VEIL OFFICIAL SITE / PRIVACY" : isAdultPolicy ? "VEIL OFFICIAL SITE / 18+ POLICY" : "VEIL OFFICIAL SITE / COMING SOON"} title={title} copy={body} /><article className="prose page-section">{isPrivacy ? <><p>Cloudflare Web Analytics により、訪問数、閲覧ページ、流入元、利用環境などの統計情報を確認します。</p><p>当サイトの運営者が、アクセス解析のために氏名、メールアドレス、本文の入力内容などを取得することはありません。</p><p>収集・処理は Cloudflare のプライバシー方針に基づいて行われます。</p></> : isAdultPolicy ? <><h2>対象となる記録</h2><p>VEILの一部の物語には、成人同士の親密さや欲望を扱う成人向け表現があります。登場人物はすべて架空の成人です。</p><h2>年齢確認</h2><p>該当する物語は18歳以上の方を対象とし、本文を開く前に年齢確認を表示します。同意状態は利用中の端末内にのみ保存します。</p><h2>ビジュアルの制作方法</h2><p>挿絵にはAIを含む制作手法を用いています。物語ページでフィクション、成人向け表現、AI支援イラストであることを表示します。</p><h2>現在の提供範囲</h2><p>現在公開しているのは物語、静止画と音楽です。成人向け動画、DVD、イメージビデオ、外部販売サービスは提供していません。</p><div className="next-links"><Link href="/editorial/reading-guide/">記録者が、この物語を届けたい理由 <ArrowRight /></Link><Link href="/editorial/sensual-fiction/">官能表現の編集方針 <ArrowRight /></Link></div></> : isComing ? <><p className="status-chip">COMING SOON</p><p>このページは運用開始前のページ枠です。法的文面は公開前に専門家の確認が必要です。</p></> : <p>ページが見つかりません。</p>}</article></Shell>;
+  return <Shell><PageHero eyebrow={isPrivacy ? "VEIL OFFICIAL SITE / PRIVACY" : isAdultPolicy ? "VEIL OFFICIAL SITE / 18+ POLICY" : "VEIL OFFICIAL SITE / COMING SOON"} title={title} copy={body} /><article className="prose page-section">{isPrivacy ? <><p>Cloudflare Web Analytics と Google Analytics により、訪問数、閲覧ページ、流入元、利用環境などの統計情報を確認します。</p><p>Google Analytics は、Cookie 等を通じて匿名化された利用状況を収集する場合があります。氏名、メールアドレス、本文の入力内容などをアクセス解析目的で取得することはありません。</p><p>収集・処理は Cloudflare および Google のプライバシー方針に基づいて行われます。</p></> : isAdultPolicy ? <><h2>対象となる記録</h2><p>VEILの一部の物語には、成人同士の親密さや欲望を扱う成人向け表現があります。登場人物はすべて架空の成人です。</p><h2>年齢確認</h2><p>該当する物語は18歳以上の方を対象とし、本文を開く前に年齢確認を表示します。同意状態は利用中の端末内にのみ保存します。</p><h2>ビジュアルの制作方法</h2><p>挿絵にはAIを含む制作手法を用いています。物語ページでフィクション、成人向け表現、AI支援イラストであることを表示します。</p><h2>現在の提供範囲</h2><p>現在公開しているのは物語、静止画と音楽です。成人向け動画、DVD、イメージビデオ、外部販売サービスは提供していません。</p><div className="next-links"><Link href="/editorial/reading-guide/">記録者が、この物語を届けたい理由 <ArrowRight /></Link><Link href="/editorial/sensual-fiction/">官能表現の編集方針 <ArrowRight /></Link></div></> : isComing ? <><p className="status-chip">COMING SOON</p><p>このページは運用開始前のページ枠です。法的文面は公開前に専門家の確認が必要です。</p></> : <p>ページが見つかりません。</p>}</article></Shell>;
 }
 
 function NotFound() { return <Shell><section className="not-found"><p>404</p><h1>RECORD NOT FOUND</h1><Link className="button ghost" href="/">VEILへ戻る</Link></section></Shell>; }
