@@ -197,7 +197,7 @@ export function LocalAdmin({ members, publishedStories }: { members: MemberOptio
   if (!isLocal) return <main className="admin-closed"><p className="eyebrow">VEIL LOCAL EDITOR</p><h1>この編集画面はMac内だけで開けます。</h1><p>公開サイトからは原稿や画像を編集できません。</p></main>;
 
   return <main className="admin-shell">
-    <header className="admin-header"><div><p className="eyebrow">VEIL / LOCAL EDITOR</p><h1>物語を管理する</h1><p>公開済みの記事も、正本を残したまま編集用コピーとして開けます。</p></div><a href="/" className="admin-site-link">公開サイトを見る</a></header>
+    <header className="admin-header"><div><p className="eyebrow">VEIL / LOCAL EDITOR</p><h1>物語を管理する</h1><p>公開済みの記事も、正本を残したまま編集用コピーとして開けます。</p></div><a href="/admin/notes" className="admin-site-link">NOTEを管理する</a></header>
     <section className="admin-workspace">
       <aside className="admin-list">
         <button className="admin-new" onClick={addStory}>＋ 新しい話を作る</button>

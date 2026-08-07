@@ -6,6 +6,7 @@ import { serialStories, type SerialStory, type SerialStoryImage, type SerialStor
 import { PersistentAudioPlayer, type AudioPlayerHandle } from "./AudioPlayer";
 import "./styles/music-player.css";
 import { LocalAdmin } from "./LocalAdmin";
+import { LocalNotesAdmin } from "./LocalNotesAdmin";
 import seoPageData from "./content/seo-pages.json";
 import prologue from "./content/prologue.md?raw";
 import reinaStory from "./content/story-zero/reina.md?raw";
@@ -486,6 +487,7 @@ export default function App() {
   useEffect(() => setMeta(path), [path]);
   const page = useMemo(() => {
     if (path === "/admin") return <LocalAdmin members={members} publishedStories={serialStories} />;
+    if (path === "/admin/notes") return <LocalNotesAdmin />;
     if (path === "/") return <Home onPlayBorderline={playBorderline} />;
     if (path === "/about") return <AboutPage />;
     if (path === "/discography") return <DiscographyPage onPlayBorderline={playBorderline} />;
