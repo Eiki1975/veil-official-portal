@@ -9,12 +9,6 @@
 /images/*
   Cache-Control: public, max-age=31536000, immutable
 
-/stories/*
-  X-Robots-Tag: noindex, nofollow
-
-/en/stories/*
-  X-Robots-Tag: noindex, nofollow
-
 /story-data/*
   X-Robots-Tag: noindex, nofollow
 

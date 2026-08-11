@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 
 const root = process.cwd();
+const indexPath = "src/content/english-serial-stories-index.json";
 
 const escapeHtml = (value) => value
   .replaceAll("&", "&amp;")
@@ -25,6 +26,7 @@ const episodes = [
     jpUrl: "/stories/reina/season-1/episode-1/",
     enUrl: "/en/stories/reina/season-1/episode-1/",
     title: "After Being Seen",
+    updatedAt: "2026-08-02",
     description: "After a VEIL show, Reina Amamiya notices a gaze she cannot explain away. An adult fictional episode from VEIL.",
     ogImage: "/images/stories/season-01-reina/episode-01-illustrations-20260727/01-ladder-hem-v2-small-livehouse.png",
     ogImageAlt: "Reina Amamiya reaches toward tape on a wall after a VEIL show.",
@@ -99,6 +101,7 @@ const episodes = [
     jpUrl: "/stories/reina/season-1/episode-2/",
     enUrl: "/en/stories/reina/season-1/episode-2/",
     title: "The Second Look",
+    updatedAt: "2026-08-03",
     description: "At a shared-bill show, Reina Amamiya cannot stop returning to the moment she saw more than she meant to. An adult fictional episode from VEIL.",
     ogImage: "/images/stories/season-01-reina/episode-02-visual-records-20260802/ep02-sc01-dressing-room-doorway-v1.png?v=20260802",
     ogImageAlt: "Reina Amamiya pauses at a dressing-room door before a VEIL show.",
@@ -154,7 +157,7 @@ function pageHtml(episode, paragraphs, images) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#09090b" />
-    <meta name="robots" content="noindex,nofollow" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
     <title>${escapeHtml(episode.title)} — Reina Amamiya | VEIL</title>
     <meta name="description" content="${escapeHtml(episode.description)}" />
     <link rel="canonical" href="${canonical}" />
@@ -231,3 +234,16 @@ for (const episode of episodes) {
   await mkdir(dirname(output), { recursive: true });
   await writeFile(output, html, "utf8");
 }
+
+const englishStoryIndex = episodes.map(({ storyId, episode, jpUrl, enUrl, title, description, updatedAt }) => ({
+  storyId,
+  memberSlug: "reina-amamiya",
+  season: 1,
+  episode,
+  jpUrl,
+  enUrl,
+  title,
+  description,
+  updatedAt,
+}));
+await writeFile(join(root, indexPath), `${JSON.stringify(englishStoryIndex, null, 2)}\n`, "utf8");

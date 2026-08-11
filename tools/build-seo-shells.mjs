@@ -71,13 +71,14 @@ async function writeShell(page) {
 
 const shells = seoPages.filter((page) => page.shell === true);
 for (const member of members) {
+  const hasPublishedStories = storyIndex.some((story) => story.memberSlug === member.slug);
   shells.push({
     path: `/stories/${member.short}`,
     title: `${member.name}の成人向け連載｜VEIL STORIES`,
     description: `${member.name}の心理と関係の変化を追うVEILの成人向け連載一覧です。登場人物はすべて架空の成人です。`,
     image: member.image,
     schemaType: "CollectionPage",
-    robots: "noindex,nofollow",
+    robots: hasPublishedStories ? "index,follow,max-image-preview:large" : "noindex,nofollow",
   });
 }
 for (const story of storyIndex) {
@@ -89,7 +90,7 @@ for (const story of storyIndex) {
     description: `${member.name} Season ${String(story.season).padStart(2, "0")} 第${story.episode}話「${story.title}」。登場人物はすべて架空の成人です。`,
     image: member.image,
     schemaType: "WebPage",
-    robots: "noindex,nofollow",
+    robots: "index,follow,max-image-preview:large",
   });
 }
 
