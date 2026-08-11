@@ -24,10 +24,12 @@ const storyZero: Record<string, string> = {
 const englishEpisodeRouteByStoryId: Record<string, string> = {
   "season-01-reina-episode-01-canonical-20260727": "/en/stories/reina/season-1/episode-1/",
   "season-01-reina-episode-02-canonical-20260802": "/en/stories/reina/season-1/episode-2/",
+  "season-01-reina-episode-04-canonical-20260809": "/en/stories/reina/season-1/episode-4/",
 };
 const englishEpisodeRouteByJapanesePath: Record<string, string> = {
   "/stories/reina/season-1/episode-1": "/en/stories/reina/season-1/episode-1/",
   "/stories/reina/season-1/episode-2": "/en/stories/reina/season-1/episode-2/",
+  "/stories/reina/season-1/episode-4": "/en/stories/reina/season-1/episode-4/",
 };
 const firstPublishedStoryByMember = new Map<string, SerialStorySummary>();
 const publishedStoriesByMember = new Map<string, SerialStorySummary[]>();

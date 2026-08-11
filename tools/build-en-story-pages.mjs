@@ -116,6 +116,29 @@ const episodes = [
       { id: "ep02-11-afterglow", alt: "Reina rests against a pillow in the quiet after the night’s unresolved heat.", caption: "VISUAL RECORD 08 / AFTERGLOW", afterIndex: 158 },
     ],
   },
+  {
+    storyId: "season-01-reina-episode-04-canonical-20260809",
+    episode: 4,
+    source: "src/content/season-01-reina-episode-04-en-20260811.md",
+    output: "public/en/stories/reina/season-1/episode-4/index.html",
+    jpUrl: "/stories/reina/season-1/episode-4/",
+    enUrl: "/en/stories/reina/season-1/episode-4/",
+    title: "The Name She Found",
+    updatedAt: "2026-08-11",
+    description: "At an industry showcase, Reina Amamiya recognizes the drummer who has unsettled her—and finds her voice changing under his gaze. An adult fictional episode from VEIL.",
+    ogImage: "/images/stories/season-01-reina/episode-04-visual-records-20260811/ep04-sc01-flyer-turn-v1.png",
+    ogImageAlt: "Reina Amamiya turns a flyer facedown in a backstage hallway before a VEIL showcase.",
+    images: [
+      { id: "ep04-01-flyer-turn", alt: "Reina Amamiya turns a flyer facedown in a backstage hallway before a VEIL showcase.", caption: "VISUAL RECORD 01 / FLYER TURN", after: "At Mizuki’s call, Reina turned the flyer facedown." },
+      { id: "ep04-02-envelope-choice", alt: "Reina looks down at a large document envelope holding a flyer backstage.", caption: "VISUAL RECORD 02 / ONLY SING", after: "Today, I am only here to sing." },
+      { id: "ep04-03-stage-wing-relief", alt: "Reina pauses at the side of the stage, gathering herself before VEIL performs.", caption: "VISUAL RECORD 03 / RELIEF", after: "If Yuto was here, she thought, then today would be all right." },
+      { id: "ep04-04-first-line-catches", alt: "Reina sings into a microphone under stage lights at a small hall.", caption: "VISUAL RECORD 04 / FIRST BREATH", after: "He was looking at her." },
+      { id: "ep04-05-half-step-forward", alt: "Reina leans forward under dark stage lighting as she pushes her song ahead.", caption: "VISUAL RECORD 05 / HALF STEP", after: "The last note of the chorus held longer than it usually did." },
+      { id: "ep04-06-applause-after", alt: "Reina stands alone onstage after a song, holding a microphone in the lingering applause.", caption: "VISUAL RECORD 06 / APPLAUSE", after: "Seeing his face made something in her ache." },
+      { id: "ep04-07-praise-in-corridor", alt: "Reina holds a water bottle in a backstage corridor after VEIL’s performance.", caption: "VISUAL RECORD 07 / PRAISE", after: "Reina lowered her head again instead of answering." },
+      { id: "ep04-08-words-left-unsaid", alt: "Reina stands alone in a blue-lit backstage corridor with an unresolved expression.", caption: "VISUAL RECORD 08 / WORDS LEFT UNSAID", after: "Reina could not answer." },
+    ],
+  },
 ];
 
 function figureHtml(image, className = "story-figure") {
