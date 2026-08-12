@@ -15,9 +15,14 @@ if (analyticsId) {
   analyticsScript.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsId)}`;
   document.head.appendChild(analyticsScript);
 
-  const analyticsWindow = window as Window & { dataLayer?: unknown[][] };
+  const analyticsWindow = window as Window & { dataLayer?: IArguments[] };
   analyticsWindow.dataLayer ||= [];
-  const gtag = (...args: unknown[]) => analyticsWindow.dataLayer?.push(args);
+  // gtag.js consumes each queued call as an Arguments object. Keep this a
+  // regular function (rather than an arrow) so `arguments` is the call's
+  // actual argument list, matching Google's standard installation snippet.
+  function gtag(..._args: unknown[]) {
+    analyticsWindow.dataLayer?.push(arguments);
+  }
 
   gtag("js", new Date());
   gtag("config", analyticsId);
