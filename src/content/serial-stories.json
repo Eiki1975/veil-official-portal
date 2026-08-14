@@ -287,5 +287,72 @@
       }
     ],
     "updatedAt": "2026-08-11T08:59:38.584Z"
+  },
+  {
+    "id": "season-01-reina-episode-05-canonical-20260814",
+    "memberSlug": "reina-amamiya",
+    "season": 1,
+    "episode": 5,
+    "title": "帰らない夜",
+    "bodySource": "src/content/season-01-reina-episode-05-canonical-published-20260815.md",
+    "images": [
+      {
+        "id": "ep05-01-water-pour",
+        "alt": "イタリアン系の店のカウンターで、水差しからグラスへ水を注ぐ雨宮玲奈",
+        "caption": "VISUAL RECORD 01 / WATER COUNTER",
+        "image": "/images/stories/season-01-reina/episode-05-visual-records-20260815/ep05-sc01-water-pour-v1.png",
+        "afterIndex": 34
+      },
+      {
+        "id": "ep05-02-unanswered-words",
+        "alt": "暖かな店内で、答えを探すように視線を伏せる雨宮玲奈",
+        "caption": "VISUAL RECORD 02 / NO ANSWER",
+        "image": "/images/stories/season-01-reina/episode-05-visual-records-20260815/ep05-sc02-unanswered-words-v1.png",
+        "afterIndex": 68
+      },
+      {
+        "id": "ep05-03-black-falls-to-shoulder",
+        "alt": "黒いざっくりニットと色落ちした黒デニムのミニスカートで、グラスへ手を添える雨宮玲奈",
+        "caption": "VISUAL RECORD 03 / CHARCOAL KNIT",
+        "image": "/images/stories/season-01-reina/episode-05-visual-records-20260815/ep05-sc03-black-falls-to-shoulder-v1.png",
+        "afterIndex": 98
+      },
+      {
+        "id": "ep05-04-music-talk-continues",
+        "alt": "イタリアン系の店で、音楽の話をするように身を乗り出す雨宮玲奈",
+        "caption": "VISUAL RECORD 04 / MUSIC TALK",
+        "image": "/images/stories/season-01-reina/episode-05-visual-records-20260815/ep05-sc04-music-talk-continues-v1.png",
+        "afterIndex": 182
+      },
+      {
+        "id": "ep05-05-even-after-checking-time",
+        "alt": "暗い画面のスマートフォンを手に、店内で時刻を確かめた雨宮玲奈",
+        "caption": "VISUAL RECORD 05 / TIME GLANCE",
+        "image": "/images/stories/season-01-reina/episode-05-visual-records-20260815/ep05-sc05-even-after-checking-time-v1.png",
+        "afterIndex": 220
+      },
+      {
+        "id": "ep05-06-first-name",
+        "alt": "夜の街灯の下で、横を向きながら言葉を選ぶ雨宮玲奈",
+        "caption": "VISUAL RECORD 06 / FIRST NAME",
+        "image": "/images/stories/season-01-reina/episode-05-visual-records-20260815/ep05-sc06-first-name-v1.png",
+        "afterIndex": 252
+      },
+      {
+        "id": "ep05-07-sidewalk-after-closing",
+        "alt": "夜の歩道を、スマートフォンを手に歩く雨宮玲奈",
+        "caption": "VISUAL RECORD 07 / AFTER CLOSING",
+        "image": "/images/stories/season-01-reina/episode-05-visual-records-20260815/ep05-sc07-sidewalk-after-closing-v1.png",
+        "afterIndex": 278
+      },
+      {
+        "id": "ep05-08-lit-door",
+        "alt": "暖かな灯りのホテル入口へ、自分から歩き出す雨宮玲奈",
+        "caption": "VISUAL RECORD 08 / LIT DOOR",
+        "image": "/images/stories/season-01-reina/episode-05-visual-records-20260815/ep05-sc08-lit-door-v1.png",
+        "afterIndex": 292
+      }
+    ],
+    "updatedAt": "2026-08-15T00:00:00.000Z"
   }
 ]

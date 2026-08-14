@@ -76,7 +76,7 @@
   </url>
   <url>
     <loc>https://veil-archive.com/stories/reina/</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-15</lastmod>
   </url>
   <url>
     <loc>https://veil-archive.com/stories/reina/season-1/episode-1/</loc>
@@ -123,6 +123,20 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/stories/reina/season-1/episode-4/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://veil-archive.com/stories/reina/season-1/episode-4/" />
     <lastmod>2026-08-11</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/stories/reina/season-1/episode-5/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://veil-archive.com/stories/reina/season-1/episode-5/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/stories/reina/season-1/episode-5/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://veil-archive.com/stories/reina/season-1/episode-5/" />
+    <lastmod>2026-08-15</lastmod>
+  </url>
+  <url>
+    <loc>https://veil-archive.com/en/stories/reina/season-1/episode-5/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://veil-archive.com/stories/reina/season-1/episode-5/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/stories/reina/season-1/episode-5/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://veil-archive.com/stories/reina/season-1/episode-5/" />
+    <lastmod>2026-08-15</lastmod>
   </url>
   <url>
     <loc>https://veil-archive.com/notes/</loc>

@@ -139,6 +139,29 @@ const episodes = [
       { id: "ep04-08-words-left-unsaid", alt: "Reina stands alone in a blue-lit backstage corridor with an unresolved expression.", caption: "VISUAL RECORD 08 / WORDS LEFT UNSAID", after: "Reina could not answer." },
     ],
   },
+  {
+    storyId: "season-01-reina-episode-05-canonical-20260814",
+    episode: 5,
+    source: "src/content/season-01-reina-episode-05-en-20260815.md",
+    output: "public/en/stories/reina/season-1/episode-5/index.html",
+    jpUrl: "/stories/reina/season-1/episode-5/",
+    enUrl: "/en/stories/reina/season-1/episode-5/",
+    title: "The Night She Doesn't Go Home",
+    updatedAt: "2026-08-15",
+    description: "At a work afterparty, Reina lets a conversation with Toru continue past the moment she could have left—and chooses what comes next. An adult fictional episode from VEIL.",
+    ogImage: "/images/stories/season-01-reina/episode-05-visual-records-20260815/ep05-sc01-water-pour-v1.png",
+    ogImageAlt: "Reina Amamiya pours water into a glass at a warm Italian restaurant afterparty.",
+    images: [
+      { id: "ep05-01-water-pour", alt: "Reina Amamiya pours water into a glass at a warm Italian restaurant afterparty.", caption: "VISUAL RECORD 01 / WATER COUNTER", after: "Just as she reached for the water carafe, Toru was standing on the other side of it." },
+      { id: "ep05-02-unanswered-words", alt: "Reina Amamiya pauses in a warm restaurant, quietly searching for an answer.", caption: "VISUAL RECORD 02 / NO ANSWER", after: "Reina said nothing." },
+      { id: "ep05-03-black-falls-to-shoulder", alt: "The sleeve of Reina’s charcoal knit falls near her hand and water glass at the restaurant table.", caption: "VISUAL RECORD 03 / CHARCOAL KNIT", after: "For the first time, Reina thought he might be more decent than she had expected." },
+      { id: "ep05-04-music-talk-continues", alt: "Reina leans forward at a restaurant table as she talks about VEIL’s music.", caption: "VISUAL RECORD 04 / MUSIC TALK", after: "The words in their songs. The songs where the moment Hiyori’s bass came in, even the place where Reina took her breaths changed. The way the band’s sound shifted a little whenever the four of them played together again and again. Rather than there being one finished form, each live show brought them closer to the sound the four of them had at that moment." },
+      { id: "ep05-05-even-after-checking-time", alt: "Reina holds a dark-screened phone as she checks the time at the restaurant.", caption: "VISUAL RECORD 05 / TIME GLANCE", after: "When she had checked the time a little earlier, Reina had closed the screen. Even so, she had not stopped the conversation." },
+      { id: "ep05-06-first-name", alt: "Reina chooses her words beneath a streetlamp at night.", caption: "VISUAL RECORD 06 / FIRST NAME", after: "The moment she said it, Reina surprised herself a little." },
+      { id: "ep05-07-sidewalk-after-closing", alt: "Reina walks along a quiet night sidewalk, holding her phone at her side.", caption: "VISUAL RECORD 07 / AFTER CLOSING", after: "They started walking without either of them naming where they were going." },
+      { id: "ep05-08-lit-door", alt: "Reina walks toward a warmly lit hotel entrance at night.", caption: "VISUAL RECORD 08 / LIT DOOR", after: "The doors opened." },
+    ],
+  },
 ];
 
 function figureHtml(image, className = "story-figure") {
