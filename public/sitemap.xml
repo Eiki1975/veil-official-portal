@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://veil-archive.com/</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-14</lastmod>
   </url>
   <url>
     <loc>https://veil-archive.com/about/</loc>
@@ -61,14 +61,14 @@
     <xhtml:link rel="alternate" hreflang="ja" href="https://veil-archive.com/ja/start/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/start/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://veil-archive.com/ja/start/" />
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-14</lastmod>
   </url>
   <url>
     <loc>https://veil-archive.com/en/start/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://veil-archive.com/ja/start/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://veil-archive.com/en/start/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://veil-archive.com/ja/start/" />
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-14</lastmod>
   </url>
   <url>
     <loc>https://veil-archive.com/news/</loc>

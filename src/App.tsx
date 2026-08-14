@@ -167,7 +167,7 @@ function MemberGalleryPage({ member }: { member: Member }) {
 
 function Home({ onPlayBorderline }: { onPlayBorderline: () => void }) {
   return <Shell>
-    <section className="hero" id="top"><div className="hero-media"><picture><source srcSet={assetUrl("/images/veil-hero-band-v6-20260725-bluesky.jpg")} type="image/jpeg" /><img src={assetUrl("/images/veil-hero-band-v6-20260725.png")} alt="バンド写真として並ぶVEILの4人。中央に雨宮玲奈、神崎瑞希、小宮ひより、白石理沙" className="hero-image" width="1672" height="941" /></picture></div><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">音楽、ビジュアル、物語を通して、4人の女性を記録するバンドプロジェクト。</p><div className="hero-actions"><a className="button primary" href="#members">MEMBERS</a><Link className="button ghost" href="/about">ABOUT VEIL</Link></div></div><span className="scroll-mark">SCROLL</span></section>
+    <section className="hero" id="top"><div className="hero-media"><picture><source srcSet={assetUrl("/images/veil-hero-band-v6-20260725-bluesky.jpg")} type="image/jpeg" /><img src={assetUrl("/images/veil-hero-band-v6-20260725.png")} alt="バンド写真として並ぶVEILの4人。中央に雨宮玲奈、神崎瑞希、小宮ひより、白石理沙" className="hero-image" width="1672" height="941" /></picture></div><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">架空の成人女性4人による仮想ガールズバンドの官能物語。音楽、ビジュアル、連載フィクションで、心理と欲望の揺れを記録する。</p><div className="hero-actions"><a className="button primary" href="#members">MEMBERS</a><Link className="button ghost" href="/about">ABOUT VEIL</Link></div></div><span className="scroll-mark">SCROLL</span></section>
     <MembersGrid />
     <section className="section" id="latest"><SectionTitle eyebrow="UPDATES" title="LATEST / NEWS" copy="公開した作品と、読める導線に影響する更新を記録します。" /><NewsList items={news.slice(0, 4)} /><Link className="text-link section-link" href="/news/" event="news_index_open">VIEW ALL UPDATES <ArrowRight size={16} /></Link></section>
     <GalleryDirectory id="gallery" />
@@ -402,6 +402,7 @@ function pageStructuredData(page: SeoPage, canonical: string) {
 function setMeta(path: string) {
   const serialStory = serialStories.find((story) => path === `/stories/${story.memberSlug.split("-")[0]}/season-${story.season}/episode-${story.episode}`);
   const storyMember = members.find((member) => path === `/stories/${member.slug.split("-")[0]}`);
+  const storyMemberHasPublishedEpisodes = storyMember ? serialStories.some((story) => story.memberSlug === storyMember.slug) : false;
   const registered = seoPages.find((page) => page.path === path);
   const member = serialStory ? members.find((entry) => entry.slug === serialStory.memberSlug) : storyMember;
   const page: SeoPage = registered || (serialStory && member ? {
@@ -410,14 +411,14 @@ function setMeta(path: string) {
     description: `${member.name} Season ${String(serialStory.season).padStart(2, "0")} 第${serialStory.episode}話「${serialStory.title}」。登場人物はすべて架空の成人です。`,
     image: member.image,
     schemaType: "WebPage",
-    robots: "noindex,nofollow",
+    robots: "index,follow,max-image-preview:large",
   } : storyMember ? {
     path,
     title: `${storyMember.name}の成人向け連載｜VEIL STORIES`,
     description: `${storyMember.name}の心理と関係の変化を追うVEILの成人向け連載一覧です。登場人物はすべて架空の成人です。`,
     image: storyMember.image,
     schemaType: "CollectionPage",
-    robots: "noindex,nofollow",
+    robots: storyMemberHasPublishedEpisodes ? "index,follow,max-image-preview:large" : "noindex,nofollow",
   } : {
     path,
     title: "ページが見つかりません｜VEIL",

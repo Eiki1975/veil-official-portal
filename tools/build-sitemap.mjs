@@ -79,8 +79,8 @@ const entries = [
     path: page.path,
     lastmod: page.lastmod,
   })),
-  { path: "/ja/start", lastmod: "2026-08-03", alternates: startAlternates },
-  { path: "/en/start", lastmod: "2026-08-03", alternates: startAlternates },
+  { path: "/ja/start", lastmod: "2026-08-14", alternates: startAlternates },
+  { path: "/en/start", lastmod: "2026-08-14", alternates: startAlternates },
   { path: "/news", lastmod: news[0].dateTime },
   ...[...new Set(stories.map((story) => story.memberSlug))].map((memberSlug) => ({
     path: storyCollectionPath(memberSlug),

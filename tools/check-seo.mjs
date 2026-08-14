@@ -11,6 +11,9 @@ const robots = await read("robots.txt");
 const sitemap = await read("sitemap.xml");
 const headers = await read("_headers");
 const redirects = await read("_redirects");
+const rootHtml = await read("index.html");
+const japaneseStartHtml = await read("ja/start/index.html");
+const englishStartHtml = await read("en/start/index.html");
 const notesDocument = JSON.parse(await readFile(join(root, "src/content/notes-published/index.json"), "utf8"));
 const stories = JSON.parse(await readFile(join(root, "src/content/serial-stories-index.json"), "utf8"));
 const englishStories = JSON.parse(await readFile(join(root, "src/content/english-serial-stories-index.json"), "utf8"));
@@ -23,6 +26,10 @@ expect(!/\/(?:en\/)?stories\/\*[^]*?X-Robots-Tag:/i.test(headers), "Published st
 expect(/\/legal\/terms\*[^]*?X-Robots-Tag:\s*noindex, nofollow/i.test(headers), "Unfinished terms page must be noindex.");
 expect(/\/legal\/contact\*[^]*?X-Robots-Tag:\s*noindex, nofollow/i.test(headers), "Unfinished contact page must be noindex.");
 expect(!/^\S+\s+\/\s+200$/m.test(redirects), "Known indexable routes must be served from route-specific HTML, not root rewrites.");
+expect(rootHtml.includes("<title>VEIL｜仮想ガールズバンドの官能物語</title>"), "Root search title must state the approved project identity.");
+expect(rootHtml.includes("官能小説・連載フィクション"), "Root search description must state the approved fiction format.");
+expect(japaneseStartHtml.includes("<title>VEIL｜仮想ガールズバンドの官能物語｜記録の入口</title>"), "Japanese entry title must align with the root search identity.");
+expect(englishStartHtml.includes("<title>VEIL | Erotic Fiction About a Fictional Girl Band</title>"), "English entry title must align with the English search identity.");
 
 const locs = [...sitemap.matchAll(/<loc>(https:\/\/veil-archive\.com\/[^<]*)<\/loc>/g)].map((match) => new URL(match[1]).pathname);
 expect(new Set(locs).size === locs.length, "sitemap.xml must not contain duplicate URLs.");

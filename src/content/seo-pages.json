@@ -1,13 +1,13 @@
 [
   {
     "path": "/",
-    "title": "VEIL｜音楽・ビジュアル・物語で描く創作バンドプロジェクト",
-    "description": "VEILは、架空の成人女性4人によるバンドプロジェクトです。音楽、ビジュアル、結成記録と、心理の余韻を描く成人向け連載フィクションを公開しています。",
+    "title": "VEIL｜仮想ガールズバンドの官能物語",
+    "description": "VEILは、架空の成人女性4人による仮想ガールズバンドを舞台に、心理と欲望の揺れを描く官能小説・連載フィクションです。雨宮玲奈たちの物語を、AI生成ビジュアルとともに公開しています。",
     "image": "/images/veil-hero-band-v6-20260725.png",
     "schemaType": "WebSite",
     "robots": "index,follow,max-image-preview:large",
     "sitemap": true,
-    "lastmod": "2026-08-03"
+    "lastmod": "2026-08-14"
   },
   {
     "path": "/about",
