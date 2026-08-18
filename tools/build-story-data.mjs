@@ -8,8 +8,11 @@ const indexPath = join(root, "src", "content", "serial-stories-index.json");
 
 function canonicalBody(markdown) {
   const match = markdown.match(/^## 本文\s*$([\s\S]*)$/m);
-  if (!match) throw new Error("Canonical story source is missing a 本文 section.");
-  const lines = match[1].trim().split("\n");
+  // Most public story sources retain the canonical management header and use
+  // `## 本文`. A user-approved frozen manuscript may also be a plain full-text
+  // file; in that case, preserve its bytes and treat the complete file as body.
+  const source = match ? match[1] : markdown;
+  const lines = source.trim().split("\n");
   const titleIndex = lines.findIndex((line) => line.trim());
   if (titleIndex >= 0 && /^第\d+話/.test(lines[titleIndex].trim())) lines.splice(titleIndex, 1);
   const body = lines.join("\n").trim();

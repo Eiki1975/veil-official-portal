@@ -354,5 +354,15 @@
       }
     ],
     "updatedAt": "2026-08-15T00:00:00.000Z"
+  },
+  {
+    "id": "season-01-reina-episode-06-canonical-20260817",
+    "memberSlug": "reina-amamiya",
+    "season": 1,
+    "episode": 6,
+    "title": "目を逸らさないで",
+    "bodySource": "src/content/season-01-reina-episode-06-canonical-published-20260818.md",
+    "images": [],
+    "updatedAt": "2026-08-18T00:00:00.000Z"
   }
 ]

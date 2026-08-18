@@ -162,6 +162,20 @@ const episodes = [
       { id: "ep05-08-lit-door", alt: "Reina walks toward a warmly lit hotel entrance at night.", caption: "VISUAL RECORD 08 / LIT DOOR", after: "The doors opened." },
     ],
   },
+  {
+    storyId: "season-01-reina-episode-06-canonical-20260817",
+    episode: 6,
+    source: "src/content/season-01-reina-episode-06-en-20260818.md",
+    output: "public/en/stories/reina/season-1/episode-6/index.html",
+    jpUrl: "/stories/reina/season-1/episode-6/",
+    enUrl: "/en/stories/reina/season-1/episode-6/",
+    title: "Don't Look Away",
+    updatedAt: "2026-08-18",
+    description: "In a hotel room after leaving the afterparty, Reina makes the choice she cannot explain away—and looks straight at what she wants. An adult fictional episode from VEIL.",
+    ogImage: "/images/members/v5/reina-amamiya-casual-portrait-20260725.png",
+    ogImageAlt: "Portrait of Reina Amamiya.",
+    images: [],
+  },
 ];
 
 function figureHtml(image, className = "story-figure") {
@@ -191,9 +205,17 @@ function storyHtml(paragraphs, images) {
 }
 
 function pageHtml(episode, paragraphs, images) {
+  const hasVisuals = images.length > 0;
   const story = storyHtml(paragraphs, images);
   const visuals = images.map((image) => figureHtml(image, "visual-index-figure")).join("\n");
   const review = images.map((image, index) => `<a href="#visual-${escapeHtml(image.id)}" class="review-card"><img src="${escapeHtml(image.src)}" alt="" loading="lazy" /><span><small>VISUAL ${String(index + 1).padStart(2, "0")}</small><strong>${escapeHtml(image.caption)}</strong></span></a>`).join("\n");
+  const ageVisualNote = hasVisuals ? " The illustrations use AI-assisted production methods." : "";
+  const disclosure = hasVisuals ? "18+ / FICTION / AI-ASSISTED ILLUSTRATIONS" : "18+ / FICTION";
+  const visualRail = hasVisuals ? `<aside class="visual-index" aria-label="Visual records from this episode">${visuals}</aside>` : "";
+  const visualReview = hasVisuals ? `<section class="visual-review" aria-labelledby="visual-review-title">
+          <header><p class="eyebrow">VISUAL INDEX / AFTER READING</p><h2 id="visual-review-title">Return to the scenes</h2><p>After reading, revisit the moments that stayed with you.</p></header>
+          <div class="review-grid">${review}</div>
+        </section>` : "";
   const canonical = `https://veil-archive.com${episode.enUrl}`;
   const japanese = `https://veil-archive.com${episode.jpUrl}`;
   const ogImage = `https://veil-archive.com${episode.ogImage}`;
@@ -235,7 +257,7 @@ function pageHtml(episode, paragraphs, images) {
       <section class="english-age-gate" id="english-age-gate" aria-labelledby="english-age-title">
         <p class="eyebrow">18+ CONTENT NOTICE</p>
         <h1 id="english-age-title">Before you continue</h1>
-        <p>This fictional episode contains adult-oriented psychological and sensual themes. All characters are adults. The illustrations use AI-assisted production methods.</p>
+        <p>This fictional episode contains adult-oriented psychological and sensual themes. All characters are adults.${ageVisualNote}</p>
         <div class="age-actions"><button type="button" class="primary-action" id="confirm-age">I am 18 or older</button><a class="secondary-action" href="/en/start/">Return to the English entry</a></div>
       </section>
       <article class="english-story" id="english-story" hidden>
@@ -243,18 +265,15 @@ function pageHtml(episode, paragraphs, images) {
           <p>SEASON 01 — REINA AMAMIYA</p>
           <small>EPISODE ${String(episode.episode).padStart(2, "0")} / 08</small>
           <h1>${escapeHtml(episode.title)}</h1>
-          <strong>18+ / FICTION / AI-ASSISTED ILLUSTRATIONS</strong>
+          <strong>${disclosure}</strong>
           <span>All characters are fictional adults. This episode contains adult-oriented psychological and sensual fiction.</span>
           <nav class="episode-language-switch" aria-label="Read this episode in another language"><a href="${episode.jpUrl}" lang="ja">日本語</a><span aria-current="page">EN</span></nav>
         </header>
-        <div class="english-story-layout">
-          <div class="english-story-content">${story}</div>
-          <aside class="visual-index" aria-label="Visual records from this episode">${visuals}</aside>
-        </div>
-        <section class="visual-review" aria-labelledby="visual-review-title">
-          <header><p class="eyebrow">VISUAL INDEX / AFTER READING</p><h2 id="visual-review-title">Return to the scenes</h2><p>After reading, revisit the moments that stayed with you.</p></header>
-          <div class="review-grid">${review}</div>
-        </section>
+        <div class="english-story-layout${hasVisuals ? "" : " is-text-only"}">
+          <div class="english-story-content">${story}</div>${hasVisuals ? `
+          ${visualRail}` : ""}
+        </div>${hasVisuals ? `
+        ${visualReview}` : ""}
         <nav class="story-next"><a href="/en/start/">← Back to the English entry</a><span>NEXT RECORD — COMING SOON</span></nav>
       </article>
     </main>
