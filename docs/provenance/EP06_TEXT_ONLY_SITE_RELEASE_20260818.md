@@ -1,6 +1,6 @@
 # VEIL S1 Reina EP06 — text-only bilingual site release
 
-- Release status: public-site source, pending build and production verification
+- Release status: published — local build and production verification completed 2026-08-18 JST
 - User authorization: 2026-08-18. The user approved Japanese-and-English publication after confirming that the frozen Japanese manuscript could be read only for the independent English localization.
 - Japanese story ID: `season-01-reina-episode-06-canonical-20260817`
 - Japanese URL: `/stories/reina/season-1/episode-6/`
@@ -34,4 +34,5 @@ This is an explicitly approved text-only release. The user will add Episode 06 v
 - The Japanese public source is byte-identical to the frozen canonical manuscript.
 - Japanese and English routes are linked in both directions.
 - The text-only layout omits empty visual rails, galleries, and AI-illustration claims for Episode 06.
-- Build and production checks are recorded only after they complete successfully.
+- `CI=true pnpm run build` completed successfully, including TypeScript, static pages, sitemap, and SEO verification.
+- Production checks passed: Japanese and English episode routes, the text-only story-data endpoint, both generic Open Graph images, and the bilingual sitemap entries returned successfully.
