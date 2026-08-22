@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "episodeId": "season-01-reina-episode-06-canonical-20260817",
+  "releaseScope": "Eight user-provided visual records for the Japanese and English EP06 pages. The two language editions share these URLs; no duplicate image set is published.",
+  "ordering": "Natural ascending source filename order, designated by the user as the page display order.",
+  "contentInspection": "Not performed at the user's request. This record preserves file identity, order, and placement only.",
+  "assets": [
+    {
+      "order": 1,
+      "id": "ep06-01-sc01",
+      "sourceFile": "SC01_portrait-comfy-4984799f-2b1c-4f2c-8b55-b7eb3be0b2f2_00001_.png",
+      "sourceSha256": "4a601682f520f9708fcf9c8337b4f651b9c20e8b4e4e06b816670521ba0d96f8",
+      "publicFile": "SC01_portrait-comfy-4984799f-2b1c-4f2c-8b55-b7eb3be0b2f2_00001_.png",
+      "sha256": "4a601682f520f9708fcf9c8337b4f651b9c20e8b4e4e06b816670521ba0d96f8",
+      "placement": "After Japanese body index 60 / English paragraph index 31"
+    },
+    {
+      "order": 2,
+      "id": "ep06-02-sc02",
+      "sourceFile": "SC02_portrait-comfy-ca73d47a-95d8-4596-be48-323d1488a396_00001_.png",
+      "sourceSha256": "e3c2ca5db5100d20e980acfd9b9a92afaef145f43ccae7d1ca10d8bba1c708d9",
+      "publicFile": "SC02_portrait-comfy-ca73d47a-95d8-4596-be48-323d1488a396_00001_.png",
+      "sha256": "e3c2ca5db5100d20e980acfd9b9a92afaef145f43ccae7d1ca10d8bba1c708d9",
+      "placement": "After Japanese body index 124 / English paragraph index 63"
+    },
+    {
+      "order": 3,
+      "id": "ep06-03-sc03",
+      "sourceFile": "SC03_portrait-comfy-067dabe0-b5a8-47bf-9af6-806189f5c45d_00001_.png",
+      "sourceSha256": "58997144c728e6bcc490c5ae5a33234e3aca6af321de031647c85001f8a6a28c",
+      "publicFile": "SC03_portrait-comfy-067dabe0-b5a8-47bf-9af6-806189f5c45d_00001_.png",
+      "sha256": "58997144c728e6bcc490c5ae5a33234e3aca6af321de031647c85001f8a6a28c",
+      "placement": "After Japanese body index 186 / English paragraph index 96"
+    },
+    {
+      "order": 4,
+      "id": "ep06-04-sc05",
+      "sourceFile": "SC05_portrait-comfy-b124e5bc-0ca0-49a6-8bcd-00892b129d1b_00001_.png",
+      "sourceSha256": "c3d21cebcb56fb1d627d640b109c701ddd2352088b52585652e54542c515af73",
+      "publicFile": "SC05_portrait-comfy-b124e5bc-0ca0-49a6-8bcd-00892b129d1b_00001_.png",
+      "sha256": "c3d21cebcb56fb1d627d640b109c701ddd2352088b52585652e54542c515af73",
+      "placement": "After Japanese body index 250 / English paragraph index 128"
+    },
+    {
+      "order": 5,
+      "id": "ep06-05-00007",
+      "sourceFile": "VEIL_Animagine_OpenPoseControlNet_00007_.png",
+      "sourceSha256": "a48dcee0b74f1f16f9efaa32a496bb64f28d304951ff5dbc2a3805cb79fe3f2a",
+      "publicFile": "VEIL_Animagine_OpenPoseControlNet_00007_.png",
+      "sha256": "a48dcee0b74f1f16f9efaa32a496bb64f28d304951ff5dbc2a3805cb79fe3f2a",
+      "placement": "After Japanese body index 313 / English paragraph index 160"
+    },
+    {
+      "order": 6,
+      "id": "ep06-06-00008",
+      "sourceFile": "VEIL_Animagine_OpenPoseControlNet_00008_.png",
+      "sourceSha256": "e8167c02758a5c550a7e4004cfe8b415f22bb079e1c413fa82134456c36ee833",
+      "publicFile": "VEIL_Animagine_OpenPoseControlNet_00008_.png",
+      "sha256": "e8167c02758a5c550a7e4004cfe8b415f22bb079e1c413fa82134456c36ee833",
+      "placement": "After Japanese body index 377 / English paragraph index 192"
+    },
+    {
+      "order": 7,
+      "id": "ep06-07-00013",
+      "sourceFile": "VEIL_Animagine_OpenPoseControlNet_00013_.png",
+      "sourceSha256": "674302e41922e2dcfc8f2c4b7039e5b12ec5c9ae0cc186abc4eeb6127cae14ea",
+      "publicFile": "VEIL_Animagine_OpenPoseControlNet_00013_.png",
+      "sha256": "674302e41922e2dcfc8f2c4b7039e5b12ec5c9ae0cc186abc4eeb6127cae14ea",
+      "placement": "After Japanese body index 439 / English paragraph index 225"
+    },
+    {
+      "order": 8,
+      "id": "ep06-08-00014",
+      "sourceFile": "VEIL_Animagine_OpenPoseControlNet_00014_.png",
+      "sourceSha256": "7e8f984f07fe0a585f7fddd31566f69c7ac43e52b7bc74b40571d0d17327b45b",
+      "publicFile": "VEIL_Animagine_OpenPoseControlNet_00014_.png",
+      "sha256": "7e8f984f07fe0a585f7fddd31566f69c7ac43e52b7bc74b40571d0d17327b45b",
+      "placement": "After Japanese body index 502 / English paragraph index 257"
+    }
+  ]
+}

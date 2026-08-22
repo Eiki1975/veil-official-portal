@@ -362,7 +362,64 @@
     "episode": 6,
     "title": "目を逸らさないで",
     "bodySource": "src/content/season-01-reina-episode-06-canonical-published-20260818.md",
-    "images": [],
-    "updatedAt": "2026-08-18T00:00:00.000Z"
+    "images": [
+      {
+        "id": "ep06-01-sc01",
+        "alt": "雨宮玲奈・第6話の記録画像 01",
+        "caption": "VISUAL RECORD 01 / EPISODE 06",
+        "image": "/images/stories/season-01-reina/episode-06-visual-records-20260822/SC01_portrait-comfy-4984799f-2b1c-4f2c-8b55-b7eb3be0b2f2_00001_.png?v=20260822",
+        "afterIndex": 60
+      },
+      {
+        "id": "ep06-02-sc02",
+        "alt": "雨宮玲奈・第6話の記録画像 02",
+        "caption": "VISUAL RECORD 02 / EPISODE 06",
+        "image": "/images/stories/season-01-reina/episode-06-visual-records-20260822/SC02_portrait-comfy-ca73d47a-95d8-4596-be48-323d1488a396_00001_.png?v=20260822",
+        "afterIndex": 124
+      },
+      {
+        "id": "ep06-03-sc03",
+        "alt": "雨宮玲奈・第6話の記録画像 03",
+        "caption": "VISUAL RECORD 03 / EPISODE 06",
+        "image": "/images/stories/season-01-reina/episode-06-visual-records-20260822/SC03_portrait-comfy-067dabe0-b5a8-47bf-9af6-806189f5c45d_00001_.png?v=20260822",
+        "afterIndex": 186
+      },
+      {
+        "id": "ep06-04-sc05",
+        "alt": "雨宮玲奈・第6話の記録画像 04",
+        "caption": "VISUAL RECORD 04 / EPISODE 06",
+        "image": "/images/stories/season-01-reina/episode-06-visual-records-20260822/SC05_portrait-comfy-b124e5bc-0ca0-49a6-8bcd-00892b129d1b_00001_.png?v=20260822",
+        "afterIndex": 250
+      },
+      {
+        "id": "ep06-05-00007",
+        "alt": "雨宮玲奈・第6話の記録画像 05",
+        "caption": "VISUAL RECORD 05 / EPISODE 06",
+        "image": "/images/stories/season-01-reina/episode-06-visual-records-20260822/VEIL_Animagine_OpenPoseControlNet_00007_.png?v=20260822",
+        "afterIndex": 313
+      },
+      {
+        "id": "ep06-06-00008",
+        "alt": "雨宮玲奈・第6話の記録画像 06",
+        "caption": "VISUAL RECORD 06 / EPISODE 06",
+        "image": "/images/stories/season-01-reina/episode-06-visual-records-20260822/VEIL_Animagine_OpenPoseControlNet_00008_.png?v=20260822",
+        "afterIndex": 377
+      },
+      {
+        "id": "ep06-07-00013",
+        "alt": "雨宮玲奈・第6話の記録画像 07",
+        "caption": "VISUAL RECORD 07 / EPISODE 06",
+        "image": "/images/stories/season-01-reina/episode-06-visual-records-20260822/VEIL_Animagine_OpenPoseControlNet_00013_.png?v=20260822",
+        "afterIndex": 439
+      },
+      {
+        "id": "ep06-08-00014",
+        "alt": "雨宮玲奈・第6話の記録画像 08",
+        "caption": "VISUAL RECORD 08 / EPISODE 06",
+        "image": "/images/stories/season-01-reina/episode-06-visual-records-20260822/VEIL_Animagine_OpenPoseControlNet_00014_.png?v=20260822",
+        "afterIndex": 502
+      }
+    ],
+    "updatedAt": "2026-08-22T00:00:00.000Z"
   }
 ]

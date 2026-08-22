@@ -170,11 +170,20 @@ const episodes = [
     jpUrl: "/stories/reina/season-1/episode-6/",
     enUrl: "/en/stories/reina/season-1/episode-6/",
     title: "Don't Look Away",
-    updatedAt: "2026-08-18",
+    updatedAt: "2026-08-22",
     description: "In a hotel room after leaving the afterparty, Reina makes the choice she cannot explain away—and looks straight at what she wants. An adult fictional episode from VEIL.",
     ogImage: "/images/members/v5/reina-amamiya-casual-portrait-20260725.png",
     ogImageAlt: "Portrait of Reina Amamiya.",
-    images: [],
+    images: [
+      { id: "ep06-01-sc01", alt: "Visual record 01 for Reina Amamiya's Episode 6.", caption: "VISUAL RECORD 01 / EPISODE 06", afterIndex: 31 },
+      { id: "ep06-02-sc02", alt: "Visual record 02 for Reina Amamiya's Episode 6.", caption: "VISUAL RECORD 02 / EPISODE 06", afterIndex: 63 },
+      { id: "ep06-03-sc03", alt: "Visual record 03 for Reina Amamiya's Episode 6.", caption: "VISUAL RECORD 03 / EPISODE 06", afterIndex: 96 },
+      { id: "ep06-04-sc05", alt: "Visual record 04 for Reina Amamiya's Episode 6.", caption: "VISUAL RECORD 04 / EPISODE 06", afterIndex: 128 },
+      { id: "ep06-05-00007", alt: "Visual record 05 for Reina Amamiya's Episode 6.", caption: "VISUAL RECORD 05 / EPISODE 06", afterIndex: 160 },
+      { id: "ep06-06-00008", alt: "Visual record 06 for Reina Amamiya's Episode 6.", caption: "VISUAL RECORD 06 / EPISODE 06", afterIndex: 192 },
+      { id: "ep06-07-00013", alt: "Visual record 07 for Reina Amamiya's Episode 6.", caption: "VISUAL RECORD 07 / EPISODE 06", afterIndex: 225 },
+      { id: "ep06-08-00014", alt: "Visual record 08 for Reina Amamiya's Episode 6.", caption: "VISUAL RECORD 08 / EPISODE 06", afterIndex: 257 },
+    ],
   },
 ];
 
