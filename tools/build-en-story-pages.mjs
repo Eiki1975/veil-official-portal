@@ -214,6 +214,11 @@ function storyHtml(paragraphs, images) {
 }
 
 function pageHtml(episode, paragraphs, images) {
+  const position = episodes.indexOf(episode);
+  const previous = episodes[position - 1];
+  const next = episodes[position + 1];
+  const previousLink = previous ? `<a href="${previous.enUrl}">← Episode ${previous.episode}: ${escapeHtml(previous.title)}</a>` : "";
+  const nextLink = next ? `<a href="${next.enUrl}">Next in English: Episode ${next.episode} — ${escapeHtml(next.title)} →</a>` : "";
   const hasVisuals = images.length > 0;
   const story = storyHtml(paragraphs, images);
   const visuals = images.map((image) => figureHtml(image, "visual-index-figure")).join("\n");
@@ -283,7 +288,7 @@ function pageHtml(episode, paragraphs, images) {
           ${visualRail}` : ""}
         </div>${hasVisuals ? `
         ${visualReview}` : ""}
-        <nav class="story-next"><a href="/en/start/">← Back to the English entry</a><span>NEXT RECORD — COMING SOON</span></nav>
+        <nav class="story-next" aria-label="Episode navigation">${previousLink}<a href="/en/start/">English entry</a>${nextLink}</nav>
       </article>
     </main>
     <footer class="story-footer"><p>VEIL / FICTIONAL BAND PROJECT</p><nav><a href="/en/editorial/reading-guide/">From the VEIL editor</a><a href="/en/start/">English entry</a></nav></footer>

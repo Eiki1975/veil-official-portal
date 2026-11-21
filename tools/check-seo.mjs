@@ -17,6 +17,9 @@ const englishStartHtml = await read("en/start/index.html");
 const notesDocument = JSON.parse(await readFile(join(root, "src/content/notes-published/index.json"), "utf8"));
 const stories = JSON.parse(await readFile(join(root, "src/content/serial-stories-index.json"), "utf8"));
 const englishStories = JSON.parse(await readFile(join(root, "src/content/english-serial-stories-index.json"), "utf8"));
+const latestEnglish = englishStories.at(-1);
+const latestLink = englishStartHtml.match(/href="([^"]+)"><span>Read Reina’s latest episode<\/span>/u);
+expect(latestLink?.[1] === latestEnglish.enUrl, "English entry must link to the latest published translation.");
 const notes = Array.isArray(notesDocument?.notes) ? notesDocument.notes : [];
 
 expect(!/Disallow:\s*\/(?:en\/)?stories\//i.test(robots), "robots.txt must allow published story crawling.");

@@ -1,5 +1,58 @@
 [
   {
+    "date": "2026.08.22",
+    "dateTime": "2026-08-22",
+    "type": "VISUAL UPDATE",
+    "title": "第6話「目を逸らさないで」に挿絵を追加しました",
+    "summary": "雨宮玲奈の第6話を、本文とビジュアル記録で読めます。",
+    "href": "/stories/reina/season-1/episode-6/",
+    "adult": true
+  },
+  {
+    "date": "2026.08.18",
+    "dateTime": "2026-08-18",
+    "type": "STORY RELEASE",
+    "title": "雨宮玲奈 Season 01 第6話「目を逸らさないで」を公開しました",
+    "summary": "日本語と英語で読めます。各話のページで言語を選べます。",
+    "href": "/stories/reina/season-1/episode-6/",
+    "adult": true
+  },
+  {
+    "date": "2026.08.17",
+    "dateTime": "2026-08-17",
+    "type": "VEIL NOTES",
+    "title": "VEIL NOTES #03「一人の顔から、四人のバンドへ」を公開しました",
+    "summary": "一人の人物からバンドの四人を描くまでの制作記録です。",
+    "href": "/notes/from-one-face-to-four-band-members/"
+  },
+  {
+    "date": "2026.08.15",
+    "dateTime": "2026-08-15",
+    "type": "STORY RELEASE",
+    "title": "雨宮玲奈 Season 01 第5話「帰らない夜」を公開しました",
+    "summary": "日本語と英語で読めます。各話のページで言語を選べます。",
+    "href": "/stories/reina/season-1/episode-5/",
+    "adult": true
+  },
+  {
+    "date": "2026.08.11",
+    "dateTime": "2026-08-11",
+    "type": "STORY RELEASE",
+    "title": "雨宮玲奈 Season 01 第4話「見つけた名前」を公開しました",
+    "summary": "日本語と英語で読めます。各話のページで言語を選べます。",
+    "href": "/stories/reina/season-1/episode-4/",
+    "adult": true
+  },
+  {
+    "date": "2026.08.09",
+    "dateTime": "2026-08-09",
+    "type": "STORY RELEASE",
+    "title": "雨宮玲奈 Season 01 第3話「違う人の顔」を公開しました",
+    "summary": "日本語で読めます。",
+    "href": "/stories/reina/season-1/episode-3/",
+    "adult": true
+  },
+  {
     "date": "2026.08.05",
     "dateTime": "2026-08-05",
     "type": "VEIL NOTES",

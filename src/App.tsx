@@ -88,10 +88,12 @@ const track = (event: string, detail?: string) => {
   if (import.meta.env.DEV) console.info("[VEIL analytics]", event, detail || "");
 };
 
-function Link({ href, children, className, event }: { href: string; children: React.ReactNode; className?: string; event?: string }) {
+function Link({ href, children, className, event, onNavigate }: { href: string; children: React.ReactNode; className?: string; event?: string; onNavigate?: () => void }) {
   const local = href.startsWith("/");
   const documentRoute = /^\/(?:editorial|en|ja|news|notes)\//.test(canonicalRoutePath(href));
   return <a href={local ? routeUrl(href) : href} className={className} onClick={(e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    onNavigate?.();
     if (event) track(event, href);
     if (local && !documentRoute) {
       e.preventDefault();
@@ -111,7 +113,7 @@ function Header() {
       {navItems.map(n => <Link key={n} href={`/#${n.toLowerCase()}`}>{n}</Link>)}
     </nav>
     <button className="menu-button" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}<span className="sr-only">メニュー</span></button>
-    {open && <nav id="mobile-menu" className="mobile-nav">{navItems.map(n => <Link key={n} href={`/#${n.toLowerCase()}`} className="mobile-link">{n}</Link>)}</nav>}
+    {open && <nav id="mobile-menu" className="mobile-nav">{navItems.map(n => <Link key={n} href={`/#${n.toLowerCase()}`} className="mobile-link" onNavigate={() => setOpen(false)}>{n}</Link>)}</nav>}
   </header>;
 }
 
@@ -171,7 +173,7 @@ function MemberGalleryPage({ member }: { member: Member }) {
 
 function Home({ onPlayBorderline }: { onPlayBorderline: () => void }) {
   return <Shell>
-    <section className="hero" id="top"><div className="hero-media"><picture><source srcSet={assetUrl("/images/veil-hero-band-v6-20260725-bluesky.jpg")} type="image/jpeg" /><img src={assetUrl("/images/veil-hero-band-v6-20260725.png")} alt="バンド写真として並ぶVEILの4人。中央に雨宮玲奈、神崎瑞希、小宮ひより、白石理沙" className="hero-image" width="1672" height="941" /></picture></div><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">架空の成人女性4人による仮想ガールズバンドの官能物語。音楽、ビジュアル、連載フィクションで、心理と欲望の揺れを記録する。</p><div className="hero-actions"><a className="button primary" href="#members">MEMBERS</a><Link className="button ghost" href="/about">ABOUT VEIL</Link></div></div><span className="scroll-mark">SCROLL</span></section>
+    <section className="hero" id="top"><div className="hero-media"><picture><source srcSet={assetUrl("/images/veil-hero-band-v6-20260725-bluesky.jpg")} type="image/jpeg" /><img src={assetUrl("/images/veil-hero-band-v6-20260725.png")} alt="バンド写真として並ぶVEILの4人。中央に雨宮玲奈、神崎瑞希、小宮ひより、白石理沙" className="hero-image" width="1672" height="941" /></picture></div><div className="hero-scrim" /><div className="hero-content"><p className="hero-label">VEIL OFFICIAL SITE</p><h1>VEIL</h1><p className="hero-copy">音楽だけでは表せなかった、<br />言葉にならない欲望。</p><p className="hero-subcopy">架空の成人女性4人による仮想ガールズバンドの官能物語。音楽、ビジュアル、連載フィクションで、心理と欲望の揺れを記録する。</p><div className="hero-actions"><Link className="button primary" href="/stories/reina/season-1/episode-1" event="adult_story_entry">連載を第1話から読む（18+）</Link><a className="button ghost" href="#members">メンバー紹介</a></div></div><span className="scroll-mark">SCROLL</span></section>
     <MembersGrid />
     <section className="section" id="latest"><SectionTitle eyebrow="UPDATES" title="LATEST / NEWS" copy="公開した作品と、読める導線に影響する更新を記録します。" /><NewsList items={news.slice(0, 4)} /><Link className="text-link section-link" href="/news/" event="news_index_open">VIEW ALL UPDATES <ArrowRight size={16} /></Link></section>
     <GalleryDirectory id="gallery" />
@@ -186,7 +188,7 @@ function Home({ onPlayBorderline }: { onPlayBorderline: () => void }) {
     })}</div></section>
     <section className="feature about-preview" id="about"><div><p className="eyebrow">INDEPENDENT RECORD</p><h2>ABOUT VEIL</h2><p>{aboutParagraphs[0]}</p><p>{aboutParagraphs[1]}</p><div className="about-preview-actions"><Link className="button ghost" href="/about" event="about_full_click">全文を読む</Link><Link className="text-link" href="/editorial/reading-guide/" event="recorder_guide_open">記録者が、この物語を届けたい理由 <ArrowRight size={16} /></Link></div></div></section>
     <section className="section two-column" id="music"><div><SectionTitle eyebrow="DISCOGRAPHY" title="MUSIC" /><div className="music-release-card"><div className="music-release-card__cover"><img src={assetUrl(borderlineRelease.cover)} alt="VEILのデビューシングル『Borderline』のジャケット" loading="lazy" /><span>VEIL<strong>BORDERLINE</strong></span></div><div className="music-release-card__body"><p className="music-release-card__type">{borderlineRelease.type}</p><h3>{borderlineRelease.title}</h3><p>VEILのデビューシングル。再生を押すと、画面を移動しても操作できる小さなプレイヤーが開きます。</p><button className="music-play-button" type="button" onClick={onPlayBorderline}><Play size={16} fill="currentColor" /> 再生する</button><Link className="text-link music-release-link" href="/discography" event="music_discography_click">DISCOGRAPHY <ArrowRight size={16} /></Link></div></div></div><div id="support"><SectionTitle eyebrow="KEEP THE RECORD GOING" title="SUPPORT" /><p>VEILの次の音楽、ビジュアル、物語の制作を支えるための導線です。支援サービスは準備中です。</p><button className="button disabled" onClick={() => track("support_click")}>SUPPORT — COMING SOON</button></div></section>
-    <section className="section follow" id="follow"><SectionTitle eyebrow="FOLLOW THE RECORD" title="続きが気になる方へ" copy="新しい記録は、Xでお知らせします。" />{xUrl ? <a className="button primary follow-x" href={xUrl} target="_blank" rel="noreferrer" onClick={() => track("x_follow_click")}>Xで最新情報を見る <ExternalLink size={16} /></a> : <button className="button disabled follow-x" type="button">X — COMING SOON</button>}</section>
+    <section className="section follow" id="follow"><SectionTitle eyebrow="FOLLOW THE RECORD" title="続きが気になる方へ" copy={xUrl ? "新しい記録は、Xでお知らせします。" : "作品の公開や挿絵の追加を、更新履歴でお知らせします。"} />{xUrl ? <a className="button primary follow-x" href={xUrl} target="_blank" rel="noreferrer" onClick={() => track("x_follow_click")}>Xで最新情報を見る <ExternalLink size={16} /></a> : <Link className="button primary" href="/news/">更新履歴を見る <ArrowRight size={16} /></Link>}</section>
     <section className="adult-external"><div><p className="eyebrow">EXTERNAL 18+ CONTENT</p><h2>より奥の記録へ</h2><p className="coming">COMING SOON</p><p>成人向けコンテンツと外部サービスへの導線は現在準備中です。18歳未満の方は利用できません。</p></div></section>
   </Shell>;
 }
@@ -279,9 +281,38 @@ function ArchivePage() { return <Shell><PageHero eyebrow="OFFICIAL RECORDS" titl
 
 function NewsPage() { return <Shell><PageHero eyebrow="SITE UPDATES" title="NEWS" copy="公開した作品と、読める導線に影響する更新を記録します。" /><article className="page-section news-page"><p className="news-page-intro">公開済みの作品、音楽、読める場所に関わる変更だけを、日付とともに残します。物語には成人向け表現を含むものがあります。</p><NewsList items={news} full /><Link className="text-link section-link" href="/">VEIL TOP <ArrowRight size={16} /></Link></article></Shell>; }
 
+const acceptedThisVisit = new Set<string>();
+
+function useAgeConfirmation(member: Member) {
+  const key = `veil-age-ok-${member.slug}`;
+  const [ok, setOk] = useState(() => {
+    if (acceptedThisVisit.has(key)) return true;
+    try { return localStorage.getItem(key) === "yes"; } catch { return false; }
+  });
+
+  function confirm() {
+    acceptedThisVisit.add(key);
+    try { localStorage.setItem(key, "yes"); } catch { /* Available for this visit only. */ }
+    setOk(true);
+    track("age_gate_accept", member.slug);
+  }
+  return { ok, confirm };
+}
+
+function AgeNotice({ confirm, member }: { confirm: () => void; member: Member }) {
+  return <Shell><section className="age-gate">
+    <p className="eyebrow">18+ CONTENT NOTICE</p><h1>この先の物語について</h1>
+    <p>この先の物語には、成人向けの表現が含まれます。18歳未満の方は閲覧できません。</p>
+    <div>
+      <button className="button primary" onClick={confirm}>18歳以上です</button>
+      <Link href="/" className="button ghost" onNavigate={() => track("age_gate_exit", member.slug)}>トップへ戻る</Link>
+    </div>
+  </section></Shell>;
+}
+
 function AdultStoryPage({ member }: { member: Member }) {
-  const key = `veil-age-ok-${member.slug}`; const [ok, setOk] = useState(() => localStorage.getItem(key) === "yes");
-  if (!ok) return <Shell><section className="age-gate"><p className="eyebrow">18+ CONTENT NOTICE</p><h1>この先の物語について</h1><p>この先の物語には、成人向けの表現が含まれます。18歳未満の方は閲覧できません。同意状態はこの端末内にのみ保存されます。</p><div><button className="button primary" onClick={() => { localStorage.setItem(key, "yes"); setOk(true); track("age_gate_accept", member.slug); }}>18歳以上です</button><button className="button ghost" onClick={() => { history.back(); track("age_gate_exit", member.slug); }}>戻る</button></div></section></Shell>;
+  const { ok, confirm } = useAgeConfirmation(member);
+  if (!ok) return <AgeNotice confirm={confirm} member={member} />;
   const releasedStories = serialStories.filter((story) => story.memberSlug === member.slug);
   if (releasedStories.length) return <Shell><PageHero eyebrow="ADULT STORY / SEASON 01" title={member.name} copy="彼女の、さらに奥へ。" image={member.image} /><article className="prose page-section"><p className="status-chip">18+ / FICTION / AI-ASSISTED ILLUSTRATIONS</p><p>登場人物は全員成人です。本文には成人向け表現を、挿絵にはAI生成画像を含みます。</p><div className="member-link-list">{releasedStories.map((story) => <Link href={`/stories/${member.slug.split("-")[0]}/season-${story.season}/episode-${story.episode}`} key={story.id}><span>{`SEASON ${String(story.season).padStart(2, "0")} / EPISODE ${String(story.episode).padStart(2, "0")}`}</span>{story.title}<ArrowRight /></Link>)}</div></article></Shell>;
   return <Shell><PageHero eyebrow="ADULT STORY / COMING SOON" title={member.name} copy="彼女の、さらに奥へ。" image={member.image} /><article className="prose page-section"><div className="coming-block">ADULT STORY<br /><strong>COMING SOON</strong><small>正式原稿および外部販売URLは未設定です</small></div><Link href={`/members/${member.slug}`} className="text-link"><ArrowLeft /> STORY ZEROへ戻る</Link></article></Shell>;
@@ -345,16 +376,25 @@ function useSerialStoryContent(summary: SerialStorySummary, enabled: boolean, at
 }
 
 function SerialStoryPage({ story: summary, member }: { story: SerialStorySummary; member: Member }) {
-  const key = `veil-age-ok-${member.slug}`;
-  const [ok, setOk] = useState(() => localStorage.getItem(key) === "yes");
+  const { ok, confirm } = useAgeConfirmation(member);
   const [loadAttempt, setLoadAttempt] = useState(0);
   const { story, loading, error } = useSerialStoryContent(summary, ok, loadAttempt);
   const englishRoute = englishEpisodeRouteByStoryId[summary.id];
-  if (!ok) return <Shell><section className="age-gate"><p className="eyebrow">18+ CONTENT NOTICE</p><h1>この先の物語について</h1><p>この先の物語には、成人向けの表現が含まれます。18歳未満の方は閲覧できません。同意状態はこの端末内にのみ保存されます。</p><div><button className="button primary" onClick={() => { localStorage.setItem(key, "yes"); setOk(true); track("age_gate_accept", member.slug); }}>18歳以上です</button><button className="button ghost" onClick={() => history.back()}>戻る</button></div></section></Shell>;
+  if (!ok) return <AgeNotice confirm={confirm} member={member} />;
   if (loading || !story && !error) return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(summary.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(summary.episode).padStart(2, "0")} / 08</small><h1>{summary.title}</h1></header><p className="serial-story-load-state">本文を開いています…</p></article></Shell>;
   if (!story) return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(summary.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(summary.episode).padStart(2, "0")} / 08</small><h1>{summary.title}</h1></header><div className="serial-story-load-state"><p>{error || "本文を読み込めませんでした。"}</p><button className="button ghost" onClick={() => setLoadAttempt((value) => value + 1)}>もう一度読み込む</button></div></article></Shell>;
+  const episodes = publishedStoriesByMember.get(member.slug) || [];
+  const index = episodes.findIndex(episode => episode.id === story.id);
+  const previous = episodes[index - 1];
+  const next = index >= 0 ? episodes[index + 1] : undefined;
+  const memberRoute = `/stories/${member.slug.split("-")[0]}`;
+  const episodeRoute = (episode: SerialStorySummary) => `${memberRoute}/season-${episode.season}/episode-${episode.episode}`;
   const hasVisuals = story.images.length > 0;
-  return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(story.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(story.episode).padStart(2, "0")} / 08</small><h1>{story.title}</h1><strong className="serial-story-disclosure">{hasVisuals ? "18+ / FICTION / AI-ASSISTED ILLUSTRATIONS" : "18+ / FICTION"}</strong><span>{hasVisuals ? "登場人物は全員成人です。本文には成人向け表現を、挿絵にはAI生成画像を含みます。" : "登場人物は全員成人です。本文には成人向け表現を含みます。"}</span>{englishRoute && <nav className="serial-story-language-switch" aria-label="この話の言語を選択"><span aria-current="page">日本語</span><a href={routeUrl(englishRoute)}>EN</a></nav>}</header><div className={`serial-story-layout${hasVisuals ? "" : " is-text-only"}`}><StoryText text={story.body} illustrations={story.images} />{hasVisuals && <aside className="serial-story-images">{story.images.map((image, index) => <figure key={image.id}><img src={assetUrl(image.image)} alt={image.alt || `${member.name}の記録画像 ${index + 1}`} loading="lazy" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>)}</aside>}</div>{hasVisuals && <StoryVisualReview story={story} member={member} />}<nav className="serial-story-next"><Link href={`/stories/${member.slug.split("-")[0]}`}><ArrowLeft /> 物語一覧へ</Link><span>NEXT RECORD — COMING SOON</span></nav></article></Shell>;
+  return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(story.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(story.episode).padStart(2, "0")} / 08</small><h1>{story.title}</h1><strong className="serial-story-disclosure">{hasVisuals ? "18+ / FICTION / AI-ASSISTED ILLUSTRATIONS" : "18+ / FICTION"}</strong><span>{hasVisuals ? "登場人物は全員成人です。本文には成人向け表現を、挿絵にはAI生成画像を含みます。" : "登場人物は全員成人です。本文には成人向け表現を含みます。"}</span>{englishRoute && <nav className="serial-story-language-switch" aria-label="この話の言語を選択"><span aria-current="page">日本語</span><a href={routeUrl(englishRoute)}>EN</a></nav>}</header><div className={`serial-story-layout${hasVisuals ? "" : " is-text-only"}`}><StoryText text={story.body} illustrations={story.images} />{hasVisuals && <aside className="serial-story-images">{story.images.map((image, index) => <figure key={image.id}><img src={assetUrl(image.image)} alt={image.alt || `${member.name}の記録画像 ${index + 1}`} loading="lazy" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>)}</aside>}</div>{hasVisuals && <StoryVisualReview story={story} member={member} />}<nav className="serial-story-next" aria-label="連載の前後の話">
+    {previous && <Link href={episodeRoute(previous)}>← 第{previous.episode}話「{previous.title}」</Link>}
+    <Link href={memberRoute}>物語一覧へ</Link>
+    {next && <Link href={episodeRoute(next)}>第{next.episode}話「{next.title}」へ →</Link>}
+  </nav></article></Shell>;
 }
 
 function LegalPage({ type }: { type: string }) {
@@ -506,8 +546,8 @@ export default function App() {
     if (path === "/story/formation") return <FormationPage />;
     const member = members.find(m => path === `/members/${m.slug}`); if (member) return <MemberPage member={member} />;
     const episodeMatch = path.match(/^\/stories\/(reina|mizuki|hiyori|risa)\/season-(\d+)\/episode-(\d+)$/);
-    if (episodeMatch) { const member = members.find(m => m.slug.split("-")[0] === episodeMatch[1]); const story = serialStories.find(entry => entry.memberSlug === member?.slug && entry.season === Number(episodeMatch[2]) && entry.episode === Number(episodeMatch[3])); if (member && story) return <SerialStoryPage member={member} story={story} />; }
-    const story = members.find(m => path === `/stories/${m.slug.split("-")[0]}`); if (story) return <AdultStoryPage member={story} />;
+    if (episodeMatch) { const member = members.find(m => m.slug.split("-")[0] === episodeMatch[1]); const story = serialStories.find(entry => entry.memberSlug === member?.slug && entry.season === Number(episodeMatch[2]) && entry.episode === Number(episodeMatch[3])); if (member && story) return <SerialStoryPage key={story.id} member={member} story={story} />; }
+    const story = members.find(m => path === `/stories/${m.slug.split("-")[0]}`); if (story) return <AdultStoryPage key={story.slug} member={story} />;
     if (path.startsWith("/legal/")) return <LegalPage type={path.split("/").pop() || ""} />;
     return <NotFound />;
   }, [path, playBorderline]);
