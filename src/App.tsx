@@ -7,6 +7,7 @@ import { PersistentAudioPlayer, type AudioPlayerHandle } from "./AudioPlayer";
 import "./styles/music-player.css";
 import { LocalAdmin } from "./LocalAdmin";
 import { LocalNotesAdmin } from "./LocalNotesAdmin";
+import englishStories from "./content/english-serial-stories-index.json";
 import seoPageData from "./content/seo-pages.json";
 import prologue from "./content/prologue.md?raw";
 import reinaStory from "./content/story-zero/reina.md?raw";
@@ -21,20 +22,7 @@ const storyZero: Record<string, string> = {
   "risa-shiraishi": risaStory,
 };
 
-const englishEpisodeRouteByStoryId: Record<string, string> = {
-  "season-01-reina-episode-01-canonical-20260727": "/en/stories/reina/season-1/episode-1/",
-  "season-01-reina-episode-02-canonical-20260802": "/en/stories/reina/season-1/episode-2/",
-  "season-01-reina-episode-04-canonical-20260809": "/en/stories/reina/season-1/episode-4/",
-  "season-01-reina-episode-05-canonical-20260814": "/en/stories/reina/season-1/episode-5/",
-  "season-01-reina-episode-06-canonical-20260817": "/en/stories/reina/season-1/episode-6/",
-};
-const englishEpisodeRouteByJapanesePath: Record<string, string> = {
-  "/stories/reina/season-1/episode-1": "/en/stories/reina/season-1/episode-1/",
-  "/stories/reina/season-1/episode-2": "/en/stories/reina/season-1/episode-2/",
-  "/stories/reina/season-1/episode-4": "/en/stories/reina/season-1/episode-4/",
-  "/stories/reina/season-1/episode-5": "/en/stories/reina/season-1/episode-5/",
-  "/stories/reina/season-1/episode-6": "/en/stories/reina/season-1/episode-6/",
-};
+const englishEpisodeRouteByStoryId = new Map(englishStories.map(story => [story.storyId, story.enUrl]));
 const firstPublishedStoryByMember = new Map<string, SerialStorySummary>();
 const publishedStoriesByMember = new Map<string, SerialStorySummary[]>();
 const latestPublishedStoryByMember = new Map<string, SerialStorySummary>();
@@ -299,9 +287,11 @@ function useAgeConfirmation(member: Member) {
   return { ok, confirm };
 }
 
-function AgeNotice({ confirm, member }: { confirm: () => void; member: Member }) {
+function AgeNotice({ confirm, member, story }: { confirm: () => void; member: Member; story?: SerialStorySummary }) {
   return <Shell><section className="age-gate">
-    <p className="eyebrow">18+ CONTENT NOTICE</p><h1>この先の物語について</h1>
+    <p className="eyebrow">18+ CONTENT NOTICE</p>
+    <h1>{story ? `${member.name} 第${story.episode}話「${story.title}」` : `${member.name}の連載`}</h1>
+    {story?.searchDescription && <p>{story.searchDescription}</p>}
     <p>この先の物語には、成人向けの表現が含まれます。18歳未満の方は閲覧できません。</p>
     <div>
       <button className="button primary" onClick={confirm}>18歳以上です</button>
@@ -379,8 +369,8 @@ function SerialStoryPage({ story: summary, member }: { story: SerialStorySummary
   const { ok, confirm } = useAgeConfirmation(member);
   const [loadAttempt, setLoadAttempt] = useState(0);
   const { story, loading, error } = useSerialStoryContent(summary, ok, loadAttempt);
-  const englishRoute = englishEpisodeRouteByStoryId[summary.id];
-  if (!ok) return <AgeNotice confirm={confirm} member={member} />;
+  const englishRoute = englishEpisodeRouteByStoryId.get(summary.id);
+  if (!ok) return <AgeNotice confirm={confirm} member={member} story={summary} />;
   if (loading || !story && !error) return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(summary.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(summary.episode).padStart(2, "0")} / 08</small><h1>{summary.title}</h1></header><p className="serial-story-load-state">本文を開いています…</p></article></Shell>;
   if (!story) return <Shell><article className="serial-story"><header className="serial-story-header"><p>SEASON {String(summary.season).padStart(2, "0")} — {member.nameEn}</p><small>EPISODE {String(summary.episode).padStart(2, "0")} / 08</small><h1>{summary.title}</h1></header><div className="serial-story-load-state"><p>{error || "本文を読み込めませんでした。"}</p><button className="button ghost" onClick={() => setLoadAttempt((value) => value + 1)}>もう一度読み込む</button></div></article></Shell>;
   const episodes = publishedStoriesByMember.get(member.slug) || [];
@@ -453,7 +443,7 @@ function setMeta(path: string) {
   const page: SeoPage = registered || (serialStory && member ? {
     path,
     title: `${member.name} 第${serialStory.episode}話「${serialStory.title}」｜VEIL`,
-    description: `${member.name} Season ${String(serialStory.season).padStart(2, "0")} 第${serialStory.episode}話「${serialStory.title}」。登場人物はすべて架空の成人です。`,
+    description: `${member.name} Season ${String(serialStory.season).padStart(2, "0")} 第${serialStory.episode}話「${serialStory.title}」。${serialStory.searchDescription || ""}架空の成人を描く18歳以上向けの連載小説です。`,
     image: member.image,
     schemaType: "WebPage",
     robots: "index,follow,max-image-preview:large",
@@ -506,15 +496,14 @@ function setMeta(path: string) {
   }
   schema.textContent = JSON.stringify(pageStructuredData(page, canonical));
 
-  document.querySelectorAll('link[data-veil-hreflang]').forEach((link) => link.remove());
-  const englishRoute = serialStory ? englishEpisodeRouteByStoryId[serialStory.id] : englishEpisodeRouteByJapanesePath[path];
+  document.head.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
+  const englishRoute = serialStory ? englishEpisodeRouteByStoryId.get(serialStory.id) : undefined;
   if (englishRoute) {
-    [["ja", canonicalRoutePath(path)], ["en", canonicalRoutePath(englishRoute)], ["x-default", "/en/start/"]].forEach(([lang, href]) => {
+    [["ja", canonicalRoutePath(path)], ["en", canonicalRoutePath(englishRoute)], ["x-default", canonicalRoutePath(path)]].forEach(([lang, href]) => {
       const link = document.createElement("link");
       link.rel = "alternate";
       link.hreflang = lang;
       link.href = `${siteUrl}${href}`;
-      link.dataset.veilHreflang = "true";
       document.head.appendChild(link);
     });
   }

@@ -49,6 +49,27 @@ for (const pathname of locs) {
   }
 }
 
+for (const path of locs.filter(path => path.startsWith("/members/"))) {
+  const html = await read(path.slice(1) + "index.html");
+  expect(rootHtml.includes(`<a href="${path}">`), `Home must link to the member before JavaScript runs: ${path}`);
+  expect(html.includes('<article class="story-content">') && html.includes("<h2>第一章"), `Public Story Zero must be readable in initial HTML: ${path}`);
+}
+
+// Start at the homepage and only follow reader-facing anchors in published HTML.
+const reachable = new Set(["/"]);
+for (const pathname of reachable) {
+  const html = await read(pathname.slice(1) + "index.html");
+  for (const [, href] of html.matchAll(/<a\b[^>]*?\shref="([^"]+)"/gi)) {
+    const target = new URL(href, `https://veil-archive.com${pathname}`);
+    if (target.origin !== "https://veil-archive.com") continue;
+    const path = target.pathname.replace(/\/?$/, "/");
+    if (locs.includes(path)) reachable.add(path);
+  }
+}
+for (const path of locs) {
+  expect(reachable.has(path), `No reader-facing HTML link path from home: ${path}`);
+}
+
 const criticalPages = [
   ["index.html", "https://veil-archive.com/", "index,follow", true],
   ["about/index.html", "https://veil-archive.com/about/", "index,follow", true],
@@ -75,6 +96,9 @@ for (const story of stories) {
   const pathname = `/stories/${shortMemberSlug(story.memberSlug)}/season-${story.season}/episode-${story.episode}/`;
   const file = `${pathname.slice(1)}index.html`;
   const html = await read(file);
+  const collection = await read(`stories/${shortMemberSlug(story.memberSlug)}/index.html`);
+  expect(collection.includes(`<a href="${pathname}">`), `Collection must link to the episode before JavaScript runs: ${pathname}`);
+  expect(!html.includes('class="story-content"'), `Age-gated prose must remain outside the Japanese HTML: ${pathname}`);
   expect(sitemap.includes(`<loc>https://veil-archive.com${pathname}</loc>`), `Published story must enter sitemap: ${pathname}`);
   expect(html.includes(`<link rel="canonical" href="https://veil-archive.com${pathname}"`), `Published story canonical is wrong: ${pathname}`);
   expect(/<meta\s+name="robots"\s+content="index,follow,max-image-preview:large"/i.test(html), `Published story must be indexable: ${pathname}`);
@@ -86,6 +110,10 @@ for (const story of englishStories) {
   expect(sitemap.includes(`<loc>https://veil-archive.com${pathname}</loc>`), `Published English story must enter sitemap: ${pathname}`);
   expect(html.includes(`<link rel="canonical" href="https://veil-archive.com${pathname}"`), `Published English story canonical is wrong: ${pathname}`);
   expect(/<meta\s+name="robots"\s+content="index,follow,max-image-preview:large"/i.test(html), `Published English story must be indexable: ${pathname}`);
+  const jpHtml = await read(story.jpUrl.slice(1) + "index.html");
+  for (const version of [jpHtml, html]) {
+    expect(version.includes(`<link rel="alternate" hreflang="x-default" href="https://veil-archive.com${story.jpUrl}"`), `Both languages must use the Japanese episode as their default: ${pathname}`);
+  }
   expect(html.includes(`<link rel="alternate" hreflang="ja" href="https://veil-archive.com${story.jpUrl}"`), `Published English story must link to its Japanese alternate: ${pathname}`);
   expect(html.includes(`<link rel="alternate" hreflang="en" href="https://veil-archive.com${pathname}"`), `Published English story must declare itself as the English alternate: ${pathname}`);
 }

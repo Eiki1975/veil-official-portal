@@ -7,7 +7,7 @@
     "schemaType": "WebSite",
     "robots": "index,follow,max-image-preview:large",
     "sitemap": true,
-    "lastmod": "2026-08-14"
+    "lastmod": "2026-11-21"
   },
   {
     "path": "/about",
@@ -120,47 +120,47 @@
   },
   {
     "path": "/members/reina-amamiya",
-    "title": "雨宮玲奈｜VEIL Vocal・人物紹介とStory Zero",
-    "description": "VEILのボーカル雨宮玲奈。公式プロフィール、人物紹介と、彼女がVEILへ来るまでを描くStory Zeroを公開しています。",
+    "title": "雨宮玲奈（ボーカル）｜架空のバンドVEILの人物紹介と結成前の物語",
+    "description": "架空の女性バンドVEILでボーカルを担当する雨宮玲奈のプロフィールと、加入前を描く小説「Story Zero」を掲載。第一章「褒められて育った子」から全文を読めます。",
     "image": "/images/members/v5/reina-amamiya-stage-portrait-20260725.png",
     "schemaType": "WebPage",
     "robots": "index,follow,max-image-preview:large",
     "sitemap": true,
     "shell": true,
-    "lastmod": "2026-08-03"
+    "lastmod": "2026-11-21"
   },
   {
     "path": "/members/mizuki-kanzaki",
-    "title": "神崎瑞希｜VEIL Guitar・人物紹介とStory Zero",
-    "description": "VEILのギタリスト神崎瑞希。公式プロフィール、人物紹介と、彼女がVEILへ来るまでを描くStory Zeroを公開しています。",
+    "title": "神崎瑞希（ギター）｜架空のバンドVEILの人物紹介と結成前の物語",
+    "description": "架空の女性バンドVEILでギターを担当する神崎瑞希のプロフィールと、加入前を描く小説「Story Zero」を掲載。第一章「父が残した音」から全文を読めます。",
     "image": "/images/members/v5/mizuki-kanzaki-stage-portrait-20260725.png",
     "schemaType": "WebPage",
     "robots": "index,follow,max-image-preview:large",
     "sitemap": true,
     "shell": true,
-    "lastmod": "2026-08-03"
+    "lastmod": "2026-11-21"
   },
   {
     "path": "/members/hiyori-komiya",
-    "title": "小宮ひより｜VEIL Bass・人物紹介とStory Zero",
-    "description": "VEILのベーシスト小宮ひより。公式プロフィール、人物紹介と、彼女がVEILへ来るまでを描くStory Zeroを公開しています。",
+    "title": "小宮ひより（ベース）｜架空のバンドVEILの人物紹介と結成前の物語",
+    "description": "架空の女性バンドVEILでベースを担当する小宮ひよりのプロフィールと、加入前を描く小説「Story Zero」を掲載。第一章「ひよりのもの」から全文を読めます。",
     "image": "/images/members/v5/hiyori-komiya-stage-portrait-20260725.png",
     "schemaType": "WebPage",
     "robots": "index,follow,max-image-preview:large",
     "sitemap": true,
     "shell": true,
-    "lastmod": "2026-08-03"
+    "lastmod": "2026-11-21"
   },
   {
     "path": "/members/risa-shiraishi",
-    "title": "白石理沙｜VEIL Drums・人物紹介とStory Zero",
-    "description": "VEILのドラマー白石理沙。公式プロフィール、人物紹介と、彼女がVEILへ来るまでを描くStory Zeroを公開しています。",
+    "title": "白石理沙（ドラム）｜架空のバンドVEILの人物紹介と結成前の物語",
+    "description": "架空の女性バンドVEILでドラムを担当する白石理沙のプロフィールと、加入前を描く小説「Story Zero」を掲載。第一章「見られる側」から全文を読めます。",
     "image": "/images/members/v5/risa-shiraishi-stage-portrait-20260725.png",
     "schemaType": "WebPage",
     "robots": "index,follow,max-image-preview:large",
     "sitemap": true,
     "shell": true,
-    "lastmod": "2026-08-03"
+    "lastmod": "2026-11-21"
   },
   {
     "path": "/legal/privacy",

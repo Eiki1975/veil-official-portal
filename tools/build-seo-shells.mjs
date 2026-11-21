@@ -71,12 +71,62 @@ function renderHead(page) {
   return html;
 }
 
+const link = (path, label) => `<a href="${escapeHtml(canonicalPath(path))}">${escapeHtml(label)}</a>`;
+const memberLink = (member) => link(`/members/${member.slug}`, member.name);
+const episodesFor = (member) => storyIndex.filter(story => story.memberSlug === member.slug)
+  .sort((a, b) => a.season - b.season || a.episode - b.episode);
+const collectionLink = (member) => link(`/stories/${member.short}`, `${member.name}の連載目次（18+）`);
+const episodeLink = (member, story) => link(
+  `/stories/${member.short}/season-${story.season}/episode-${story.episode}`,
+  `第${story.episode}話「${story.title}」`,
+);
+const list = (links) => `<ul>${links.map(item => `<li>${item}</li>`).join("")}</ul>`;
+
+async function withReadingGuide(html, page) {
+  if (!page.robots.startsWith("index")) return html;
+  let content = "";
+  if (page.path === "/") {
+    const published = members.filter(member => episodesFor(member).length);
+    content = `<h2>メンバー紹介・結成前の物語</h2>${list(members.map(memberLink))}
+      <h2>公開中の連載小説（18+）</h2>${list(published.flatMap(member => [collectionLink(member), episodeLink(member, episodesFor(member)[0])]))}`;
+  }
+  const profile = members.find(member => page.path === `/members/${member.slug}`);
+  if (profile) {
+    const story = await readFile(join(root, "src/content/story-zero", `${profile.short}.md`), "utf8");
+    const paragraphs = story.replaceAll("\f", "").split("\n").map(line => line.trim()).filter(Boolean);
+    content = '<article class="story-content">' + paragraphs.map(line => {
+      const tag = /^第[一二三四五六七八九十]+章/.test(line) ? "h2" : "p";
+      return `<${tag}>${escapeHtml(line)}</${tag}>`;
+    }).join("\n") + "</article>";
+    content += link(`/gallery/${profile.short}`, `${profile.name}のビジュアル記録`);
+    if (episodesFor(profile).length) content += `<p>${collectionLink(profile)}</p>`;
+  }
+  if (page.path === "/gallery") {
+    content = list(members.map(member => link(`/gallery/${member.short}`, `${member.name}のビジュアル記録`)));
+  }
+  const storyMember = members.find(member => page.path === `/stories/${member.short}` || page.path.startsWith(`/stories/${member.short}/`));
+  if (storyMember) {
+    content = `<p>連載本文は18歳以上の方のみご覧いただけます。</p>
+      <noscript><p>本文の閲覧にはJavaScriptによる年齢確認が必要です。</p></noscript>
+      <h2>${escapeHtml(storyMember.name)}の連載目次</h2>${list(episodesFor(storyMember).map(story => episodeLink(storyMember, story)))}
+      ${memberLink(storyMember)}`;
+    if (page.alternateEnPath) content += `<p>${link(page.alternateEnPath, "English edition (18+)")}</p>`;
+  }
+  const navigation = list([link("/", "VEILトップ"), link("/ja/start/", "はじめての方へ"), link("/news/", "更新履歴"), link("/notes/", "制作ノート")]);
+  const guide = `<div id="root"><main class="prose page-section reading-page"><h1>${escapeHtml(page.title)}</h1>
+    <p>${escapeHtml(page.description)}</p>${content}<nav aria-label="サイト案内">${navigation}</nav></main></div>`;
+  return html.replace(/<noscript>[^<]*<\/noscript>\s*<div id="root"><\/div>/, () => guide);
+}
+
 async function writeShell(page) {
   const path = canonicalPath(page.path).replace(/^\//, "");
   const folder = join(dist, path);
   await mkdir(folder, { recursive: true });
-  await writeFile(join(folder, "index.html"), renderHead(page), "utf8");
+  await writeFile(join(folder, "index.html"), await withReadingGuide(renderHead(page), page), "utf8");
 }
+
+const homepage = seoPages.find(page => page.path === "/");
+await writeFile(join(dist, "index.html"), await withReadingGuide(baseHtml, homepage), "utf8");
 
 const shells = seoPages.filter((page) => page.shell === true);
 for (const member of members) {
@@ -98,7 +148,7 @@ for (const story of storyIndex) {
   shells.push({
     path: `/stories/${member.short}/season-${story.season}/episode-${story.episode}`,
     title: `${member.name} 第${story.episode}話「${story.title}」｜VEIL`,
-    description: `${member.name} Season ${String(story.season).padStart(2, "0")} 第${story.episode}話「${story.title}」。登場人物はすべて架空の成人です。`,
+    description: `${member.name} Season ${String(story.season).padStart(2, "0")} 第${story.episode}話「${story.title}」。${story.searchDescription || ""}架空の成人を描く18歳以上向けの連載小説です。`,
     image: member.image,
     imageAlt: member.imageAlt,
     alternateEnPath: englishStory?.enUrl,

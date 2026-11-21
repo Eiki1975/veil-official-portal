@@ -48,7 +48,8 @@ const index = [];
 for (const value of source) {
   const story = assertStory(await hydrateStory(value));
   const outputPath = join(outputDir, `${story.id}.json`);
-  await writeFile(outputPath, `${JSON.stringify(story, null, 2)}\n`, "utf8");
+  const { searchDescription, ...payload } = story;
+  await writeFile(outputPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
   index.push({
     id: story.id,
     memberSlug: story.memberSlug,
@@ -56,6 +57,7 @@ for (const value of source) {
     episode: story.episode,
     title: story.title,
     updatedAt: story.updatedAt,
+    searchDescription,
     contentUrl: `/story-data/${story.id}.json`,
   });
 }

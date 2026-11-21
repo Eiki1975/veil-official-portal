@@ -245,7 +245,7 @@ function pageHtml(episode, paragraphs, images) {
     <link rel="canonical" href="${canonical}" />
     <link rel="alternate" hreflang="ja" href="${japanese}" />
     <link rel="alternate" hreflang="en" href="${canonical}" />
-    <link rel="alternate" hreflang="x-default" href="https://veil-archive.com/en/start/" />
+    <link rel="alternate" hreflang="x-default" href="${japanese}" />
     <link rel="stylesheet" href="/en/story.css" />
     <script src="/en/story.js" defer></script>
     <meta property="og:type" content="article" />

@@ -21,6 +21,7 @@ export type SerialStory = {
 export type SerialStorySummary = Omit<SerialStory, "body" | "images"> & {
   /** A single episode's static data, fetched only after the reader opens it. */
   contentUrl: string;
+  searchDescription?: string;
 };
 
 /**
